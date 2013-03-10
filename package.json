@@ -1,0 +1,14 @@
+{
+  "name": "magenta",
+  "homepage": "https://github.com/magentajs/sdk",
+  "main": "./magenta",
+  "version": "0.0.1",
+  "dependencies": {
+      "async": "0.2.x",
+      "faye": "0.8.x",
+      "request": "2.x"
+  },
+  "devDependencies": {
+      "mocha": "1.x"
+  }
+}
