@@ -1,31 +1,22 @@
-var LocalStore = require('./local_store'),
-    Session = require('./session');
+var Session = require('./session');
 
 function Service(config) {
 	this.config = config;
 	this.store = config.store;
 };
 
-Service.initialize = function(config, callback) {
-	var service = new Service(config);
-
-	// run any blocking must-do operations before calling back with service
-	// to authorize client code to continue.
-
-	// load local store
-	service.store.load(function(err) {
-		callback(err, service);
-	});
-};
-
 Service.prototype.connect = function(principal, callback) {
-	var session = new Session(this, principal);
+    this.store.load(function(err) {
+        if (err) callback(err, null);
 
-	session.register(principal, function(err, principal) {
+        var session = new Session(this, principal);
 
-	});
+        session.register(principal, function(err, principal) {
 
-	callback(null, session);
+        });
+
+        callback(null, session);
+    }.bind(this));
 };
 
 Service.prototype.register = function(principal, callback) {

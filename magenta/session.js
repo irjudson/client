@@ -5,7 +5,7 @@ function Session(service, principal) {
 	this.service = service;
 	this.principal = principal;
 
-	this.fayeClient = new faye.Client(service.config.realtime_url);
+	this.fayeClient = new faye.Client(this.service.config.realtime_url);
 	this.log = new EventLog(this);
 }
 
