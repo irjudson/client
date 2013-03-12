@@ -19,9 +19,10 @@ EventLog.prototype.log = function(severity, message) {
 	log_message.message_type = "log";
 	log_message.body = { severity: severity, message: message };
 	log_message.from = this.session.principal.id;
+	log_message.timestamp = new Date();
 
 	this.queue.push(log_message);
-	console.log("new event log message: " + log_message.body);
+	console.log(log_message.timestamp + ": " + severity + ": " + message);
 };
 
 EventLog.prototype.connect = function() {
