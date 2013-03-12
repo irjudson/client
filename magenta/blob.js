@@ -47,7 +47,11 @@ Blob.prototype.save = function(session, stream, callback) {
 				function (err, resp, body) {
 			      if (err) return callback(err, null);
 
-			      var body_json = JSON.parse(body);
+  				  try {
+  			          var body_json = JSON.parse(body);
+				  } catch (err) {
+				  	  return callback(err, null);
+				  }
 
 			      that.url = blob_base_url + body_json.blob.id;
 			      that.id = body_json.blob.id;

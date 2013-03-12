@@ -12,6 +12,8 @@ describe('service object', function() {
             assert.equal(err, null);
             assert.notEqual(session, null);
 
+            session.log.info("i can successfully log too");
+
             done();
         });
 	});
