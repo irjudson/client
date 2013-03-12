@@ -35,6 +35,7 @@ Message.saveMany = function(session, messages, callback) {
 
     request.post(messages_base_url, { json: defaultedMessages }, function(err, resp, body) {
         if (err) return callback(err, null);
+        if (resp.statusCode != 200) return callback("messages post http response: " + resp.statusCode, null);
 
         var messages = [];
         body.messages.forEach(function(message_json) {

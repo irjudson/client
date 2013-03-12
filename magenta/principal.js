@@ -18,6 +18,7 @@ Principal.prototype.create = function(session, callback) {
 	request.post(Principal.baseUrl(session.service), { json: this },
         function(err, resp, body) {
             if (err) return callback(err, null);
+            if (resp.statusCode != 200) return callback("messages post http response: " + resp.statusCode, null);
 
             console.log('this.id: ' + this.id);
             console.log('body.principal.id: ' + body);

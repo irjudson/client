@@ -46,6 +46,7 @@ Blob.prototype.save = function(session, stream, callback) {
 							 'Content-Length': that.content_length } },
 				function (err, resp, body) {
 			      if (err) return callback(err, null);
+	              if (resp.statusCode != 200) return callback("blob post http response: " + resp.statusCode, null);
 
   				  try {
   			          var body_json = JSON.parse(body);
