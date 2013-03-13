@@ -4,23 +4,25 @@ var assert = require('assert'),
 
 describe('principal', function() {
 
-	var camera = new magenta.Device({ capabilities: "camera", local_id: "camera" });
+    it('should be able to create a user', function(done) {
+        var user = new magenta.User({ email: "user@gmail.com", password: "sEcReT44" });
+        console.log("user.local_id: " + user.local_id);
 
-    it('should create a device', function(done) {
+        assert.equal(user.local_id, "user");
+        assert.equal(user.principal_type, "user");
+
         var service = new magenta.Service(config);
-        service.connect(camera, function(err, session) {
-            var device = new magenta.Device({ capabilities: "camera",
-                                              local_id: "camera" });
 
-            device.create(session, function(err, created_device) {
-                if (err) return console.log("device create failed: " + err);
-                assert.equal(err, null);
+        // clear the principal first so we are not just testing loading from it.
+        service.store.set('principal.user', null);
+        service.register(user, function(err, principal) {
+            console.log("principal: " + JSON.stringify(principal));
+            assert.equal(err, null);
+            assert.notEqual(principal.id, null);
 
-                assert.notEqual(created_device.id, undefined);
-
-                done();
-            });
+            done();
         });
-	});
+
+    });
 
 });

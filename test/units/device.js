@@ -4,24 +4,20 @@ var assert = require('assert'),
 
 describe('device', function() {
 
-	var camera = new magenta.Device({ capabilities: "camera", local_id: "camera" });
-
-	it('should create a device', function(done) {
+    it('should be able to create a device', function(done) {
         var service = new magenta.Service(config);
-        service.connect(camera, function(err, session) {
-            var device = new magenta.Device();
-            device.manufacturer_id = "opaqueSN";
 
-            device.create(session, function(err, create) {
-                if (err) return console.log("device create failed: " + err);
-                assert.equal(err, null);
+        var device = new magenta.Device({ capabilities: "camera",
+                                          local_id: "camera" });
 
-                assert.equal(device.manufacturer_id, "opaqueSN");
-                assert.notEqual(device.id, undefined);
+        service.register(device, function(err, principal) {
+            if (err) return console.log("device create failed: " + err);
+            assert.equal(err, null);
 
-                done();
-            });
+            assert.notEqual(principal.id, undefined);
+
+            done();
         });
-	});
+    });
 
 });

@@ -21,9 +21,8 @@ if (process.env.NODE_ENV == "production") {
     };
 }
 
-console.log(magenta.LocalStore);
 config.local_store_path = ".";
-config.store = new magenta.LocalStore(config);
+config.store = new magenta.FileStore(config);
 
 // computed properties
 
