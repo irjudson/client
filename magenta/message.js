@@ -1,5 +1,4 @@
-var async = require('async'),
-    request = require('request');
+var request = require('request');
 
 function Message(json) {
     this.id = null;

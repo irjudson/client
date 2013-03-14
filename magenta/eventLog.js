@@ -1,6 +1,4 @@
-var fs = require('fs'),
-	Message = require('./message'),
-	request = require('request');
+var Message = require('./message');
 
 function EventLog(session) {
 	this.session = session;

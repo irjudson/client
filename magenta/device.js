@@ -1,5 +1,4 @@
-var Principal = require('./principal'),
-	request = require('request');
+var Principal = require('./principal');
 
 function Device() {
 	Principal.apply(this, arguments);

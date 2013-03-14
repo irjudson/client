@@ -1,8 +1,5 @@
-var fs = require('fs'),
-    path = require('path');
-
 function HTML5Store(config) {
-  this.storePath = path.join(config.local_store_path, config.host + "_" + config.http_port + ".store");
+  this.storePath = config.host + "_" + config.http_port + ".store";
 }
 
 HTML5Store.prototype.load = function(callback) {
