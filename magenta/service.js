@@ -9,27 +9,38 @@ Service.prototype.connect = function(principal, callback) {
     this.store.load(function(err) {
         if (err) callback(err, null);
 
-        var session = new Session(this, principal);
+        this.register(principal, function(err, principal) {
+            if (err) return callback(err, null, null);
 
-        session.register(principal, function(err, principal) {
+            var session = new Session(this, principal);
+            callback(null, session, principal);
+        }.bind(this));
 
-        });
-
-        callback(null, session);
     }.bind(this));
 };
 
 Service.prototype.register = function(principal, callback) {
-	// look to see if we have a magenta id for this device
-	// if we don't, we need to provision the device against the service.
-		// POST /principals
-		// which returns the magenta id
+    var storedPrincipal = this.store.get(principal.toStoreId());
 
-	// look to see if we have a valid auth token for this device.
-	// if we don't, we need to authenticate the device into the service.
-		//
+    if (!storedPrincipal) {
+        console.log("need to provision principal");
+        principal.create(this.config, function(err, principal) {
+            if (err) {
+                console.log('failed to provision principal: ' + err);
+                callback(err, null);
+            }
 
-	callback(null, principal);
+            console.log("principal provisioned: " + JSON.stringify(principal));
+
+            this.store.set(principal.toStoreId(), principal);
+            callback(null, principal);
+        }.bind(this));
+    } else {
+        console.log("TODO: need to relogin principal");
+        principal.id = storedPrincipal.id;
+        callback(null, principal);
+    }
+
 };
 
 module.exports = Service;

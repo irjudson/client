@@ -1,11 +1,16 @@
 var fs = require('fs'),
     path = require('path');
 
-function LocalStore(config) {
+function FileStore(config) {
   this.storePath = path.join(config.local_store_path, config.host + "_" + config.http_port + ".store");
 }
 
-LocalStore.prototype.load = function(callback) {
+FileStore.prototype.clear = function(callback) {
+    this.props = {};
+    this.save(callback);
+};
+
+FileStore.prototype.load = function(callback) {
 
   // if already loaded, callback immediately.
   if (this.props) return callback(null);
@@ -24,12 +29,12 @@ LocalStore.prototype.load = function(callback) {
           console.log("warning: couldn't find current store, creating new one.");
 
           this.props = {};
-          return callback(null);
+          this.save(callback);
       }
   }.bind(this));
 }
 
-LocalStore.prototype.get = function(key) {
+FileStore.prototype.get = function(key) {
     if (key in this.props) {
         return this.props[key];
     } else {
@@ -37,15 +42,17 @@ LocalStore.prototype.get = function(key) {
     }
 }
 
-LocalStore.prototype.set = function(key, value) {
+FileStore.prototype.set = function(key, value, callback) {
   this.props[key] = value;
-  this.save();
+  this.save(callback);
 }
 
-LocalStore.prototype.save = function() {
+FileStore.prototype.save = function(callback) {
 	fs.writeFile(this.storePath, JSON.stringify(this.props), function (err) {
       if (err) console.log('error saving store to ' + this.storePath + ": " + err);
+
+      if (callback) callback(err);
  	}.bind(this));
 };
 
-module.exports = LocalStore;
+module.exports = FileStore;
