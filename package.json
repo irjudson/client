@@ -4,9 +4,8 @@
   "main": "./magenta",
   "version": "0.0.7",
   "dependencies": {
-      "async": "0.2.x",
       "faye": "0.8.x",
-      "request": "2.x"
+      "request": "~2.9.152"
   },
   "devDependencies": {
       "mocha": "1.x"
