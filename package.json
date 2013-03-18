@@ -9,9 +9,10 @@
   },
   "devDependencies": {
       "mocha": "1.x",
-      "browserify": "*"
+      "browserify": "2.7.x",
+      "uglify-js": "2.2.x"
   },
   "scripts": {
-      "prepublish": "browserify scripts/browserify.js -o browser/magenta.js"
+      "prepublish": "browserify scripts/browserify.js -o browser/magenta.js && uglifyjs browser/magenta.js -o browser/magenta-min.js"
   }
 }
