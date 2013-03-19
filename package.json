@@ -2,7 +2,7 @@
   "name": "magenta",
   "homepage": "https://github.com/magentajs/sdk",
   "main": "./magenta",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "dependencies": {
       "faye": "0.8.x",
       "request": "~2.9.152"
@@ -12,6 +12,6 @@
       "browserify": "*"
   },
   "scripts": {
-      "prepublish": "browserify browserify.js -o browser/magenta.js"
+      "prepublish": "browserify scripts/browserify.js -o browser/magenta.js"
   }
 }
