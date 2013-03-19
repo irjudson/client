@@ -8,11 +8,13 @@ HTML5Store.prototype.load = function(callback) {
       return callback(null);
   }
 
-  this.props = localStorage.getItem(this.storePath);
+  var propsJson = localStorage.getItem(this.storePath);
 
-  if (!this.props) {
+  if (!propsJson) {
       this.props = {};
       this.save();
+  } else {
+      this.props = JSON.parse(propsJson);
   }
 
   callback(null);
@@ -32,7 +34,7 @@ HTML5Store.prototype.set = function(key, value) {
 }
 
 HTML5Store.prototype.save = function() {
-    localStorage.setItem(this.storePath, this.props);
+    localStorage.setItem(this.storePath, JSON.stringify(this.props));
 };
 
 module.exports = HTML5Store;
