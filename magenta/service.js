@@ -6,25 +6,26 @@ function Service(config) {
 };
 
 Service.prototype.connect = function(principal, callback) {
-    this.store.load(function(err) {
+    var self=this;
+    self.store.load(function(err) {
         if (err) callback(err, null);
 
-        this.register(principal, function(err, principal) {
+        self.register(principal, function(err, principal) {
             if (err) return callback(err, null, null);
 
-            var session = new Session(this, principal);
+            var session = new Session(self, principal);
             callback(null, session, principal);
-        }.bind(this));
+        });
 
-    }.bind(this));
+    });
 };
 
 Service.prototype.register = function(principal, callback) {
     var storedPrincipal = this.store.get(principal.toStoreId());
-
+    var self=this;
     if (!storedPrincipal) {
         console.log("need to provision principal");
-        principal.create(this.config, function(err, principal) {
+        principal.create(self.config, function(err, principal) {
             if (err) {
                 console.log('failed to provision principal: ' + err);
                 callback(err, null);
@@ -32,9 +33,9 @@ Service.prototype.register = function(principal, callback) {
 
             console.log("principal provisioned: " + JSON.stringify(principal));
 
-            this.store.set(principal.toStoreId(), principal);
+            self.store.set(principal.toStoreId(), principal);
             callback(null, principal);
-        }.bind(this));
+        });
     } else {
         console.log("TODO: need to relogin principal");
         principal.id = storedPrincipal.id;

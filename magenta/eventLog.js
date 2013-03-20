@@ -26,22 +26,23 @@ EventLog.prototype.log = function(severity, message) {
 EventLog.prototype.connect = function() {
 	if (this.connected) return;
 	this.connected = true;
+    var self = this;
 
 	setInterval(function() {
-	    var logs = this.queue.splice(0, this.queue.length);
+	    var logs = self.queue.splice(0, self.queue.length);
 	    if (logs.length == 0) {
 	    	console.log("no event logs to upload");
 	    	return;
 	    }
 
 	    console.log("uploading " + logs.length + " event logs.");
-	    Message.saveMany(this.session, logs, function(err, resp, body) {
+	    Message.saveMany(self.session, logs, function(err, resp, body) {
 	    	if (err) return;
 
 	    	// remove sent logs - use splice since logs could have arrived in the meantime.
 		    console.log("uploaded " + logs.length + " event logs successfully.");
-	    }.bind(this));
-	}.bind(this), this.session.service.config.log_upload_period || 5000);
+	    });
+	}, self.session.service.config.log_upload_period || 5000);
 };
 
 module.exports = EventLog;
