@@ -15,15 +15,16 @@ Principal.baseUrl = function(config) {
 };
 
 Principal.prototype.create = function(config, callback) {
+    var self=this;
 
-	request.post(Principal.baseUrl(config), { json: this }, function(err, resp, body) {
+	request.post({url: Principal.baseUrl(config), json: self }, function(err, resp, body) {
 
         if (err) return callback(err, null);
         if (resp.statusCode != 200) return callback("messages post http response: " + resp.statusCode, null);
 
-        this.id = body.principal.id;
-        return callback(err, this);
-    }.bind(this));
+        self.id = body.principal.id;
+        return callback(err, self);
+    });
 };
 
 Principal.prototype.toStoreId = function() {

@@ -11,27 +11,28 @@ FileStore.prototype.clear = function(callback) {
 };
 
 FileStore.prototype.load = function(callback) {
+  var self = this;
 
   // if already loaded, callback immediately.
-  if (this.props) return callback(null);
+  if (self.props) return callback(null);
 
-  fs.exists(this.storePath, function(exists) {
+  fs.exists(self.storePath, function(exists) {
       if (exists) {
-          fs.readFile(this.storePath, function (err, json) {
+          fs.readFile(self.storePath, function (err, json) {
               if (err) {
                   return callback(err);
               } else {
-                  this.props = JSON.parse(json);
+                  self.props = JSON.parse(json);
                   return callback(null);
               }
-          }.bind(this));
+          });
       } else {
           console.log("warning: couldn't find current store, creating new one.");
 
-          this.props = {};
-          this.save(callback);
+          self.props = {};
+          self.save(callback);
       }
-  }.bind(this));
+  });
 }
 
 FileStore.prototype.get = function(key) {
@@ -48,11 +49,13 @@ FileStore.prototype.set = function(key, value, callback) {
 }
 
 FileStore.prototype.save = function(callback) {
-	fs.writeFile(this.storePath, JSON.stringify(this.props), function (err) {
-      if (err) console.log('error saving store to ' + this.storePath + ": " + err);
+    var self=this;
+
+	fs.writeFile(self.storePath, JSON.stringify(self.props), function (err) {
+      if (err) console.log('error saving store to ' + self.storePath + ": " + err);
 
       if (callback) callback(err);
- 	}.bind(this));
+ 	});
 };
 
 module.exports = FileStore;
