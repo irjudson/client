@@ -7,6 +7,7 @@ function Service(config) {
 
 Service.prototype.connect = function(principal, callback) {
     var self=this;
+
     self.store.load(function(err) {
         if (err) callback(err, null);
 
@@ -23,6 +24,9 @@ Service.prototype.connect = function(principal, callback) {
 Service.prototype.register = function(principal, callback) {
     var storedPrincipal = this.store.get(principal.toStoreId());
     var self=this;
+
+    // hit the directory endpoint to get endpoints for principal
+
     if (!storedPrincipal) {
         console.log("need to provision principal");
         principal.create(self.config, function(err, principal) {
