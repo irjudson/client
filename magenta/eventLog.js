@@ -31,7 +31,7 @@ EventLog.prototype.connect = function() {
 	setInterval(function() {
 	    var logs = self.queue.splice(0, self.queue.length);
 	    if (logs.length == 0) {
-	    	console.log("no event logs to upload");
+	    	//console.log("no event logs to upload");
 	    	return;
 	    }
 
