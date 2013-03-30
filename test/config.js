@@ -28,5 +28,6 @@ config.store = new magenta.FileStore(config);
 
 config.base_url = config.protocol + "://" + config.host + ":" + config.http_port + "/api/v1";
 config.realtime_url = config.base_url + "/realtime";
+config.headwaiter_endpoint = config.base_url + "/headwaiter";
 
 module.exports = config;
