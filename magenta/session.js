@@ -1,9 +1,10 @@
 var EventLog = require('./eventLog'),
 	Faye = require('faye');
 
-function Session(service, principal) {
+function Session(service, principal, accessToken) {
 	this.service = service;
 	this.principal = principal;
+    this.accessToken = accessToken;
 
 	this.fayeClient = new Faye.Client(this.service.config.realtime_url);
 	this.log = new EventLog(this);

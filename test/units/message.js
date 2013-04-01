@@ -9,6 +9,8 @@ describe('message', function() {
     it('should save a message', function(done) {
         var service = new magenta.Service(config);
         service.connect(camera, function(err, session) {
+            assert.equal(err, null);
+
             var message = new magenta.Message();
             message.message_type = "image";
             message.body.url = "http://localhost:3030/blobs/237849732497982";
@@ -27,7 +29,7 @@ describe('message', function() {
         });
     });
 
-    it('has a default Message contructor', function(done) {
+    it('has a default constructor', function(done) {
         var service = new magenta.Service(config);
         service.connect(camera, function(err, session) {
             var message = new magenta.Message();

@@ -12,9 +12,10 @@ describe('device', function() {
 
         service.register(device, function(err, principal) {
             if (err) return console.log("device create failed: " + err);
-            assert.equal(err, null);
+            assert.ifError(err);
 
-            assert.notEqual(principal.id, undefined);
+            assert.equal(!!principal.id, true);
+            assert.equal(!!principal.local_id, true);
 
             done();
         });
