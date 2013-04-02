@@ -16,10 +16,11 @@ if (process.env.NODE_ENV == "production") {
 } else {
     config = {
         host: "localhost",
-        http_port: 3030,
         protocol: "http"
     };
 }
+
+config.http_port = process.env.PORT || config.http_port || 3030;
 
 config.local_store_path = ".";
 config.store = new magenta.FileStore(config);
@@ -28,7 +29,6 @@ config.store.clear();
 // computed properties
 
 config.base_url = config.protocol + "://" + config.host + ":" + config.http_port + "/api/v1";
-config.realtime_url = config.base_url + "/realtime";
 config.headwaiter_endpoint = config.base_url + "/headwaiter";
 
 module.exports = config;

@@ -9,7 +9,7 @@ BaseModel.prototype.preRequest = function(session, options) {
 };
 
 BaseModel.prototype.postRequest = function(session, err, resp, body, callback) {
-    // TODO: near expiration we can assign a new token to the principal etc. here.
+    // TODO: new token assignment to the principal etc. here.
 };
 
 BaseModel.prototype.post = function(session, options, callback) {

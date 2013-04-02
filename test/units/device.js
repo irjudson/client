@@ -4,7 +4,7 @@ var assert = require('assert'),
 
 describe('device', function() {
 
-    it('should be able to create a device', function(done) {
+    it('should be able to authenticate a device', function(done) {
         var service = new magenta.Service(config);
 
         var device = new magenta.Device({ capabilities: "camera",
