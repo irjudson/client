@@ -6,7 +6,7 @@ var assert = require('assert'),
 describe('blob object', function() {
 
 	var camera = new magenta.Device({ local_id: "camera",
-									  capabilities: "camera" });
+									  capabilities: ["camera"] });
 
 	it('should be able to save a blob', function(done) {
         var service = new magenta.Service(config);
@@ -20,7 +20,6 @@ describe('blob object', function() {
                 blob.save(session, fs.createReadStream(fixture_path), function(err, blob) {
                     if (err) return console.log("failed to save blob: " + err);
 
-                    console.log('created blob with url: ' + blob.url);
                     assert.notEqual(blob.url, undefined);
                     done();
                 });

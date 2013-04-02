@@ -1,6 +1,9 @@
-var request = require('request');
+var BaseModel = require('./base')
+  , request = require('request');
 
 function Message(json) {
+    BaseModel.apply(this, arguments);
+
     this.id = null;
     this.timestamp = new Date();
     this.body = {};
@@ -12,17 +15,13 @@ function Message(json) {
     }
 }
 
+Message.prototype = Object.create(BaseModel.prototype);
+
 Message.prototype.save = function(session, callback) {
-	Message.saveMany(session, [this], callback);
+	this.saveMany(session, [this], callback);
 };
 
-Message.baseUrl = function(service) {
-    return service.config.base_url + "/messages/";
-};
-
-Message.saveMany = function(session, messages, callback) {
-    var messages_base_url = Message.baseUrl(session.service);
-
+Message.prototype.saveMany = function(session, messages, callback) {
     var defaultedMessages = [];
     messages.forEach(function(message) {
         if (!message.from) {
@@ -32,7 +31,7 @@ Message.saveMany = function(session, messages, callback) {
         defaultedMessages.push(message);
     });
 
-    request.post(messages_base_url, { json: defaultedMessages }, function(err, resp, body) {
+    this.post(session, { url: session.service.config.messages_endpoint, json: defaultedMessages }, function(err, resp, body) {
         if (err) return callback(err, null);
         if (resp.statusCode != 200) return callback("messages post http response: " + resp.statusCode, null);
 

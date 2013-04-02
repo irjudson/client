@@ -1,9 +1,14 @@
-var fs = require('fs'),
-	request = require('request');
+var BaseModel = require('./base')
+  , fs = require('fs')
+  , request = require('request');
 
 function Blob() {
-	this.id = null;
+    BaseModel.apply(this, arguments);
+
+    this.id = null;
 }
+
+Blob.prototype = Object.create(BaseModel.prototype);
 
 Blob.fromFile = function blobFromFile(path, callback) {
 	var suffix_mappings = [
@@ -30,38 +35,29 @@ Blob.fromFile = function blobFromFile(path, callback) {
 	});
 };
 
-Blob.baseUrl = function(service) {
-    return service.config.base_url + "/blobs/";
-};
-
 Blob.prototype.save = function(session, stream, callback) {
-	var that = this;
+	var self = this;
 
-	var blob_base_url = Blob.baseUrl(session.service);
+	stream.pipe(
+        this.post(session, { url: session.service.config.blobs_endpoint,
+                             headers: { 'Content-Type': self.content_type,
+                                        'Content-Length': self.content_length } }, function (err, resp, body) {
+            if (err) return callback(err, null);
+            if (resp.statusCode != 200) return callback("blob post http response: " + resp.statusCode, null);
 
-	stream.
-		pipe(
-			request.post(blob_base_url,
-				{ headers: { 'Content-Type': that.content_type,
-							 'Content-Length': that.content_length } },
-				function (err, resp, body) {
-			      if (err) return callback(err, null);
-	              if (resp.statusCode != 200) return callback("blob post http response: " + resp.statusCode, null);
+            try {
+                var body_json = JSON.parse(body);
+            } catch (err) {
+                return callback(err, null);
+            }
 
-  				  try {
-  			          var body_json = JSON.parse(body);
-				  } catch (err) {
-				  	  return callback(err, null);
-				  }
+            self.url = session.service.config.blobs_endpoint + body_json.blob.id;
+            self.id = body_json.blob.id;
+            self.created_at = body_json.blob.created_at;
 
-			      that.url = blob_base_url + body_json.blob.id;
-			      that.id = body_json.blob.id;
-			      that.created_at = body_json.blob.created_at;
-
-				  return callback(null, that);
-				}
-			)
-		);
+            return callback(null, self);
+        })
+    );
 };
 
 module.exports = Blob;

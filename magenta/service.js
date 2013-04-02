@@ -1,4 +1,5 @@
 var request = require('request')
+  , Principal = require('./principal')
   , Session = require('./session');
 
 function Service(config) {
@@ -12,11 +13,13 @@ Service.prototype.connect = function(principal, callback) {
     self.store.load(function(err) {
         if (err) return callback(err, null);
 
-        self.register(principal, function(err, principal) {
+        self.register(principal, function(err, registeredPrincipal, accessToken) {
             if (err) return callback(err, null, null);
 
-            var session = new Session(self, principal);
-            callback(null, session, principal);
+            self.store.set(principal.toStoreId(), registeredPrincipal);
+
+            var session = new Session(self, registeredPrincipal, accessToken);
+            callback(null, session, registeredPrincipal);
         });
 
     });
@@ -30,7 +33,7 @@ Service.prototype.configure = function(config, principal, callback) {
 
     request.get({url: headwaiter_url, json: true}, function(err, resp, body) {
         if (err) return callback(err, null);
-        if (resp.statusCode != 200) return callback("messages saveMany http response: " + resp.statusCode, null);
+        if (resp.statusCode != 200) return callback(resp.statusCode, null);
 
         for (var key in body.endpoints) {
             config[key] = body.endpoints[key];
@@ -41,8 +44,8 @@ Service.prototype.configure = function(config, principal, callback) {
 };
 
 Service.prototype.register = function(principal, callback) {
-    var storedPrincipal = this.store.get(principal.toStoreId());
     var self=this;
+    var storedPrincipal = this.store.get(principal.toStoreId());
 
     this.configure(self.config, storedPrincipal, function(err, config) {
         if (err) return callback(err);
@@ -50,22 +53,9 @@ Service.prototype.register = function(principal, callback) {
         self.config = config;
 
         if (!storedPrincipal) {
-            console.log("need to provision principal");
-            principal.create(self.config, function(err, principal) {
-                if (err) {
-                    console.log('failed to provision principal: ' + err);
-                    callback(err, null);
-                }
-
-                console.log("principal provisioned: " + JSON.stringify(principal));
-
-                self.store.set(principal.toStoreId(), principal);
-                callback(null, principal);
-            });
+            principal.create(self.config, callback);
         } else {
-            console.log("TODO: need to relogin principal");
-            principal.id = storedPrincipal.id;
-            callback(null, principal);
+            new Principal(storedPrincipal).authenticate(self.config, callback);
         }
     });
 
