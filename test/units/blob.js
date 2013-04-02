@@ -25,5 +25,5 @@ describe('blob object', function() {
                 });
             });
         });
-	})
+	});
 });
