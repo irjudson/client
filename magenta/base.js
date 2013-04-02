@@ -9,6 +9,7 @@ BaseModel.prototype.preRequest = function(session, options) {
 };
 
 BaseModel.prototype.postRequest = function(session, err, resp, body, callback) {
+    // TODO: handle errors?
     // TODO: new token assignment to the principal etc. here.
 };
 

@@ -2,18 +2,17 @@
   "name": "magenta",
   "homepage": "https://github.com/magentajs/sdk",
   "main": "./magenta",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "dependencies": {
-      "browser-request": "*",
       "faye": "0.8.x",
-      "request": "~2.9.152"
+      "request": "2.x"
   },
   "devDependencies": {
+      "browser-request": "0.x",
       "mocha": "1.x",
-      "browserify": "2.7.x",
-      "uglify-js": "2.2.x"
+      "uglify-js": "2.x"
   },
   "scripts": {
-      "prepublish": "browserify --debug scripts/browserify.js -o browser/magenta.js && uglifyjs browser/magenta.js -o browser/magenta-min.js"
+      "prepublish": "cd scripts && scripts/build-browser-client"
   }
 }
