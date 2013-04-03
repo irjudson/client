@@ -6,16 +6,16 @@
 cat ../node_modules/browser-request/dist/browser/request.js > ../browser/magenta.js
 cat ../node_modules/faye/browser/faye-browser.js >> ../browser/magenta.js
 
-cat ../magenta/base.js       | sed '/require(/d' | sed '/module.export/d' >> ../browser/magenta.js
-cat ../magenta/principal.js  | sed '/require(/d' | sed '/module.export/d' >> ../browser/magenta.js
-cat ../magenta/message.js    | sed '/require(/d' | sed '/module.export/d' >> ../browser/magenta.js
-cat ../magenta/eventLog.js   | sed '/require(/d' | sed '/module.export/d' >> ../browser/magenta.js
-cat ../magenta/blob.js       | sed '/require(/d' | sed '/module.export/d' >> ../browser/magenta.js
-cat ../magenta/session.js    | sed '/require(/d' | sed '/module.export/d' >> ../browser/magenta.js
-cat ../magenta/service.js    | sed '/require(/d' | sed '/module.export/d' >> ../browser/magenta.js
-cat ../magenta/device.js     | sed '/require(/d' | sed '/module.export/d' >> ../browser/magenta.js
-cat ../magenta/html5Store.js | sed '/require(/d' | sed '/module.export/d' >> ../browser/magenta.js
-cat ../magenta/user.js       | sed '/require(/d' | sed '/module.export/d' >> ../browser/magenta.js
+cat ../magenta/authRequest.js | sed '/require(/d' | sed '/module.export/d' >> ../browser/magenta.js
+cat ../magenta/principal.js   | sed '/require(/d' | sed '/module.export/d' >> ../browser/magenta.js
+cat ../magenta/message.js     | sed '/require(/d' | sed '/module.export/d' >> ../browser/magenta.js
+cat ../magenta/eventLog.js    | sed '/require(/d' | sed '/module.export/d' >> ../browser/magenta.js
+cat ../magenta/blob.js        | sed '/require(/d' | sed '/module.export/d' >> ../browser/magenta.js
+cat ../magenta/session.js     | sed '/require(/d' | sed '/module.export/d' >> ../browser/magenta.js
+cat ../magenta/service.js     | sed '/require(/d' | sed '/module.export/d' >> ../browser/magenta.js
+cat ../magenta/device.js      | sed '/require(/d' | sed '/module.export/d' >> ../browser/magenta.js
+cat ../magenta/html5Store.js  | sed '/require(/d' | sed '/module.export/d' >> ../browser/magenta.js
+cat ../magenta/user.js        | sed '/require(/d' | sed '/module.export/d' >> ../browser/magenta.js
 
 cat module.js >> ../browser/magenta.js
 

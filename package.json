@@ -2,7 +2,7 @@
   "name": "magenta",
   "homepage": "https://github.com/magentajs/sdk",
   "main": "./magenta",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "dependencies": {
       "faye": "0.8.x",
       "request": "2.x"
