@@ -1,5 +1,6 @@
 var assert = require('assert'),
 	config = require('../config'),
+    fixtures = require('../fixtures'),
 	magenta = require('../../magenta');
 
 describe('message', function() {
@@ -38,4 +39,29 @@ describe('message', function() {
             done();
         });
 	});
+
+    it('findAll returns all messages', function(done) {
+        var service = new magenta.Service(config);
+        service.connect(camera, function(err, session) {
+            magenta.Message.findAll(session, function(err, messages) {
+                assert.ifError(err);
+                assert.equal(messages.length > 0, true);
+                done();
+            });
+        });
+    });
+
+    it('find returns a messages', function(done) {
+        var service = new magenta.Service(config);
+        service.connect(camera, function(err, session) {
+            magenta.Message.find(session, fixtures.models.message.id, function(err, message) {
+                assert.ifError(err);
+
+                assert.equal(!message, false);
+                assert.equal(message.message_type, "image");
+
+                done();
+            });
+        });
+    });
 });
