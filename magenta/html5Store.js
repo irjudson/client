@@ -18,7 +18,7 @@ HTML5Store.prototype.load = function(callback) {
   }
 
   callback(null);
-}
+};
 
 HTML5Store.prototype.get = function(key) {
     if (key in this.props) {
@@ -26,12 +26,12 @@ HTML5Store.prototype.get = function(key) {
     } else {
         return null;
     }
-}
+};
 
 HTML5Store.prototype.set = function(key, value) {
   this.props[key] = value;
   this.save();
-}
+};
 
 HTML5Store.prototype.save = function() {
     localStorage.setItem(this.storePath, JSON.stringify(this.props));

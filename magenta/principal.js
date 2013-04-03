@@ -42,6 +42,7 @@ Principal.prototype.authenticate = function(config, callback) {
 
 Principal.prototype.create = function(config, callback) {
     var self=this;
+
 	request.post({ url: config.principals_endpoint, json: self }, function(err, resp, body) {
         if (err) return callback(err);
         if (resp.statusCode != 200) return callback(resp.statusCode);
@@ -56,7 +57,7 @@ Principal.prototype.create = function(config, callback) {
 };
 
 Principal.prototype.toStoreId = function() {
-    if (!this.local_id) console.log("WARNING: local_id is not defined");
+    if (!this.local_id) console.log("****************** WARNING: local_id is not defined");
 
     return "principal." + this.local_id;
 };
