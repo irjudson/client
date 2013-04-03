@@ -1,9 +1,6 @@
-var BaseModel = require('./base')
-  , request = require('request');
+var request = require('request');
 
 function Principal(json) {
-    BaseModel.apply(this, arguments);
-
     this.id = null;
 
     for(var key in json) {
@@ -12,8 +9,6 @@ function Principal(json) {
         }
     }
 }
-
-Principal.prototype = Object.create(BaseModel.prototype);
 
 Principal.prototype.authenticate = function(config, callback) {
     var self = this;
@@ -57,7 +52,7 @@ Principal.prototype.create = function(config, callback) {
 };
 
 Principal.prototype.toStoreId = function() {
-    if (!this.local_id) console.log("****************** WARNING: local_id is not defined");
+    if (!this.local_id) console.log("WARNING: local_id is not defined");
 
     return "principal." + this.local_id;
 };

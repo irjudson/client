@@ -1,14 +1,9 @@
-var BaseModel = require('./base')
-  , fs = require('fs')
-  , request = require('request');
+var AuthRequest = require('./authRequest')
+  , fs = require('fs');
 
 function Blob() {
-    BaseModel.apply(this, arguments);
-
     this.id = null;
 }
-
-Blob.prototype = Object.create(BaseModel.prototype);
 
 Blob.fromFile = function blobFromFile(path, callback) {
 	var suffix_mappings = [
@@ -39,11 +34,11 @@ Blob.prototype.save = function(session, stream, callback) {
 	var self = this;
 
 	stream.pipe(
-        this.post(session, { url: session.service.config.blobs_endpoint,
-                             headers: { 'Content-Type': self.content_type,
-                                        'Content-Length': self.content_length } }, function (err, resp, body) {
+        AuthRequest.post(session, { url: session.service.config.blobs_endpoint,
+                                    headers: { 'Content-Type': self.content_type,
+                                               'Content-Length': self.content_length } }, function (err, resp, body) {
             if (err) return callback(err, null);
-            if (resp.statusCode != 200) return callback("blob post http response: " + resp.statusCode, null);
+            if (resp.statusCode != 200) return callback(resp.statusCode, null);
 
             try {
                 var body_json = JSON.parse(body);
