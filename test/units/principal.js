@@ -5,7 +5,9 @@ var assert = require('assert'),
 describe('principal', function() {
 
     it('should be able to create a user', function(done) {
-        var user = new magenta.User({ email: "user@gmail.com", password: "sEcReT44" });
+        var user = new magenta.User({ local_id: "user", password: "sEcReT44" });
+
+        user.email = "user" + Math.random() * 1000000 + "@gmail.com";
 
         assert.equal(user.local_id, "user");
         assert.equal(user.principal_type, "user");
@@ -14,11 +16,12 @@ describe('principal', function() {
 
         // clear the principal first so we are not just testing loading from it.
         service.store.set('principal.user', null);
-        service.register(user, function(err, principal) {
+        service.create(user, function(err, session, principal) {
             assert.equal(err, null);
-            assert.equal(!!principal.id, true);
-            assert.equal(!!principal.email, true);
-            assert.equal(!!principal.local_id, true);
+
+            assert.equal(!principal.id, false);
+            assert.equal(!principal.email, false);
+            assert.equal(!principal.local_id, false);
 
             done();
         });

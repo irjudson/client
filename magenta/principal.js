@@ -38,6 +38,8 @@ Principal.prototype.authenticate = function(config, callback) {
 Principal.prototype.create = function(config, callback) {
     var self=this;
 
+    if (this.isUser() && (!this.email || !this.password)) return callback(400);
+
 	request.post({ url: config.principals_endpoint, json: self }, function(err, resp, body) {
         if (err) return callback(err);
         if (resp.statusCode != 200) return callback(resp.statusCode);
