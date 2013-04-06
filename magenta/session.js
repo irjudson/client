@@ -1,5 +1,5 @@
-var EventLog = require('./eventLog'),
-	Faye = require('faye');
+var EventLog = require('./eventLog')
+  ,	Faye = require('faye');
 
 function Session(service, principal, accessToken) {
 	this.service = service;
@@ -8,6 +8,7 @@ function Session(service, principal, accessToken) {
 
 	this.fayeClient = new Faye.Client(this.service.config.realtime_url);
     this.subscriptions = [];
+    this.authFailureCallback = function() {};
 
 	this.log = new EventLog(this);
 }
@@ -19,6 +20,10 @@ Session.prototype.close = function() {
 
     this.fayeClient.disconnect();
     this.fayeClient = null;
+};
+
+Session.prototype.onAuthFailure = function(callback) {
+    this.authFailureCallback = callback;
 };
 
 Session.prototype.onMessage = function(callback) {

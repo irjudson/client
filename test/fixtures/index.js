@@ -15,6 +15,8 @@ exports.reset = function() {
     var camera = new magenta.Device({ capabilities: "camera", local_id: "camera" });
 
     service.connect(camera, function(err, session) {
+        if (err) throw err;
+
         var message = new magenta.Message();
         message.message_type = "image";
         message.body.url = "http://localhost:3030/blobs/1";
