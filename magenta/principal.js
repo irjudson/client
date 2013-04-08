@@ -13,7 +13,7 @@ function Principal(json) {
 Principal.prototype.authenticate = function(config, callback) {
     var self = this;
 
-    var authBody = { principal_type: "device", id: this.id };
+    var authBody = { principal_type: this.principal_type, id: this.id };
     if (this.isDevice()) {
         authBody.secret = this.secret;
     } else if (this.isUser()) {
@@ -33,6 +33,13 @@ Principal.prototype.authenticate = function(config, callback) {
 
         return callback(null, receivedPrincipal, body.accessToken);
     });
+};
+
+Principal.prototype.resume = function(config, callback) {
+    // We already should have an accessToken so we attempt to use that.
+    // If it is expired or revoked our first use of it will send us back to authentication.
+
+    return callback(null, this, this.accessToken);
 };
 
 Principal.prototype.create = function(config, callback) {
