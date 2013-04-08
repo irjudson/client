@@ -4,7 +4,11 @@ var request = require('request')
 
 function Service(config) {
 	this.config = config;
-	this.store = config.store;
+
+    this.config.base_url = this.config.protocol + "://" + this.config.host + ":" + this.config.http_port + "/api/v1";
+    this.config.headwaiter_endpoint = this.config.base_url + "/headwaiter";
+
+    this.store = config.store;
 };
 
 // authenticate principal.  callback on failure.
@@ -27,11 +31,9 @@ Service.prototype.resume = function(principal, callback) {
         var storedPrincipal = self.store.get(p.toStoreId());
 
         if (!storedPrincipal || !storedPrincipal.accessToken) return callback(401);
-
         var principal = new Principal(storedPrincipal);
-        var session = new Session(self, principal, storedPrincipal.accessToken);
 
-        callback(null, session, principal);
+        self.authenticationFlow(principal, principal.resume, callback);
     });
 };
 

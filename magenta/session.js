@@ -6,7 +6,8 @@ function Session(service, principal, accessToken) {
 	this.principal = principal;
     this.accessToken = accessToken;
 
-	this.fayeClient = new Faye.Client(this.service.config.realtime_url);
+    console.log("starting realtime connection to: " + this.service.config.realtime_endpoint);
+	this.fayeClient = new Faye.Client(this.service.config.realtime_endpoint);
     this.subscriptions = [];
     this.authFailureCallback = function() {};
 
