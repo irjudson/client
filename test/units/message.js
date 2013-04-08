@@ -40,10 +40,10 @@ describe('message', function() {
         });
 	});
 
-    it('findAll returns all messages', function(done) {
+    it('find with no query returns all messages', function(done) {
         var service = new magenta.Service(config);
         service.connect(camera, function(err, session) {
-            magenta.Message.findAll(session, function(err, messages) {
+            magenta.Message.find(session, {}, function(err, messages) {
                 assert.ifError(err);
                 assert.equal(messages.length > 0, true);
                 done();
@@ -51,17 +51,4 @@ describe('message', function() {
         });
     });
 
-    it('find returns a messages', function(done) {
-        var service = new magenta.Service(config);
-        service.connect(camera, function(err, session) {
-            magenta.Message.find(session, fixtures.models.message.id, function(err, message) {
-                assert.ifError(err);
-
-                assert.equal(!message, false);
-                assert.equal(message.message_type, "image");
-
-                done();
-            });
-        });
-    });
 });
