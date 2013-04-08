@@ -13,24 +13,16 @@ function Message(json) {
     }
 }
 
-Message.findAll = function(session, callback) {
-    AuthRequest.get(session, { url: session.service.config.messages_endpoint, json: true }, function(err, resp, body) {
+Message.find = function(session, query, callback) {
+    var messageUrl = session.service.config.messages_endpoint;
+    AuthRequest.get(session, { url: messageUrl, qs: query, json: true }, function(err, resp, body) {
         if (err) return callback(err);
 
         var messages = body.messages.map(function(message) {
-           return new Message(message);
+            return new Message(message);
         });
 
         callback(null, messages);
-    });
-};
-
-Message.find = function(session, id, callback) {
-    var messageUrl = session.service.config.messages_endpoint + "/" + id;
-    AuthRequest.get(session, { url: messageUrl, json: true }, function(err, resp, body) {
-        if (err) return callback(err);
-
-        callback(null, new Message(body.message));
     });
 };
 
