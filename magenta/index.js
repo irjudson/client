@@ -3,6 +3,7 @@ exports.Device     = require('./device');
 exports.FileStore  = require('./fileStore');
 exports.HTML5Store = require('./html5Store');
 exports.Message    = require('./message');
+exports.Principal  = require('./principal');
 exports.Service    = require('./service');
 exports.Session    = require('./session');
 exports.User       = require('./user');

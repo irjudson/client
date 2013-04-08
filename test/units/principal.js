@@ -4,6 +4,8 @@ var assert = require('assert'),
 
 describe('principal', function() {
 
+    var camera = new magenta.Device({ capabilities: "camera", local_id: "camera" });
+
     it('should be able to create a user', function(done) {
         var user = new magenta.User({ local_id: "user", password: "sEcReT44" });
 
@@ -26,6 +28,17 @@ describe('principal', function() {
             done();
         });
 
+    });
+
+    it('find with no query returns all principals', function(done) {
+        var service = new magenta.Service(config);
+        service.connect(camera, function(err, session) {
+            magenta.Principal.find(session, {}, function(err, principals) {
+                assert.ifError(err);
+                assert.equal(principals.length > 0, true);
+                done();
+            });
+        });
     });
 
 });

@@ -1,4 +1,5 @@
-var request = require('request');
+var AuthRequest = require('./authRequest')
+  , request = require('request');
 
 function Principal(json) {
     this.id = null;
@@ -57,6 +58,19 @@ Principal.prototype.create = function(config, callback) {
         p.local_id = self.local_id;
 
         return callback(null, p, body.accessToken);
+    });
+};
+
+Principal.find = function(session, query, callback) {
+    var principalsUrl = session.service.config.principals_endpoint;
+    AuthRequest.get(session, { url: principalsUrl, qs: query, json: true }, function(err, resp, body) {
+        if (err) return callback(err);
+
+        var principals = body.principals.map(function(principal) {
+            return new Principal(principal);
+        });
+
+        callback(null, principals);
     });
 };
 

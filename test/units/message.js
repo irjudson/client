@@ -5,7 +5,7 @@ var assert = require('assert'),
 
 describe('message', function() {
 
-	var camera = new magenta.Device({ capabilities: "camera", local_id: "camera" });
+    var camera = new magenta.Device({ capabilities: "camera", local_id: "camera" });
 
     it('should save a message', function(done) {
         var service = new magenta.Service(config);
