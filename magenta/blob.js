@@ -46,7 +46,7 @@ Blob.prototype.save = function(session, stream, callback) {
                 return callback(err, null);
             }
 
-            self.url = session.service.config.blobs_endpoint + body_json.blob.id;
+            self.url = session.service.config.blobs_endpoint + "/" + body_json.blob.id;
             self.id = body_json.blob.id;
             self.created_at = body_json.blob.created_at;
 
