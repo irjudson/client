@@ -21,6 +21,8 @@ describe('blob object', function() {
                     if (err) return console.log("failed to save blob: " + err);
 
                     assert.notEqual(blob.url, undefined);
+                    console.log(blob.id.length);
+                    assert.equal(blob.url.slice(-(blob.id.length+1)), "/" + blob.id);
                     done();
                 });
             });
