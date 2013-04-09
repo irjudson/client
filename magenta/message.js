@@ -14,6 +14,8 @@ function Message(json) {
 }
 
 Message.find = function(session, query, callback) {
+    if (!session) return callback("session not established");
+
     var messageUrl = session.service.config.messages_endpoint;
     AuthRequest.get(session, { url: messageUrl, qs: query, json: true }, function(err, resp, body) {
         if (err) return callback(err);
@@ -27,10 +29,10 @@ Message.find = function(session, query, callback) {
 };
 
 Message.prototype.save = function(session, callback) {
-	this.saveMany(session, [this], callback);
+	Message.saveMany(session, [this], callback);
 };
 
-Message.prototype.saveMany = function(session, messages, callback) {
+Message.saveMany = function(session, messages, callback) {
     var defaultedMessages = [];
     messages.forEach(function(message) {
         if (!message.from) {
