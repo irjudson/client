@@ -9,7 +9,7 @@ Heartbeat.prototype.start = function() {
     if (this.heartbeatInterval) return;
     var self = this;
 
-    this.hearbeatInterval = setInterval(function() {
+    this.heartbeatInterval = setInterval(function() {
         var message = new Message();
         message.message_type = "heartbeat";
         message.save(this.session);
