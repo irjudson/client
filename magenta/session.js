@@ -1,5 +1,6 @@
 var EventLog = require('./eventLog')
-  ,	Faye = require('faye');
+  ,	Faye = require('faye')
+  , Heartbeat = require('./heartbeat');
 
 function Session(service, principal, accessToken) {
     var self=this;
@@ -21,6 +22,10 @@ function Session(service, principal, accessToken) {
     this.authFailureCallback = function() {};
 
 	this.log = new EventLog(this);
+    this.log.start();
+
+    this.heartbeat = new Heartbeat(this);
+    this.log.start();
 }
 
 Session.prototype.close = function() {
@@ -30,6 +35,9 @@ Session.prototype.close = function() {
 
     this.fayeClient.disconnect();
     this.fayeClient = null;
+
+    this.heartbeat.stop();
+    this.log.stop();
 };
 
 Session.prototype.onAuthFailure = function(callback) {

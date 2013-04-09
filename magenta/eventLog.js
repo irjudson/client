@@ -2,10 +2,8 @@ var Message = require('./message');
 
 function EventLog(session) {
 	this.session = session;
-	this.connected = false;
+	this.eventLogInterval = false;
 	this.queue = [];
-
-	this.connect();
 }
 
 EventLog.prototype.debug = function(message) { this.log("debug", message); };
@@ -23,12 +21,11 @@ EventLog.prototype.log = function(severity, message) {
 	console.log(log_message.timestamp + ": " + severity + ": " + message);
 };
 
-EventLog.prototype.connect = function() {
-	if (this.connected) return;
-	this.connected = true;
+EventLog.prototype.start = function() {
+	if (this.eventLogInterval) return;
     var self = this;
 
-	setInterval(function() {
+    this.eventLogInterval = setInterval(function() {
 	    var logs = self.queue.splice(0, self.queue.length);
 	    if (logs.length == 0) {
 	    	//console.log("no event logs to upload");
@@ -43,6 +40,13 @@ EventLog.prototype.connect = function() {
 		    console.log("uploaded " + logs.length + " event logs successfully.");
 	    });
 	}, self.session.service.config.log_upload_period || 5000);
+};
+
+EventLog.prototype.stop = function() {
+    if (!this.eventLogInterval) return;
+
+    clearInterval(this.eventLogInterval);
+    this.eventLogInterval = false;
 };
 
 module.exports = EventLog;
