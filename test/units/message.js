@@ -16,6 +16,10 @@ describe('message', function() {
             message.message_type = "image";
             message.body.url = "http://localhost:3030/blobs/237849732497982";
 
+            session.onMessage(function(message) {
+                console.log("message received: " + JSON.stringify(message));
+            });
+
             message.save(session, function(err, messages) {
                 assert.equal(err, null);
 
@@ -23,9 +27,9 @@ describe('message', function() {
                     assert.equal(message.body.url, "http://localhost:3030/blobs/237849732497982");
                     assert.notEqual(message.id, undefined);
                     assert.equal(message.message_type, "image");
+                    done();
                 });
 
-                done();
             });
         });
     });

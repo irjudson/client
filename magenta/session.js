@@ -2,12 +2,21 @@ var EventLog = require('./eventLog')
   ,	Faye = require('faye');
 
 function Session(service, principal, accessToken) {
+    var self=this;
+
 	this.service = service;
 	this.principal = principal;
     this.accessToken = accessToken;
 
-    console.log("starting realtime connection to: " + this.service.config.realtime_endpoint);
 	this.fayeClient = new Faye.Client(this.service.config.realtime_endpoint);
+    this.fayeClient.addExtension({
+        outgoing: function(message, callback) {
+            message.ext = message.ext || {};
+            message.ext.access_token = self.accessToken.token;
+            callback(message);
+        }
+    });
+
     this.subscriptions = [];
     this.authFailureCallback = function() {};
 
