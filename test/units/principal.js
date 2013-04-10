@@ -41,4 +41,16 @@ describe('principal', function() {
         });
     });
 
+    it('find with user query returns user principals', function(done) {
+        var service = new magenta.Service(config);
+        service.connect(camera, function(err, session) {
+            magenta.Principal.find(session, { principal_type: "user" }, function(err, principals) {
+                assert.ifError(err);
+                assert.equal(principals.length > 0, true);
+                assert.equal(principals[0].principal_type, "user");
+                done();
+            });
+        });
+    });
+
 });

@@ -6,6 +6,17 @@ function AuthRequest() {
 AuthRequest.beforeRequest = function(session, options) {
     if (!options.headers) options.headers = {};
     options.headers['Authorization'] = "Bearer " + session.accessToken.token;
+
+    // combine query string items into url since browser-request doesn't support the qs option.
+    var prefix = "?";
+    var querystring = "";
+    for (var key in options.qs) {
+        querystring += prefix + key + "=" + options.qs[key];
+        prefix = "&";
+    }
+
+    options.url += querystring;
+    delete options.qs;
 };
 
 AuthRequest.afterRequest = function(session, err, resp, body, callback) {
