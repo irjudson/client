@@ -9,6 +9,7 @@ cat ../node_modules/faye/browser/faye-browser.js >> ../browser/magenta.js
 cat ../magenta/authRequest.js | sed '/require(/d' | sed '/module.export/d' >> ../browser/magenta.js
 cat ../magenta/principal.js   | sed '/require(/d' | sed '/module.export/d' >> ../browser/magenta.js
 cat ../magenta/message.js     | sed '/require(/d' | sed '/module.export/d' >> ../browser/magenta.js
+cat ../magenta/heartbeat.js   | sed '/require(/d' | sed '/module.export/d' >> ../browser/magenta.js
 cat ../magenta/eventLog.js    | sed '/require(/d' | sed '/module.export/d' >> ../browser/magenta.js
 cat ../magenta/blob.js        | sed '/require(/d' | sed '/module.export/d' >> ../browser/magenta.js
 cat ../magenta/session.js     | sed '/require(/d' | sed '/module.export/d' >> ../browser/magenta.js
