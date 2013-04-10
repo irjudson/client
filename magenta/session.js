@@ -25,7 +25,7 @@ function Session(service, principal, accessToken) {
     this.log.start();
 
     this.heartbeat = new Heartbeat(this);
-    this.log.start();
+    this.heartbeat.start();
 }
 
 Session.prototype.close = function() {
