@@ -65,6 +65,9 @@ Service.prototype.authenticationFlow = function(principal, authOperation, callba
         authOperation.bind(principal)(self.config, function(err, principal, accessToken) {
             if (err) return callback(err);
 
+            console.log("principal: " + JSON.stringify(principal));
+            console.log("accessToken: " + JSON.stringify(accessToken));
+
             principal.accessToken = accessToken;
             self.store.set(principal.toStoreId(), principal);
 
