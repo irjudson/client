@@ -16,7 +16,7 @@ Heartbeat.prototype.start = function() {
         message.save(self.session, function(err, message) {
             if (err) { return self.session.log.error("failed to send heartbeat"); }
         });
-    }, self.session.service.config.heartbeat_period || 10 * 60 * 1000);
+    }, self.session.service.config.heartbeat_period * 1000 || 5 * 60 * 1000);
 };
 
 Heartbeat.prototype.stop = function() {
