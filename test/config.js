@@ -1,9 +1,9 @@
-var magenta = require('../magenta'),
+var nitrogen = require('../lib'),
     config = null;
 
 if (process.env.NODE_ENV == "production") {
     config = {
-        host: "magenta.azurewebsites.net",
+        host: "nitrogen.azurewebsites.net",
         http_port: 80,
         protocol: "http"
     };
@@ -23,7 +23,7 @@ if (process.env.NODE_ENV == "production") {
 config.http_port = process.env.PORT || config.http_port || 3030;
 
 config.local_store_path = ".";
-config.store = new magenta.FileStore(config);
+config.store = new nitrogen.FileStore(config);
 config.store.clear();
 
 // computed properties
