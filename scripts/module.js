@@ -1,4 +1,4 @@
-window.magenta = {
+window.nitrogen = {
   Blob: Blob,
   Device: Device,
   EventLog: EventLog,

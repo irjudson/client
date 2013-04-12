@@ -1,13 +1,13 @@
 var assert = require('assert'),
 	config = require('../config'),
-	magenta = require('../../magenta');
+	nitrogen = require('../../lib');
 
 describe('service object', function() {
 
-	var camera = new magenta.Device({ capabilities: "camera", local_id: "camera" });
+	var camera = new nitrogen.Device({ capabilities: "camera", local_id: "camera" });
 
 	it('should be able to connect device', function(done) {
-        var service = new magenta.Service(config);
+        var service = new nitrogen.Service(config);
         service.connect(camera, function(err, session) {
             assert.equal(err, null);
             assert.notEqual(session, null);

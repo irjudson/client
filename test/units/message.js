@@ -1,18 +1,18 @@
 var assert = require('assert'),
 	config = require('../config'),
     fixtures = require('../fixtures'),
-	magenta = require('../../magenta');
+	nitrogen = require('../../lib');
 
 describe('message', function() {
 
-    var camera = new magenta.Device({ capabilities: "camera", local_id: "camera" });
+    var camera = new nitrogen.Device({ capabilities: "camera", local_id: "camera" });
 
     it('should save a message', function(done) {
-        var service = new magenta.Service(config);
+        var service = new nitrogen.Service(config);
         service.connect(camera, function(err, session) {
             assert.equal(err, null);
 
-            var message = new magenta.Message();
+            var message = new nitrogen.Message();
             message.message_type = "image";
             message.body.url = "http://localhost:3030/blobs/237849732497982";
 
@@ -35,9 +35,9 @@ describe('message', function() {
     });
 
     it('has a default constructor', function(done) {
-        var service = new magenta.Service(config);
+        var service = new nitrogen.Service(config);
         service.connect(camera, function(err, session) {
-            var message = new magenta.Message();
+            var message = new nitrogen.Message();
             assert.notEqual(message.timestamp, null);
 
             done();
@@ -45,9 +45,9 @@ describe('message', function() {
 	});
 
     it('find with no query returns all messages', function(done) {
-        var service = new magenta.Service(config);
+        var service = new nitrogen.Service(config);
         service.connect(camera, function(err, session) {
-            magenta.Message.find(session, {}, function(err, messages) {
+            nitrogen.Message.find(session, {}, function(err, messages) {
                 assert.ifError(err);
                 assert.equal(messages.length > 0, true);
                 done();

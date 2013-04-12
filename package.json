@@ -1,8 +1,8 @@
 {
-  "name": "magenta",
-  "homepage": "https://github.com/magentajs/sdk",
-  "main": "./magenta",
-  "version": "0.0.25",
+  "name": "nitrogen",
+  "homepage": "https://github.com/nitrogenjs/client",
+  "main": "./lib",
+  "version": "0.0.26",
   "dependencies": {
       "faye": "0.8.x",
       "request": "2.x"
