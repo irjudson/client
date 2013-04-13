@@ -25,6 +25,10 @@ describe('principal', function() {
             assert.equal(!principal.email, false);
             assert.equal(!principal.local_id, false);
 
+            session.clearCredentials();
+
+            assert.equal(session.service.store.get(session.principal.toStoreId()), null);
+
             done();
         });
 
