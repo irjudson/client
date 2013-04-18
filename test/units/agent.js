@@ -12,7 +12,6 @@ describe('agent', function() {
             nitrogen.Agent.find(session, {}, function(err, agents) {
                 assert.ifError(err);
                 assert.equal(agents.length > 0, true);
-                assert.notEqual(agents[0].filter, undefined);
                 assert.notEqual(agents[0].action, undefined);
                 done();
             });
