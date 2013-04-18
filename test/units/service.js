@@ -26,7 +26,7 @@ describe('service object', function() {
             assert.equal(err, null);
             assert.notEqual(session, null);
 
-            service.impersonate(session, cameraPrincipal, function(err, impersonationSession) {
+            session.impersonate(cameraPrincipal.id, function(err, impersonationSession) {
                 assert.equal(err, null);
                 assert.notEqual(impersonationSession, null);
 
@@ -41,7 +41,7 @@ describe('service object', function() {
             assert.equal(err, null);
             assert.notEqual(session, null);
 
-            service.impersonate(session, fixtures.models.camera, function(err, session) {
+            session.impersonate(fixtures.models.camera.id, function(err, impersonationSession) {
                 assert.equal(err, 401);
 
                 done();
