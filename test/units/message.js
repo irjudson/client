@@ -27,7 +27,13 @@ describe('message', function() {
                     assert.equal(message.body.url, "http://localhost:3030/blobs/237849732497982");
                     assert.notEqual(message.id, undefined);
                     assert.equal(message.message_type, "image");
-                    done();
+
+                    // this should fail since session is not admin.  just test making the request successfully
+                    // since service itself has tests to cover functionality.
+                    message.remove(session, function(err) {
+                        assert.equal(!err, false);
+                        done();
+                    });
                 });
 
             });
