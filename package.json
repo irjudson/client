@@ -5,7 +5,8 @@
   "version": "0.0.35",
   "dependencies": {
       "faye": "0.8.x",
-      "request": "2.x"
+      "request": "2.x",
+      "retry": "*"
   },
   "devDependencies": {
       "browser-request": "0.x",
