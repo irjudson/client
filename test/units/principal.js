@@ -45,13 +45,14 @@ describe('principal', function() {
         });
     });
 
-    it('find with user query returns user principals', function(done) {
+    it('find with device query returns device principals', function(done) {
         var service = new nitrogen.Service(config);
         service.connect(camera, function(err, session) {
-            nitrogen.Principal.find(session, { principal_type: "user" }, function(err, principals) {
+            nitrogen.Principal.find(session, { principal_type: "device" }, function(err, principals) {
                 assert.ifError(err);
                 assert.equal(principals.length > 0, true);
-                assert.equal(principals[0].principal_type, "user");
+                assert.equal(principals[0].principal_type, "device");
+                assert.notEqual(principals[0].toStoreId, undefined);
                 done();
             });
         });
