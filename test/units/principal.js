@@ -58,4 +58,16 @@ describe('principal', function() {
         });
     });
 
+    it('smoke test update interface', function(done) {
+        var service = new nitrogen.Service(config);
+        service.connect(camera, function(err, session) {
+            // shouldn't actually succeed but we have tests to cover that on the service.
+            // test the plumbing to and from the server instead.
+            camera.update(session, function(err, callback) {
+                assert.notEqual(err, null);
+                done();
+            });
+        });
+    });
+
 });
