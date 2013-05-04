@@ -10,6 +10,7 @@ describe('principal', function() {
         var user = new nitrogen.User({ local_id: "user", password: "sEcReT44" });
 
         user.email = "user" + Math.random() * 1000000 + "@gmail.com";
+        user.name = "Joe Smith";
 
         assert.equal(user.local_id, "user");
         assert.equal(user.principal_type, "user");
