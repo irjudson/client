@@ -6,7 +6,7 @@ describe('principal', function() {
 
     var camera = new nitrogen.Device({ capabilities: "camera", local_id: "camera" });
 
-    it('should be able to create a user', function(done) {
+    it('should be able to create and save a user', function(done) {
         var user = new nitrogen.User({ local_id: "user", password: "sEcReT44" });
 
         user.email = "user" + Math.random() * 1000000 + "@gmail.com";
@@ -26,11 +26,20 @@ describe('principal', function() {
             assert.equal(!principal.email, false);
             assert.equal(!principal.local_id, false);
 
-            session.clearCredentials();
+            principal.name = "Jane Smith";
+            principal.email = "notallowed@gmail.com";
+            principal.save(session, function(err, p) {
+                assert.equal(err, null);
 
-            assert.equal(session.service.store.get(session.principal.toStoreId()), null);
+                assert.equal(p.name, "Jane Smith");
+                assert.notEqual(p.email, "notallowed@gmail.com");
 
-            done();
+                session.clearCredentials();
+                assert.equal(session.service.store.get(session.principal.toStoreId()), null);
+
+                done();
+            });
+
         });
 
     });
