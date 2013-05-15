@@ -43,7 +43,7 @@ describe('message', function() {
         var service = new nitrogen.Service(config);
         service.connect(camera, function(err, session) {
             var message = new nitrogen.Message();
-            assert.notEqual(message.timestamp, null);
+            assert.notEqual(message.ts, null);
 
             done();
         });
