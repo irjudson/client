@@ -19,9 +19,12 @@ exports.reset = function() {
 
         fixtures['camera'] = camera;
 
-        var message = new nitrogen.Message();
-        message.message_type = "image";
-        message.body.url = "http://localhost:3030/blobs/1";
+        var message = new nitrogen.Message({
+	    type: "image",
+            body: {
+                url: "http://localhost:3030/blobs/1"
+            }
+	});
 
         message.save(session, function(err, messages) {
             messages.forEach(function(message) {
