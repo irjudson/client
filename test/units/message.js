@@ -12,12 +12,11 @@ describe('message', function() {
         service.connect(camera, function(err, session) {
             assert.equal(err, null);
 
-            var message = new nitrogen.Message();
-            message.message_type = "image";
-            message.body.url = "http://localhost:3030/blobs/237849732497982";
-
-            session.onMessage(function(message) {
-                console.log("message received: " + JSON.stringify(message));
+            var message = new nitrogen.Message({
+                type: 'image',
+                body: {
+                    url: 'http://localhost:3030/blobs/237849732497982'
+                }
             });
 
             message.save(session, function(err, messages) {
@@ -26,7 +25,7 @@ describe('message', function() {
                 messages.forEach(function(message) {
                     assert.equal(message.body.url, "http://localhost:3030/blobs/237849732497982");
                     assert.notEqual(message.id, undefined);
-                    assert.equal(message.message_type, "image");
+                    assert.equal(message.type, "image");
 
                     // this should fail since session is not admin.  just test making the request successfully
                     // since service itself has tests to cover functionality.
