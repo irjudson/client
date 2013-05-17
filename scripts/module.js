@@ -1,4 +1,5 @@
 window.nitrogen = {
+  Agent: Agent,
   Blob: Blob,
   Device: Device,
   EventLog: EventLog,
