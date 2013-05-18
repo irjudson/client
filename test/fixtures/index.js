@@ -24,7 +24,7 @@ exports.reset = function() {
             body: {
                 url: "http://localhost:3030/blobs/1"
             }
-	});
+	    });
 
         message.save(session, function(err, messages) {
             messages.forEach(function(message) {
