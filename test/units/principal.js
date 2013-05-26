@@ -12,8 +12,8 @@ describe('principal', function() {
         user.email = "user" + Math.random() * 1000000 + "@gmail.com";
         user.name = "Joe Smith";
 
-        assert.equal(user.local_id, "user");
-        assert.equal(user.principal_type, "user");
+        assert.equal(user.local_id, 'user');
+        assert.equal(user.type, 'user');
 
         var service = new nitrogen.Service(config);
 
@@ -58,10 +58,10 @@ describe('principal', function() {
     it('find with device query returns device principals', function(done) {
         var service = new nitrogen.Service(config);
         service.connect(camera, function(err, session) {
-            nitrogen.Principal.find(session, { principal_type: "device" }, function(err, principals) {
+            nitrogen.Principal.find(session, { type: "device" }, function(err, principals) {
                 assert.ifError(err);
                 assert.equal(principals.length > 0, true);
-                assert.equal(principals[0].principal_type, "device");
+                assert.equal(principals[0].type, "device");
                 assert.notEqual(principals[0].toStoreId, undefined);
                 done();
             });
