@@ -23,9 +23,11 @@ describe('message', function() {
                 assert.equal(err, null);
 
                 messages.forEach(function(message) {
-                    assert.equal(message.body.url, "http://localhost:3030/blobs/237849732497982");
+                    assert.equal(message.body.url, 'http://localhost:3030/blobs/237849732497982');
                     assert.notEqual(message.id, undefined);
-                    assert.equal(message.type, "image");
+                    assert.equal(message.type, 'image');
+                    assert.notEqual(message.ts, undefined);
+                    assert.equal(typeof message.ts, 'object');
 
                     // this should fail since session is not admin.  just test making the request successfully
                     // since service itself has tests to cover functionality.
