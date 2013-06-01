@@ -29,7 +29,7 @@ describe('principal', function() {
             principal.name = "Jane Smith";
             principal.email = "notallowed@gmail.com";
             principal.save(session, function(err, p) {
-                assert.equal(err, null);
+                assert.ifError(err);
 
                 assert.equal(p.name, "Jane Smith");
                 assert.notEqual(p.email, "notallowed@gmail.com");
@@ -68,16 +68,29 @@ describe('principal', function() {
         });
     });
 
-    it('smoke test update interface', function(done) {
+    it('should be able to update principals', function(done) {
         var service = new nitrogen.Service(config);
-        service.connect(camera, function(err, session) {
-            // shouldn't actually succeed but we have tests to cover that on the service.
-            // test the plumbing to and from the server instead.
-            camera.update(session, function(err, callback) {
-                assert.notEqual(err, null);
+        service.connect(camera, function(err, session, camera) {
+            camera.name = "camera";
+            camera.update(session, function(err, camera) {
+                assert.ifError(err);
+                assert.equal(camera.name, "camera");
                 done();
             });
         });
     });
 
+    it('should be able to fetch a single principal', function(done) {
+        var service = new nitrogen.Service(config);
+        service.connect(camera, function(err, session, camera) {
+            assert.ifError(err);
+
+            nitrogen.Principal.findById(session, camera.id, function(err, principal) {
+                assert.ifError(err);
+                assert.equal(principal.id, camera.id);
+
+                done();
+            });
+        });
+    });
 });
