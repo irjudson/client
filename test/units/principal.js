@@ -92,4 +92,6 @@ describe('principal', function() {
                 done();
             });
         });
-    })
+    });
+
+});
