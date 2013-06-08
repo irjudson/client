@@ -8,7 +8,7 @@ describe('blob object', function() {
 	var camera = new nitrogen.Device({ local_id: "camera",
 									  capabilities: ["camera"] });
 
-	it('should be able to save a blob', function(done) {
+	it('should be able to save and get a blob', function(done) {
         var service = new nitrogen.Service(config);
         service.connect(camera, function(err, session) {
             assert.equal(err, null);
@@ -23,7 +23,13 @@ describe('blob object', function() {
                     assert.notEqual(blob.url, undefined);
                     assert.notEqual(blob.link, undefined);
                     assert.equal(blob.url.slice(-(blob.id.length+1)), "/" + blob.id);
-                    done();
+
+                    nitrogen.Blob.get(session, blob.url, function(err, resp, blob) {
+                        assert.ifError(err);
+                        assert.equal(resp.statusCode, 200);
+                        assert.equal(blob.length, 28014);
+                        done();
+                    });
                 });
             });
         });
