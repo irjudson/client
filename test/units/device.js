@@ -1,6 +1,6 @@
-var assert = require('assert'),
-	config = require('../config'),
-	nitrogen = require('../../lib');
+var assert = require('assert')
+  ,	config = require('../config')
+  ,	nitrogen = require('../../lib');
 
 describe('device', function() {
 
