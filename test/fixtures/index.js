@@ -12,7 +12,10 @@ var addToFixture = function(fixtureId) {
 
 exports.reset = function() {
     var service = new nitrogen.Service(config);
-    var camera = new nitrogen.Device({ capabilities: "camera", local_id: "camera" });
+    var camera = new nitrogen.Device({
+        capabilities: "camera",
+        local_id: "camera"
+    });
 
     service.connect(camera, function(err, session, camera) {
         if (err) throw err;
