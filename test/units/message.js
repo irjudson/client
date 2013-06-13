@@ -5,7 +5,10 @@ var assert = require('assert'),
 
 describe('message', function() {
 
-    var camera = new nitrogen.Device({ capabilities: "camera", local_id: "camera" });
+    var camera = new nitrogen.Device({
+        capabilities: "camera",
+        nickname: "camera"
+    });
 
     it('should save a message', function(done) {
         var service = new nitrogen.Service(config);

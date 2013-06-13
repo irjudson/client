@@ -5,8 +5,10 @@ var assert = require('assert'),
 
 describe('blob object', function() {
 
-	var camera = new nitrogen.Device({ local_id: "camera",
-									  capabilities: ["camera"] });
+	var camera = new nitrogen.Device({
+        nickname: "camera",
+        capabilities: ["camera"]
+    });
 
 	it('should be able to save and get a blob', function(done) {
         var service = new nitrogen.Service(config);

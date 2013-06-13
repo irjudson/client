@@ -4,15 +4,21 @@ var assert = require('assert'),
 
 describe('principal', function() {
 
-    var camera = new nitrogen.Device({ capabilities: "camera", local_id: "camera" });
+    var camera = new nitrogen.Device({
+        capabilities: "camera",
+        nickname: "camera"
+    });
 
     it('should be able to create and save a user', function(done) {
-        var user = new nitrogen.User({ local_id: "user", password: "sEcReT44" });
+        var user = new nitrogen.User({
+            nickname: "user",
+            password: "sEcReT44"
+        });
 
         user.email = "user" + Math.random() * 1000000 + "@gmail.com";
         user.name = "Joe Smith";
 
-        assert.equal(user.local_id, 'user');
+        assert.equal(user.nickname, 'user');
         assert.equal(user.type, 'user');
 
         var service = new nitrogen.Service(config);
@@ -24,7 +30,7 @@ describe('principal', function() {
 
             assert.equal(!principal.id, false);
             assert.equal(!principal.email, false);
-            assert.equal(!principal.local_id, false);
+            assert.equal(!principal.nickname, false);
 
             principal.name = "Jane Smith";
             principal.email = "notallowed@gmail.com";

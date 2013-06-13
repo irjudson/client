@@ -11,8 +11,10 @@ Nitrogen at its heart uses messaging between principals (devices and users).  Pr
 For example, a thermometer that measures temperature once every 15 minutes could be implemented in Nitrogen like this:
 
 ``` javascript
-var thermometer = new nitrogen.Device({ local_id: "thermometer",
-                                        capabilities: [ "thermometer" ] });
+var thermometer = new nitrogen.Device({
+    capabilities: ['thermometer'],
+    nickname: 'thermometer'
+});
 
 var service = new nitrogen.Service(config);
 service.connect(thermometer, function(err, session, thermometer) {
@@ -20,10 +22,12 @@ service.connect(thermometer, function(err, session, thermometer) {
     // take temperature every 15 minutes.
 
     setInterval(function() {
-        var message = new Nitrogen.Message();
-        message.from = session.principal.id;
-        message.message_type = "temperature";
-        message.body.temperature = getTemp();
+        var message = new Nitrogen.Message({
+            type: 'temperature',
+            body: {
+                temperature: getTemp()
+            }
+        });
 
         message.save(session);
     }, 15 * 60 * 1000);

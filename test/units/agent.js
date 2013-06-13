@@ -4,7 +4,10 @@ var assert = require('assert'),
 
 describe('agent', function() {
 
-    var camera = new nitrogen.Device({ capabilities: "camera", local_id: "camera" });
+    var camera = new nitrogen.Device({
+        capabilities: "camera",
+        nickname: "camera"
+    });
 
     it('find shouldnt return any agents that arent visible to the principal.', function(done) {
         var service = new nitrogen.Service(config);
