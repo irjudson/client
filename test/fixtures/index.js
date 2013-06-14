@@ -14,7 +14,7 @@ exports.reset = function() {
     var service = new nitrogen.Service(config);
     var camera = new nitrogen.Device({
         capabilities: "camera",
-        local_id: "camera"
+        nickname: "camera"
     });
 
     service.connect(camera, function(err, session, camera) {

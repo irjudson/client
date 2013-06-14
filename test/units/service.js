@@ -5,8 +5,14 @@ var assert = require('assert')
 
 describe('service object', function() {
 
-    var camera = new nitrogen.Device({ capabilities: ["camera"], local_id: "camera" });
-    var thermometer = new nitrogen.Device({ capabilities: ["thermometer"], local_id: "thermometer" });
+    var camera = new nitrogen.Device({
+        capabilities: ["camera"],
+        nickname: "camera"
+    });
+    var thermometer = new nitrogen.Device({
+        capabilities: ["thermometer"],
+        nickname: "thermometer"
+    });
 
 	it('should be able to connect device', function(done) {
         var service = new nitrogen.Service(config);
