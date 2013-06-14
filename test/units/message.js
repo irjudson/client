@@ -57,7 +57,7 @@ describe('message', function() {
     it('find with no query returns all messages', function(done) {
         var service = new nitrogen.Service(config);
         service.connect(camera, function(err, session) {
-            nitrogen.Message.find(session, {}, function(err, messages) {
+            nitrogen.Message.find(session, {}, { skip: 0, sort: { ts: 1 } }, function(err, messages) {
                 assert.ifError(err);
                 assert.equal(messages.length > 0, true);
                 done();
