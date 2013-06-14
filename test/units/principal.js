@@ -53,7 +53,7 @@ describe('principal', function() {
     it('find with no query returns all principals', function(done) {
         var service = new nitrogen.Service(config);
         service.connect(camera, function(err, session) {
-            nitrogen.Principal.find(session, {}, function(err, principals) {
+            nitrogen.Principal.find(session, {}, {}, function(err, principals) {
                 assert.ifError(err);
                 assert.equal(principals.length > 0, true);
                 done();
@@ -64,7 +64,12 @@ describe('principal', function() {
     it('find with device query returns device principals', function(done) {
         var service = new nitrogen.Service(config);
         service.connect(camera, function(err, session) {
-            nitrogen.Principal.find(session, { type: "device" }, function(err, principals) {
+            nitrogen.Principal.find(session, {
+                type: "device"
+            }, {
+                skip: 0,
+                sort: { last_connection: 1 }
+            }, function(err, principals) {
                 assert.ifError(err);
                 assert.equal(principals.length > 0, true);
                 assert.equal(principals[0].type, "device");
