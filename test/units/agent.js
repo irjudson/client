@@ -12,7 +12,7 @@ describe('agent', function() {
     it('find shouldnt return any agents that arent visible to the principal.', function(done) {
         var service = new nitrogen.Service(config);
         service.connect(camera, function(err, session) {
-            nitrogen.Agent.find(session, {}, function(err, agents) {
+            nitrogen.Agent.find(session, {}, {}, function(err, agents) {
                 assert.ifError(err);
                 assert.equal(agents.length > 0, false);
                 done();
