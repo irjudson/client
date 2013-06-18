@@ -39,7 +39,11 @@ describe('commandManager', function() {
                 type: 'cameraCommand',
                 expires: new Date(new Date().getTime() + 2 * 3600 * 1000),
                 body: {
-                    command: 'snapshot'
+                    command: 'snapshot',
+		    message: {
+                        tags: ['timeElapsed'],
+                        expires: 'never' 
+                    }
                 }
             })
         ];
