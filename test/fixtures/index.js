@@ -35,6 +35,16 @@ exports.reset = function() {
             });
         });
     });
+
+    var user = new nitrogen.Device({
+        nickname: 'user',
+        email: 'test@domain.com',
+        password: 'foobar123'
+    });
+
+    service.create(user, function(err, session, user) {
+        fixtures['user'] = user;
+    });
 };
 
 exports.models = fixtures;
