@@ -5,17 +5,19 @@ var assert = require('assert')
 
 describe('service object', function() {
 
+    var service = new nitrogen.Service(config);
+
     var camera = new nitrogen.Device({
         capabilities: ["camera"],
         nickname: "camera"
     });
+
     var thermometer = new nitrogen.Device({
         capabilities: ["thermometer"],
         nickname: "thermometer"
     });
 
 	it('should be able to connect device', function(done) {
-        var service = new nitrogen.Service(config);
         service.connect(camera, function(err, session) {
             assert.equal(err, null);
             assert.notEqual(session, null);
@@ -26,8 +28,17 @@ describe('service object', function() {
         });
 	});
 
+    it('should be able to authenticate user', function(done) {
+        service.authenticate(fixtures.models.user, function(err, session, user) {
+            assert.ifError(err);
+            assert.notEqual(!session, true);
+            assert.notEqual(!user, true);
+
+            done();
+        });
+    });
+
     it('camera should be able to impersonate itself', function(done) {
-        var service = new nitrogen.Service(config);
         service.connect(fixtures.models.camera, function(err, session, cameraPrincipal) {
             assert.equal(err, null);
             assert.notEqual(session, null);
@@ -42,7 +53,6 @@ describe('service object', function() {
     });
 
     it('thermometer should be not be able to impersonate the camera', function(done) {
-        var service = new nitrogen.Service(config);
         service.connect(thermometer, function(err, session, thermometer) {
             assert.equal(err, null);
             assert.notEqual(session, null);
@@ -54,5 +64,4 @@ describe('service object', function() {
             });
         });
     });
-
 });
