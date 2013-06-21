@@ -29,7 +29,7 @@ describe('blob object', function() {
                     nitrogen.Blob.get(session, blob.url, function(err, resp, blob) {
                         assert.ifError(err);
                         assert.equal(resp.statusCode, 200);
-                        assert.equal(blob.length, 28014);
+                        assert.equal(blob.length, 29118);
                         done();
                     });
                 });
