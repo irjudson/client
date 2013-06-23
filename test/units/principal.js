@@ -4,6 +4,8 @@ var assert = require('assert'),
 
 describe('principal', function() {
 
+    var service = new nitrogen.Service(config);
+
     var camera = new nitrogen.Device({
         capabilities: "camera",
         nickname: "camera"
@@ -20,8 +22,6 @@ describe('principal', function() {
 
         assert.equal(user.nickname, 'user');
         assert.equal(user.type, 'user');
-
-        var service = new nitrogen.Service(config);
 
         // clear the principal first so we are not just testing loading from it.
         service.store.set('principal.user', null);
@@ -51,7 +51,6 @@ describe('principal', function() {
     });
 
     it('find with no query returns all principals', function(done) {
-        var service = new nitrogen.Service(config);
         service.connect(camera, function(err, session) {
             nitrogen.Principal.find(session, {}, {}, function(err, principals) {
                 assert.ifError(err);
@@ -62,7 +61,6 @@ describe('principal', function() {
     });
 
     it('find with device query returns device principals', function(done) {
-        var service = new nitrogen.Service(config);
         service.connect(camera, function(err, session) {
             nitrogen.Principal.find(session, {
                 type: "device"
@@ -80,7 +78,6 @@ describe('principal', function() {
     });
 
     it('should be able to update principals', function(done) {
-        var service = new nitrogen.Service(config);
         service.connect(camera, function(err, session, camera) {
             camera.name = "camera";
             camera.update(session, function(err, camera) {
@@ -91,8 +88,22 @@ describe('principal', function() {
         });
     });
 
+    it('should be able to remove a principal', function(done) {
+        var cameraForDelete = new nitrogen.Device({
+            capabilities: "camera",
+            nickname: "deleteCamera"
+        });
+
+        service.connect(cameraForDelete, function(err, session, cameraForDelete) {
+            cameraForDelete.remove(session, function(err) {
+                assert.ifError(err);
+
+                done();
+            })
+        });
+    });
+
     it('should be able to fetch a single principal', function(done) {
-        var service = new nitrogen.Service(config);
         service.connect(camera, function(err, session, camera) {
             assert.ifError(err);
 
