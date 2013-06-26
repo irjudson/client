@@ -22,7 +22,7 @@ describe('message', function() {
                 }
             });
 
-            message.save(session, function(err, messages) {
+            message.send(session, function(err, messages) {
                 assert.equal(err, null);
 
                 messages.forEach(function(message) {
