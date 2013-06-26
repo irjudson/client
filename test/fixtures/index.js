@@ -29,7 +29,7 @@ exports.reset = function() {
             }
 	    });
 
-        message.save(session, function(err, messages) {
+        message.send(session, function(err, messages) {
             messages.forEach(function(message) {
                 fixtures['message'] = message;
             });
