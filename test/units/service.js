@@ -58,7 +58,7 @@ describe('service object', function() {
             assert.notEqual(session, null);
 
             session.impersonate(fixtures.models.camera.id, function(err, impersonationSession) {
-                assert.equal(err, 401);
+                assert.equal(err, 403);
 
                 done();
             });
