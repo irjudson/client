@@ -77,10 +77,10 @@ describe('principal', function() {
         });
     });
 
-    it('should be able to update principals', function(done) {
+    it('should be able to save principals', function(done) {
         service.connect(camera, function(err, session, camera) {
             camera.name = "camera";
-            camera.update(session, function(err, camera) {
+            camera.save(session, function(err, camera) {
                 assert.ifError(err);
                 assert.equal(camera.name, "camera");
                 done();
