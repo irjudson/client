@@ -10,10 +10,5 @@ window.nitrogen = {
   Principal: Principal,
   Service: Service,
   Session: Session,
-  User: User,
-
-  endsWith: endsWith,
-  nop: nop,
-  queryStringFromObject: queryStringFromObject
-
+  User: User
 };
