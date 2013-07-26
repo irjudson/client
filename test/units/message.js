@@ -31,6 +31,8 @@ describe('message', function() {
                 subscriptionPassed = true;
                 if (subscriptionPassed && restPassed) done();
             }, function(status) {
+                assert.equal(!status, true);
+
                 message.send(session, function(err, messages) {
                     assert.equal(err, null);
 
