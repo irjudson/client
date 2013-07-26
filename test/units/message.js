@@ -12,6 +12,9 @@ describe('message', function() {
 
     it('should save a message', function(done) {
         var service = new nitrogen.Service(config);
+        var subscriptionPassed = false;
+        var restPassed = false;
+
         service.connect(camera, function(err, session) {
             assert.equal(err, null);
 
@@ -22,24 +25,33 @@ describe('message', function() {
                 }
             });
 
-            message.send(session, function(err, messages) {
-                assert.equal(err, null);
+            session.onMessage(function(message) {
+                if (message.body.url !== 'http://localhost:3030/blobs/237849732497982') return;
 
-                messages.forEach(function(message) {
-                    assert.equal(message.body.url, 'http://localhost:3030/blobs/237849732497982');
-                    assert.notEqual(message.id, undefined);
-                    assert.equal(message.type, 'image');
-                    assert.notEqual(message.ts, undefined);
-                    assert.equal(typeof message.ts, 'object');
+                subscriptionPassed = true;
+                if (subscriptionPassed && restPassed) done();
+            }, function(status) {
+                message.send(session, function(err, messages) {
+                    assert.equal(err, null);
 
-                    // this should fail since session is not admin.  just test making the request successfully
-                    // since service itself has tests to cover functionality.
-                    message.remove(session, function(err) {
-                        assert.equal(!err, false);
-                        done();
+                    messages.forEach(function(message) {
+                        assert.equal(message.body.url, 'http://localhost:3030/blobs/237849732497982');
+                        assert.notEqual(message.id, undefined);
+                        assert.equal(message.type, 'image');
+                        assert.notEqual(message.ts, undefined);
+                        assert.equal(typeof message.ts, 'object');
+
+                        // this should fail since session is not admin.  just test making the request successfully
+                        // since service itself has tests to cover functionality.
+                        message.remove(session, function(err) {
+                            assert.equal(!err, false);
+
+                            restPassed = true;
+                            if (subscriptionPassed && restPassed) done();
+                        });
                     });
-                });
 
+                });
             });
         });
     });
