@@ -40,7 +40,7 @@ describe('commandManager', function() {
                 expires: new Date(new Date().getTime() + 2 * 3600 * 1000),
                 body: {
                     command: 'snapshot',
-		    message: {
+                    message: {
                         tags: ['timeElapsed'],
                         expires: 'never' 
                     }

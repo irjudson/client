@@ -17,7 +17,6 @@ describe('cameraManager', function() {
 
         cameraManager.history = [
             { path: path.join(__dirname, '../fixtures/images/motion0.jpg') },
-            { path: path.join(__dirname, '../fixtures/images/motion1.jpg') },
             { path: path.join(__dirname, '../fixtures/images/motion2.jpg') }
         ];
 
@@ -41,7 +40,6 @@ describe('cameraManager', function() {
 
         cameraManager.history = [
             { path: path.join(__dirname, '../fixtures/images/motion0.jpg') },
-            { path: path.join(__dirname, '../fixtures/images/motion0.jpg') },
             { path: path.join(__dirname, '../fixtures/images/motion0.jpg') }
         ];
 
@@ -64,7 +62,7 @@ describe('cameraManager', function() {
             })
         ];
 
-        assert.equal(cameraManager.historyRequired(), 3);
+        assert.equal(cameraManager.historyRequired(), 2);
 
         cameraManager.messageQueue.push(new nitrogen.Message({
             id: '2',
@@ -75,7 +73,7 @@ describe('cameraManager', function() {
             }
         }));
 
-        assert.equal(cameraManager.historyRequired(), 3);
+        assert.equal(cameraManager.historyRequired(), 2);
 
         cameraManager.messageQueue = cameraManager.messageQueue.slice(1);
         assert.equal(cameraManager.historyRequired(), 0);
