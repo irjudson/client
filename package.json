@@ -8,9 +8,11 @@
       "type" : "git",
       "url" : "https://github.com/nitrogenjs/client.git"
   },
-  "version": "0.0.89",
+  "version": "0.0.92",
 
   "dependencies": {
+      "async": "*",
+      "nitrogen-opencv": "0.3.3",
       "request": "2.x",
       "socket.io-client": "*"
   },
