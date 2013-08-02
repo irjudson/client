@@ -1,4 +1,6 @@
 var assert = require('assert')
+  , config = require('../config')
+  , fixtures = require('../fixtures')
   , nitrogen = require('../../lib')
   , path = require('path');
 
@@ -37,6 +39,25 @@ describe('cameraManager', function() {
         assert.equal(cameraManager.historyRequired(), 0);
 
         done();
+    });
+
+    it('should be able to start a CameraManager with a device', function(done) {
+        var service = new nitrogen.Service(config);
+        var subscriptionPassed = false;
+        var restPassed = false;
+
+        var camera = new nitrogen.Device({
+            capabilities: "camera",
+            nickname: "camera"
+        });
+
+        service.connect(camera, function(err, session) {
+            var cameraManager = new nitrogen.CameraManager(camera);
+            cameraManager.start(session, {}, function(err) {
+                assert.equal(err, undefined);
+                done();
+            });
+        });
     });
 
 });
