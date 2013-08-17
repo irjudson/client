@@ -32,9 +32,9 @@ describe('message', function() {
                 session.disconnectSubscription(subId);
 
                 if (subscriptionPassed && restPassed) done();
-            }, function(status) {
-                assert.equal(!status, true);
+            });
 
+            setTimeout(function() {
                 message.send(session, function(err, messages) {
                     assert.equal(err, null);
 
@@ -56,7 +56,7 @@ describe('message', function() {
                     });
 
                 });
-            });
+            }, 200);
         });
     });
 
