@@ -25,10 +25,12 @@ describe('message', function() {
                 }
             });
 
-            session.onMessage(function(message) {
+            var subId = session.onMessage(function(message) {
                 if (message.body.url !== 'http://localhost:3030/blobs/237849732497982') return;
 
                 subscriptionPassed = true;
+                session.disconnectSubscription(subId);
+
                 if (subscriptionPassed && restPassed) done();
             }, function(status) {
                 assert.equal(!status, true);
