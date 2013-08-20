@@ -53,9 +53,13 @@ describe('cameraManager', function() {
 
         service.connect(camera, function(err, session) {
             var cameraManager = new nitrogen.CameraManager(camera);
+            var gotCallback = false;
             cameraManager.start(session, {}, function(err) {
                 assert.equal(err, undefined);
-                done();
+                if (!gotCallback) {
+                    gotCallback = true;
+                    done();
+                }
             });
         });
     });
