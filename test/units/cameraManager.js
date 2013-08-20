@@ -43,8 +43,6 @@ describe('cameraManager', function() {
 
     it('should be able to start a CameraManager with a device', function(done) {
         var service = new nitrogen.Service(config);
-        var subscriptionPassed = false;
-        var restPassed = false;
 
         var camera = new nitrogen.Device({
             capabilities: "camera",
