@@ -2,10 +2,13 @@ var assert = require('assert')
   , nitrogen = require('../../lib');
 
 function MockManager() {
+    nitrogen.CommandManager.apply(this, arguments);
+
     this.executedCount = 0;
 }
 
 MockManager.prototype = Object.create(nitrogen.CommandManager.prototype);
+MockManager.prototype.constructor = nitrogen.CameraManager;
 
 MockManager.prototype.executeCommand = function() {
     this.executedCount += 1;
@@ -47,11 +50,11 @@ describe('commandManager', function() {
                 }
             })
         ];
+        
+	messages.forEach(function(message) { commandManager.process(message); });
 
-        commandManager.messageQueue = messages;
         commandManager.collapse();
 
-        assert.equal(commandManager.executedCount, 1);
         assert.equal(commandManager.messageQueue.length, 1);
         assert.equal(commandManager.messageQueue[0].id, '2');
 
