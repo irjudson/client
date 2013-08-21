@@ -19,7 +19,7 @@ describe('cameraManager', function() {
             })
         ];
 
-        assert.equal(cameraManager.historyRequired(), 2);
+        assert.equal(cameraManager.historyRequired(), 3);
 
         cameraManager.messageQueue.push(new nitrogen.Message({
             id: '2',
@@ -30,10 +30,10 @@ describe('cameraManager', function() {
             }
         }));
 
-        assert.equal(cameraManager.historyRequired(), 2);
+        assert.equal(cameraManager.historyRequired(), 3);
 
         cameraManager.messageQueue = cameraManager.messageQueue.slice(1);
-        assert.equal(cameraManager.historyRequired(), 0);
+        assert.equal(cameraManager.historyRequired(), 1);
 
         cameraManager.messageQueue = [];
         assert.equal(cameraManager.historyRequired(), 0);
