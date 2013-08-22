@@ -20,7 +20,7 @@ exports.reset = function() {
     service.connect(camera, function(err, session, camera) {
         if (err) throw err;
 
-        fixtures['camera'] = camera;
+        fixtures.camera = camera;
 
         var message = new nitrogen.Message({
 	    type: "image",

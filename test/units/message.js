@@ -15,7 +15,7 @@ describe('message', function() {
         var subscriptionPassed = false;
         var restPassed = false;
 
-        service.connect(camera, function(err, session) {
+        service.connect(fixtures.models.camera, function(err, session) {
             assert.equal(err, null);
 
             var message = new nitrogen.Message({
