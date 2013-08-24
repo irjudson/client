@@ -40,6 +40,9 @@ describe('principal', function() {
                 assert.equal(p.name, "Jane Smith");
                 assert.notEqual(p.email, "notallowed@gmail.com");
 
+                // authentication ops should not pass password through.
+                assert.equal(p.password, undefined);
+
                 session.clearCredentials();
                 assert.equal(session.service.store.get(session.principal.toStoreId()), null);
 
