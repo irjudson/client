@@ -15,6 +15,10 @@ MockManager.prototype.executeCommand = function() {
     this.executing = false;
 };
 
+MockManager.prototype.isCommand = function(message) {
+    return (message.is('cameraCommand'));
+};
+
 MockManager.prototype.isRelevant = function(message) {
     return message.is('cameraCommand') || message.is('image');
 };
