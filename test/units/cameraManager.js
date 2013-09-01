@@ -45,7 +45,7 @@ describe('cameraManager', function() {
         var service = new nitrogen.Service(config);
 
         var camera = new nitrogen.Device({
-            capabilities: "camera",
+            capabilities: "cameraCommand",
             nickname: "camera"
         });
 
