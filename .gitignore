@@ -1,2 +1,5 @@
 node_modules/
 localhost_3030.store
+.DS_Store
+nitrogen.js
+nitrogen-min.js
