@@ -32,6 +32,4 @@ uglifyjs browser/nitrogen.js -o browser/nitrogen-min.js
 # build documentation
 
 yuidoc .
-cd docs
-find * -name '*.html' -exec sed -i '' -e 's/\.\//\/docs\//g' {} \;
-cd ..
+sed -i '' -e 's/\.\//\/docs\//g' docs/index.html
