@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>lib/commandManager.js - nitrogen</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="https://api.nitrogen.io/logo.png" title="nitrogen"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.1.20</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/nitrogen.Agent.html">nitrogen.Agent</a></li>
+            
+                <li><a href="../classes/nitrogen.CommandManager.html">nitrogen.CommandManager</a></li>
+            
+                <li><a href="../classes/nitrogen.Device.html">nitrogen.Device</a></li>
+            
+                <li><a href="../classes/nitrogen.Message.html">nitrogen.Message</a></li>
+            
+                <li><a href="../classes/nitrogen.Principal.html">nitrogen.Principal</a></li>
+            
+                <li><a href="../classes/nitrogen.Service.html">nitrogen.Service</a></li>
+            
+                <li><a href="../classes/nitrogen.Session.html">nitrogen.Session</a></li>
+            
+                <li><a href="../classes/nitrogen.User.html">nitrogen.User</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: lib/commandManager.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+var Message = require(&#x27;./message&#x27;);
+
+/**
+ * The CommandManager object provides infrastructure for command processing within Nitrogen. Commands are messages that are issued
+ * with the intent of changing the state of a principal in the system. The CommandManager&#x27;s role is to watch that principal&#x27;s message
+ * stream and effect state changes on the device it is managing based on these commands and their context in the stream. The CommandManager
+ * is always subclassed into a class that handles a specific type of command. This subclass is responsible for providing a set of functions
+ * that define how the message stream should be interpreted and acted on: executeActiveCommands, isRelevant, isCommand, obsoletes. See each
+ * function in this class for more information on what an implementation of these functions should provide.
+ *
+ * An example of how a SwitchManager subclass is used to control a light in a device application looks like this:
+ *
+ * service.connect(light, function(err, session, light) {
+ *     if (err) return console.log(&#x27;failed to connect light: &#x27; + err);
+ *
+ *     var switchManager = new n2.SwitchManager(light);
+ *     switchManager.start(session, { $or: [ { to: light.id }, { from: light.id } ] }, function(err) {
+ *        if (err) return console.log(&#x27;switchManager failed to start: &#x27; + err);
+ *     });
+ * });
+ *
+ * @class CommandManager
+ * @namespace nitrogen
+ */
+
+function CommandManager(device) {
+    this.device = device;
+    this.executing = false;
+    this.messageQueue = [];
+}
+
+/**
+ * Return the array of commands that are currently active for this manager.
+ *
+ * @method activeCommands
+ **/
+
+CommandManager.prototype.activeCommands = function() {
+    var filtered = [];
+    this.messageQueue.forEach(function(message) {
+        if (message.millisToTimestamp() &lt;= 0) {
+            filtered.push(message);
+        }
+    });
+
+    return filtered;
+};
+
+/**
+ * Reduce the current message queue to the set of active commands by obsoleting completed and expired commands. 
+ *
+ * @method collapse
+ * @private
+ **/
+
+CommandManager.prototype.collapse = function() {
+    var collapsedMessages = [];
+    var upstreamMessage;
+    var self = this;
+
+    this.sortQueue();
+
+    // first, strip all non relevant messages.
+    var relevantMessages = [];
+    this.messageQueue.forEach(function(message) {
+        if (self.isRelevant(message)) {
+            relevantMessages.push(message);
+        }
+    });
+
+    // dequeue the first message in the message queue leaving only the downstream messages...
+    while (upstreamMessage = relevantMessages.shift()) {
+        if (self.isCommand(upstreamMessage)) {
+            var idx;
+            var obsoleted = false;
+            for (idx=0; idx &lt; relevantMessages.length &amp;&amp; !obsoleted; idx++) {
+                var downstreamMessage = relevantMessages[idx];
+                obsoleted = this.obsoletes(downstreamMessage, upstreamMessage);
+            }
+
+            if (!obsoleted) {
+                collapsedMessages.push(upstreamMessage);
+                console.log(&#x27;collapse: message: &#x27; + upstreamMessage.from + &#x27;-&gt;&#x27; + upstreamMessage.to + &#x27; not obsolete, &#x27;);
+            } else {
+                console.log(&#x27;collapse: message: &#x27; + upstreamMessage.from + &#x27;-&gt;&#x27; + upstreamMessage.to + &#x27; has been obsoleted, removing.&#x27;)
+            }
+        } else {
+            console.log(&#x27;collapse: message: &#x27; + upstreamMessage.from + &#x27;-&gt;&#x27; + upstreamMessage.to + &#x27; is type: &#x27; + upstreamMessage.type + &#x27;: removing.&#x27;);
+        }
+    }
+
+    this.messageQueue = collapsedMessages;
+};
+
+/**
+ * Executes the currently active command queue.  If the next command&#x27;s timestamp occurs in the future, setup a timeout to retry then.
+ *
+ * @method execute
+ * @private
+ **/
+
+CommandManager.prototype.execute = function() {
+    var self = this;
+
+    if (!this.device) return console.log(&#x27;execute: not in session of device, skipping execution.&#x27;);
+    if (this.executing) return console.log(&#x27;execute: already executing command, skipping execute. current queue: &#x27; + JSON.stringify(this.messageQueue));
+    if (!this.messageQueue || this.messageQueue.length === 0) return console.log(&#x27;execute: no messages in messageQueue, skipping execute.&#x27;);
+
+    console.log(&#x27;execute: executing queue: &#x27; + this.messageQueue.length + &#x27;: &#x27; + JSON.stringify(this.messageQueue));
+
+    var msToExecute = this.messageQueue[0].millisToTimestamp();
+    if (msToExecute &gt; 0) {
+        console.log(&#x27;execute: top message occurs in the future, setting timeout.&#x27;);
+        return setTimeout(function() { self.execute(); }, msToExecute);
+    }
+
+    this.executing = true;
+    this.executeQueue(function(err) {
+        self.executing = false;
+        if (err) console.log(&#x27;execution error: &#x27; + err);
+
+        // set up a new execution pass on the command queue.
+        setTimeout(function() { self.execute(); }, 0);
+    });
+};
+
+/**
+ * Executes the active commands in the message queue. Should be implemented by subclasses of CommandManager.
+ *
+ * @method executeQueue
+ **/
+
+/**
+ * Return true if this message is relevant to the CommandManager. Should be implemented by subclasses of CommandManager.
+ *
+ * @method isRelevant
+ * @param {Object} message The message to test for relevance.
+ **/
+
+/**
+ * Return true if this message is a command that this CommandManager can process. Should be implemented by subclasses of CommandManager.
+ *
+ * @method isCommand
+ * @param {Object} message The message to test for relevance.
+ **/
+
+/**
+ * Return the last active command in the message queue as ordered by timestamp.
+ *
+ * @method lastActiveCommand
+ **/
+
+CommandManager.prototype.lastActiveCommand = function() {
+    var activeCommands = this.activeCommands();
+    return activeCommands.length &gt; 0 ? activeCommands[activeCommands.length - 1] : null;
+};
+
+/**
+ * Returns true if the given message upstream of the given downstream message is obsoleted by the downstream message.
+ * Should be overridden by subclasses to provide command type specific obsoletion logic.  Overrides should start 
+ * their implementation by calling this function for base functionality:
+ *
+ * if (CommandManager.obsoletes(downstreamMsg, upstreamMsg)) return true;
+ *
+ *
+ * @method obsoletes
+ * @param {Object} downstreamMsg The downstream message that potentially obsoletes the upstream message.
+ * @param {Object} upstreamMsg The upstream message that is potentially obsoleted by the downstream message.
+ **/
+
+CommandManager.obsoletes = function(downstreamMsg, upstreamMsg) {
+    if (downstreamMsg.ts &lt; upstreamMsg.ts) return false;
+    if (downstreamMsg.expired()) return false;
+    if (upstreamMsg.expired()) return true;
+
+    return false;
+};
+
+/**
+ * Process new message in this principal&#x27;s message stream:  adds it to the messageQueue, collapses the current message stream,
+ * and sets up timeout to handle expiration of this message and the subsequent collapse that should occur.
+ *
+ * @method process
+ * @private
+ **/
+
+CommandManager.prototype.process = function(message) {
+    // message could cancel a previous command, be a new command, or be a response to a previous command.
+    // so add it and then collapse the command queue.
+
+    if (!this.isRelevant(message)) return;
+
+    // console.log(&quot;@@@@@ commandManager: processing new message: &quot; + JSON.stringify(message));
+
+    this.messageQueue.push(message);
+    this.collapse();
+
+    var self = this;
+
+    if (message.expires) {
+        var nextExpiration = Math.max(message.millisToExpiration(), 0);
+
+        // console.log(&#x27;process: setting expiration timeout of: &#x27; + nextExpiration + &#x27; for command: &#x27; + JSON.stringify(message));
+        setTimeout(function() { self.collapse(); }, nextExpiration);
+    }
+};
+
+CommandManager.prototype.sortQueue = function() {
+    this.messageQueue.sort(function(a,b) {
+        return a.ts - b.ts;
+    });
+};
+
+/**
+ * Starts command processing on the message stream using the principal&#x27;s session. It fetches all the current messages, processes them, and then
+ * starts execution. It also establishes a subscription to handle new messages and automatically executes them as they are received.
+ *
+ * @method start
+ **/
+
+CommandManager.prototype.start = function(session, filter, callback) {
+    this.session = session;
+
+    var self = this;
+    Message.find(session, filter, { sort: { ts: 1 } }, function(err, messages) {
+        if (err) return callback(err);
+
+        // collapse the current set of messages down to relevant commands.
+        messages.forEach(function(message) { self.process(message); });
+
+        console.log(&#x27;command queue after existing messages: &#x27; + JSON.stringify(self.messageQueue));
+
+        self.execute();
+
+        session.onMessage(filter, function(message) {
+            self.process(message);
+
+            // if we aren&#x27;t currently executing anything, kickstart execution.
+            if (!self.executing) {
+                self.execute();
+            }
+        });
+
+        callback();
+    });
+};
+
+module.exports = CommandManager;
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

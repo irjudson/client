@@ -1,0 +1,1679 @@
+{
+    "project": {
+        "logo": "https://api.nitrogen.io/logo.png",
+        "name": "nitrogen",
+        "version": "0.1.20"
+    },
+    "files": {
+        "lib/agent.js": {
+            "name": "lib/agent.js",
+            "modules": {},
+            "classes": {
+                "nitrogen.Agent": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "nitrogen": 1
+            }
+        },
+        "lib/commandManager.js": {
+            "name": "lib/commandManager.js",
+            "modules": {},
+            "classes": {
+                "nitrogen.CommandManager": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "nitrogen": 1
+            }
+        },
+        "lib/device.js": {
+            "name": "lib/device.js",
+            "modules": {},
+            "classes": {
+                "nitrogen.Device": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "nitrogen": 1
+            }
+        },
+        "lib/message.js": {
+            "name": "lib/message.js",
+            "modules": {},
+            "classes": {
+                "nitrogen.Message": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "nitrogen": 1
+            }
+        },
+        "lib/principal.js": {
+            "name": "lib/principal.js",
+            "modules": {},
+            "classes": {
+                "nitrogen.Principal": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "nitrogen": 1
+            }
+        },
+        "lib/service.js": {
+            "name": "lib/service.js",
+            "modules": {},
+            "classes": {
+                "nitrogen.Service": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "nitrogen": 1
+            }
+        },
+        "lib/session.js": {
+            "name": "lib/session.js",
+            "modules": {},
+            "classes": {
+                "nitrogen.Session": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "nitrogen": 1
+            }
+        },
+        "lib/user.js": {
+            "name": "lib/user.js",
+            "modules": {},
+            "classes": {
+                "nitrogen.User": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "nitrogen": 1
+            }
+        }
+    },
+    "modules": {},
+    "classes": {
+        "nitrogen.Agent": {
+            "name": "nitrogen.Agent",
+            "shortname": "nitrogen.Agent",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "nitrogen",
+            "file": "lib/agent.js",
+            "line": 3,
+            "description": "An agent in Nitrogen is code that runs on the Nitrogen service in the context of a particular principal."
+        },
+        "nitrogen.CommandManager": {
+            "name": "nitrogen.CommandManager",
+            "shortname": "nitrogen.CommandManager",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "nitrogen",
+            "file": "lib/commandManager.js",
+            "line": 3,
+            "description": "The CommandManager object provides infrastructure for command processing within Nitrogen. Commands are messages that are issued\nwith the intent of changing the state of a principal in the system. The CommandManager's role is to watch that principal's message\nstream and effect state changes on the device it is managing based on these commands and their context in the stream. The CommandManager\nis always subclassed into a class that handles a specific type of command. This subclass is responsible for providing a set of functions\nthat define how the message stream should be interpreted and acted on: executeActiveCommands, isRelevant, isCommand, obsoletes. See each\nfunction in this class for more information on what an implementation of these functions should provide.\n\nAn example of how a SwitchManager subclass is used to control a light in a device application looks like this:\n\nservice.connect(light, function(err, session, light) {\n    if (err) return console.log('failed to connect light: ' + err);\n\n    var switchManager = new n2.SwitchManager(light);\n    switchManager.start(session, { $or: [ { to: light.id }, { from: light.id } ] }, function(err) {\n       if (err) return console.log('switchManager failed to start: ' + err);\n    });\n});"
+        },
+        "nitrogen.Device": {
+            "name": "nitrogen.Device",
+            "shortname": "nitrogen.Device",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "nitrogen",
+            "file": "lib/device.js",
+            "line": 3,
+            "description": "Device is a subclass of principal that houses all device specific principal functionality."
+        },
+        "nitrogen.Message": {
+            "name": "nitrogen.Message",
+            "shortname": "nitrogen.Message",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "nitrogen",
+            "file": "lib/message.js",
+            "line": 3,
+            "description": "The Message object is the core of the Nitrogen framework.  Applications, devices, and services use Messages to\ncommunicate with and issue commands to each other. All messages that don't begin with an unscore are checked against\na schema chosen by the messages 'type' and 'schema_version' fields such that a message of a given type is known\nto conform to a particular structure.   This enables sharing between differing devices and applications.  For custom\nmessage types, an application may use an unscore prefix (eg. '_myMessage') with any schema that they'd like.  This\nsupports communication between principals of the same organization over a private schema.  That said, it is strongly\nencouraged to use standard schemas wherever possible.\n\nMessages have a sender principal (referred to as 'from') and a receiver principal (referred to as 'to'). These fields\nare used to route messages to their receiver.\n\nMessage types are divided into two main classes: data and commands.  Data messages carry information, typically the\noutput of a device's operation.  For example, a message typed 'image' contains an image url in its body in its 'url'\nproperty.\n\nThe second class of messages are commands. Command messages are sent from one principal to another to request an\noperation on the receiving principal.  For example, a message of the type 'cameraCommand' contains a command that\ndirects the operation of a camera principal."
+        },
+        "nitrogen.Principal": {
+            "name": "nitrogen.Principal",
+            "shortname": "nitrogen.Principal",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "nitrogen",
+            "file": "lib/principal.js",
+            "line": 4,
+            "description": "A Principal in Nitrogen represents entities with authentication privileges in Nitrogen.  Applications, devices,\nand services are all examples of principals."
+        },
+        "nitrogen.Service": {
+            "name": "nitrogen.Service",
+            "shortname": "nitrogen.Service",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "nitrogen",
+            "file": "lib/service.js",
+            "line": 6,
+            "description": "A Service is a Nitrogen endpoint that a Session is established against for interactions with it.  How that Session is established depends on the Principal type. \nFor device and service principals, authentication is done based on a shared secret between the device and the service.  For user principals, authentication\nis via email and password. Sessions can also be resumed if the principal has stored an authToken. The Service object is also responsible for querying the headwaiter\nendpoint to fetch the service endpoints that this Session should use."
+        },
+        "nitrogen.Session": {
+            "name": "nitrogen.Session",
+            "shortname": "nitrogen.Session",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "nitrogen",
+            "file": "lib/session.js",
+            "line": 6,
+            "description": "A Session represents an authenticated session and subscription connection between a principal and a service.",
+            "params": [
+                {
+                    "name": "service",
+                    "description": "The service this session is associated with.",
+                    "type": "Object"
+                },
+                {
+                    "name": "principal",
+                    "description": "The principal this session is associated with.",
+                    "type": "Object"
+                },
+                {
+                    "name": "accessToken",
+                    "description": "The accessToken to use for authenticating requests with this session.",
+                    "type": "Object"
+                },
+                {
+                    "name": "socket",
+                    "description": "The subscription socket to use for realtime updates.",
+                    "type": "Object"
+                }
+            ]
+        },
+        "nitrogen.User": {
+            "name": "nitrogen.User",
+            "shortname": "nitrogen.User",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "nitrogen",
+            "file": "lib/user.js",
+            "line": 3,
+            "description": "User is a subclass of principal that houses all user specific principal functionality."
+        }
+    },
+    "classitems": [
+        {
+            "file": "lib/agent.js",
+            "line": 18,
+            "description": "Create an agent in the Nitrogen service.  If it marked enabled, this will also start the agent on the service.",
+            "itemtype": "method",
+            "name": "create",
+            "async": 1,
+            "params": [
+                {
+                    "name": "session",
+                    "description": "An open session with a Nitrogen service.",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback for the create.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "If the create failed, this will contain the error.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "principal",
+                            "description": "The created agent returned by the service.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "nitrogen.Agent",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/agent.js",
+            "line": 40,
+            "description": "Find agents filtered by the passed query and limited to and sorted by the passed options.",
+            "itemtype": "method",
+            "name": "find",
+            "async": 1,
+            "params": [
+                {
+                    "name": "session",
+                    "description": "An open session with a Nitrogen service.",
+                    "type": "Object"
+                },
+                {
+                    "name": "query",
+                    "description": "A query using MongoDB query format.",
+                    "type": "Object"
+                },
+                {
+                    "name": "options",
+                    "description": "Options for the query.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "limit",
+                            "description": "The maximum number to be returned.",
+                            "type": "Number"
+                        },
+                        {
+                            "name": "sort",
+                            "description": "The field that the results should be sorted on.",
+                            "type": "String"
+                        },
+                        {
+                            "name": "dir",
+                            "description": "The direction that the results should be sorted.",
+                            "type": "Number"
+                        },
+                        {
+                            "name": "skip",
+                            "description": "The number of results that should be skipped before pulling results.",
+                            "type": "Object"
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback at completion of execution.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "If the find failed, find will callback with the error.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "agents",
+                            "description": "The set found with this query.",
+                            "type": "Array"
+                        }
+                    ]
+                }
+            ],
+            "class": "nitrogen.Agent",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/agent.js",
+            "line": 77,
+            "description": "Save this agent to the service.  If the agent is now not enabled and active, the agent will be stopped.",
+            "itemtype": "method",
+            "name": "save",
+            "async": 1,
+            "params": [
+                {
+                    "name": "session",
+                    "description": "An open session with a Nitrogen service.",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback for the save.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "If the save failed, this will contain the error.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "agent",
+                            "description": "The saved agent returned by the service.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "nitrogen.Agent",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/commandManager.js",
+            "line": 32,
+            "description": "Return the array of commands that are currently active for this manager.",
+            "itemtype": "method",
+            "name": "activeCommands",
+            "class": "nitrogen.CommandManager",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/commandManager.js",
+            "line": 49,
+            "description": "Reduce the current message queue to the set of active commands by obsoleting completed and expired commands.",
+            "itemtype": "method",
+            "name": "collapse",
+            "access": "private",
+            "tagname": "",
+            "class": "nitrogen.CommandManager",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/commandManager.js",
+            "line": 95,
+            "description": "Executes the currently active command queue.  If the next command's timestamp occurs in the future, setup a timeout to retry then.",
+            "itemtype": "method",
+            "name": "execute",
+            "access": "private",
+            "tagname": "",
+            "class": "nitrogen.CommandManager",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/commandManager.js",
+            "line": 127,
+            "description": "Executes the active commands in the message queue. Should be implemented by subclasses of CommandManager.",
+            "itemtype": "method",
+            "name": "executeQueue",
+            "class": "nitrogen.CommandManager",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/commandManager.js",
+            "line": 133,
+            "description": "Return true if this message is relevant to the CommandManager. Should be implemented by subclasses of CommandManager.",
+            "itemtype": "method",
+            "name": "isRelevant",
+            "params": [
+                {
+                    "name": "message",
+                    "description": "The message to test for relevance.",
+                    "type": "Object"
+                }
+            ],
+            "class": "nitrogen.CommandManager",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/commandManager.js",
+            "line": 140,
+            "description": "Return true if this message is a command that this CommandManager can process. Should be implemented by subclasses of CommandManager.",
+            "itemtype": "method",
+            "name": "isCommand",
+            "params": [
+                {
+                    "name": "message",
+                    "description": "The message to test for relevance.",
+                    "type": "Object"
+                }
+            ],
+            "class": "nitrogen.CommandManager",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/commandManager.js",
+            "line": 147,
+            "description": "Return the last active command in the message queue as ordered by timestamp.",
+            "itemtype": "method",
+            "name": "lastActiveCommand",
+            "class": "nitrogen.CommandManager",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/commandManager.js",
+            "line": 158,
+            "description": "Returns true if the given message upstream of the given downstream message is obsoleted by the downstream message.\nShould be overridden by subclasses to provide command type specific obsoletion logic.  Overrides should start \ntheir implementation by calling this function for base functionality:\n\nif (CommandManager.obsoletes(downstreamMsg, upstreamMsg)) return true;",
+            "itemtype": "method",
+            "name": "obsoletes",
+            "params": [
+                {
+                    "name": "downstreamMsg",
+                    "description": "The downstream message that potentially obsoletes the upstream message.",
+                    "type": "Object"
+                },
+                {
+                    "name": "upstreamMsg",
+                    "description": "The upstream message that is potentially obsoleted by the downstream message.",
+                    "type": "Object"
+                }
+            ],
+            "class": "nitrogen.CommandManager",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/commandManager.js",
+            "line": 179,
+            "description": "Process new message in this principal's message stream:  adds it to the messageQueue, collapses the current message stream,\nand sets up timeout to handle expiration of this message and the subsequent collapse that should occur.",
+            "itemtype": "method",
+            "name": "process",
+            "access": "private",
+            "tagname": "",
+            "class": "nitrogen.CommandManager",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/commandManager.js",
+            "line": 214,
+            "description": "Starts command processing on the message stream using the principal's session. It fetches all the current messages, processes them, and then\nstarts execution. It also establishes a subscription to handle new messages and automatically executes them as they are received.",
+            "itemtype": "method",
+            "name": "start",
+            "class": "nitrogen.CommandManager",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/message.js",
+            "line": 42,
+            "description": "Find messages filtered by the passed query and limited to and sorted by the passed options.",
+            "itemtype": "method",
+            "name": "find",
+            "async": 1,
+            "params": [
+                {
+                    "name": "session",
+                    "description": "An open session with a Nitrogen service.",
+                    "type": "Object"
+                },
+                {
+                    "name": "query",
+                    "description": "A query filter for the messages you want to find defined using MongoDB query format.",
+                    "type": "Object"
+                },
+                {
+                    "name": "options",
+                    "description": "Options for the query.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "limit",
+                            "description": "The maximum number of results to be returned.",
+                            "type": "Number"
+                        },
+                        {
+                            "name": "sort",
+                            "description": "The field that the results should be sorted on.",
+                            "type": "String"
+                        },
+                        {
+                            "name": "dir",
+                            "description": "The direction that the results should be sorted.",
+                            "type": "Number"
+                        },
+                        {
+                            "name": "skip",
+                            "description": "The number of results that should be skipped before pulling results.",
+                            "type": "Object"
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback for the find's execution",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "If the find failed, find will callback with the error.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "messages",
+                            "description": "The set of messages found with this query.",
+                            "type": "Array"
+                        }
+                    ]
+                }
+            ],
+            "class": "nitrogen.Message",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/message.js",
+            "line": 82,
+            "description": "Returns true if the message is of the passed type.",
+            "itemtype": "method",
+            "name": "is",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "Message type to compare against.",
+                    "type": "String"
+                }
+            ],
+            "class": "nitrogen.Message",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/message.js",
+            "line": 93,
+            "description": "Returns true if the message is from the passed principal.",
+            "itemtype": "method",
+            "name": "isFrom",
+            "params": [
+                {
+                    "name": "principal",
+                    "description": "Principal to compare against.",
+                    "type": "String"
+                }
+            ],
+            "class": "nitrogen.Message",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/message.js",
+            "line": 104,
+            "description": "Returns true if the message is in response to the passed message.",
+            "itemtype": "method",
+            "name": "isResponseTo",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "Message to compare against.",
+                    "type": "String"
+                }
+            ],
+            "class": "nitrogen.Message",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/message.js",
+            "line": 115,
+            "description": "Returns true if the message is of the passed type.",
+            "itemtype": "method",
+            "name": "isTo",
+            "params": [
+                {
+                    "name": "principal",
+                    "description": "Principal to compare against.",
+                    "type": "String"
+                }
+            ],
+            "class": "nitrogen.Message",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/message.js",
+            "line": 126,
+            "description": "Remove messages specified by passed query.",
+            "itemtype": "method",
+            "name": "remove",
+            "async": 1,
+            "params": [
+                {
+                    "name": "session",
+                    "description": "An open session with a Nitrogen service.",
+                    "type": "Object"
+                },
+                {
+                    "name": "query",
+                    "description": "A query filter for the messages you want to remove.",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback to receive the results of the remove operation",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "If the operation failed, the error that caused failure, else undefined.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "removed",
+                            "description": "The count of messages removed with this operation.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "nitrogen.Message",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/message.js",
+            "line": 151,
+            "description": "Remove this message.",
+            "itemtype": "method",
+            "name": "remove",
+            "async": 1,
+            "params": [
+                {
+                    "name": "session",
+                    "description": "An open session with a Nitrogen service.",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback to receive the results of the remove operation",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "If the operation failed, the error that caused failure, else undefined.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "removed",
+                            "description": "The count of messages removed with this operation.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "nitrogen.Message",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/message.js",
+            "line": 166,
+            "description": "Send this message.",
+            "itemtype": "method",
+            "name": "send",
+            "async": 1,
+            "params": [
+                {
+                    "name": "session",
+                    "description": "An open session with a Nitrogen service.",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback at completion of operation",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "If the operation failed, the error that caused failure, else null.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "message",
+                            "description": "If successful, the sent message.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "nitrogen.Message",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/message.js",
+            "line": 181,
+            "description": "Send multiple messages.",
+            "itemtype": "method",
+            "name": "sendMany",
+            "async": 1,
+            "params": [
+                {
+                    "name": "session",
+                    "description": "An open session with a Nitrogen service.",
+                    "type": "Object"
+                },
+                {
+                    "name": "messages",
+                    "description": "An array of messages to send.",
+                    "type": "Array"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback at completion of operation",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "If the operation failed, the error that caused failure, else null.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "messages",
+                            "description": "If successful, the array of sent message.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "nitrogen.Message",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/message.js",
+            "line": 216,
+            "description": "Returns true if the message expired.",
+            "itemtype": "method",
+            "name": "expired",
+            "class": "nitrogen.Message",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/message.js",
+            "line": 226,
+            "description": "Returns the number of milliseconds before this message expires if the message expired.",
+            "itemtype": "method",
+            "name": "millisToExpiration",
+            "class": "nitrogen.Message",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/message.js",
+            "line": 236,
+            "description": "Returns the number of milliseconds before the timestamp for this message.  Used to calculate time to execution for\ncommand messages.",
+            "itemtype": "method",
+            "name": "millisToTimestamp",
+            "class": "nitrogen.Message",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/principal.js",
+            "line": 18,
+            "description": "Authenticate this principal with the service.  The mechanism used to authenticate depends on the type of principal.\nFor users, an email and password is used, otherwise the secret generated during creation is used.",
+            "itemtype": "method",
+            "name": "authenticate",
+            "async": 1,
+            "params": [
+                {
+                    "name": "config",
+                    "description": "The config data for the Nitrogen service.",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback for the authentication.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "If the authentication failed, this will contain the error.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "principal",
+                            "description": "This principal.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "accessToken",
+                            "description": "The current access token to use with the Nitrogen service for this principal.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "nitrogen.Principal",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/principal.js",
+            "line": 52,
+            "description": "Create a new principal with the service.  For user principal types, this principal must have a email, password, and\nname.",
+            "itemtype": "method",
+            "name": "create",
+            "async": 1,
+            "params": [
+                {
+                    "name": "config",
+                    "description": "The config data for the Nitrogen service.",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback for the creation.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "If the creation failed, this will contain the error.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "principal",
+                            "description": "This principal.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "accessToken",
+                            "description": "The current access token to use with the Nitrogen service for this principal.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "nitrogen.Principal",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/principal.js",
+            "line": 82,
+            "description": "Find principals filtered by the passed query and limited to and sorted by the passed options.",
+            "itemtype": "method",
+            "name": "find",
+            "async": 1,
+            "params": [
+                {
+                    "name": "session",
+                    "description": "An open session with a Nitrogen service.",
+                    "type": "Object"
+                },
+                {
+                    "name": "query",
+                    "description": "A query filter for the principals defined using MongoDB query format.",
+                    "type": "Object"
+                },
+                {
+                    "name": "options",
+                    "description": "Options for the query.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "limit",
+                            "description": "The maximum number of principals to be returned.",
+                            "type": "Number"
+                        },
+                        {
+                            "name": "sort",
+                            "description": "The field that the results should be sorted on.",
+                            "type": "String"
+                        },
+                        {
+                            "name": "dir",
+                            "description": "The direction that the results should be sorted.",
+                            "type": "Number"
+                        },
+                        {
+                            "name": "skip",
+                            "description": "The number of results that should be skipped before pulling results.",
+                            "type": "Object"
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback at completion of execution.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "If the find failed, find will callback with the error.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "principals",
+                            "description": "The set of principals found with this query.",
+                            "type": "Array"
+                        }
+                    ]
+                }
+            ],
+            "class": "nitrogen.Principal",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/principal.js",
+            "line": 119,
+            "description": "Find a principal by id.",
+            "itemtype": "method",
+            "name": "findById",
+            "async": 1,
+            "params": [
+                {
+                    "name": "session",
+                    "description": "An open session with a Nitrogen service.",
+                    "type": "Object"
+                },
+                {
+                    "name": "principalId",
+                    "description": "The principal id to search for.",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback at completion of execution.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "If the find failed, find will callback with the error.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "principal",
+                            "description": "The principal found with this query or null if none found.",
+                            "type": "Array"
+                        }
+                    ]
+                }
+            ],
+            "class": "nitrogen.Principal",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/principal.js",
+            "line": 142,
+            "description": "Impersonate a principal using another principal's session.  This is used primarily by the service to impersonate\na particular principal for agent execution.",
+            "itemtype": "method",
+            "name": "impersonate",
+            "async": 1,
+            "params": [
+                {
+                    "name": "session",
+                    "description": "An open session with a Nitrogen service.",
+                    "type": "Object"
+                },
+                {
+                    "name": "principalId",
+                    "description": "The principal id to impersonate.",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback for the creation.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "If the creation failed, this will contain the error.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "principal",
+                            "description": "This principal.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "accessToken",
+                            "description": "The current access token to use with the Nitrogen service for this principal.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "nitrogen.Principal",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/principal.js",
+            "line": 173,
+            "description": "Delete this principal from the service.",
+            "itemtype": "method",
+            "name": "remove",
+            "async": 1,
+            "params": [
+                {
+                    "name": "session",
+                    "description": "An open session with a Nitrogen service.",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback for the creation.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "If the creation failed, this will contain the error.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "nitrogen.Principal",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/principal.js",
+            "line": 197,
+            "description": "Resume the passed accessToken with the service.",
+            "itemtype": "method",
+            "name": "save",
+            "async": 1,
+            "params": [
+                {
+                    "name": "session",
+                    "description": "An open session with a Nitrogen service.",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback for the save.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "If the save failed, this will contain the error.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "principal",
+                            "description": "The saved principal returned by the service.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "accessToken",
+                            "description": "The accessToken used to resume the session with the service.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "nitrogen.Principal",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/principal.js",
+            "line": 216,
+            "description": "Save this principal to the service.",
+            "itemtype": "method",
+            "name": "save",
+            "async": 1,
+            "params": [
+                {
+                    "name": "session",
+                    "description": "An open session with a Nitrogen service.",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback for the save.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "If the save failed, this will contain the error.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "principal",
+                            "description": "The saved principal returned by the service.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "nitrogen.Principal",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/principal.js",
+            "line": 241,
+            "description": "Report the status of this principal.  Principal subclasses should override this method if there is meaningful\nstatus that they can provide.  This status is included in the principal's heartbeat to the Nitrogen service.",
+            "itemtype": "method",
+            "name": "status",
+            "async": 1,
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "Callback for the save.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "If the status request to the principal failed, this will contain the error.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "status",
+                            "description": "The status of the principal.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "nitrogen.Principal",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/service.js",
+            "line": 29,
+            "description": "Authenticate this principal with the Nitrogen service.  The mechanism used to authenticate depends on the type of principal.\nFor users, an email and password is used, otherwise the secret generated during creation is used.",
+            "itemtype": "method",
+            "name": "authenticate",
+            "async": 1,
+            "params": [
+                {
+                    "name": "principal",
+                    "description": "The principal to authenticate with this service. The principal should include the email/password for a user principal or the secret for other principal types.",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback for the authentication.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "If the authenication of this principal failed, this will contain the error.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "session",
+                            "description": "The session for this principal with this service.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "principal",
+                            "description": "The authenticated principal.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "nitrogen.Service",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/service.js",
+            "line": 51,
+            "description": "Create the principal with this service.",
+            "itemtype": "method",
+            "name": "create",
+            "async": 1,
+            "params": [
+                {
+                    "name": "principal",
+                    "description": "The principal to create with this service. It should include email/password for user principal types.",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback for the create.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "If the creation of this principal failed, this will contain the error.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "session",
+                            "description": "The session for this principal with this service.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "principal",
+                            "description": "The created principal.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "nitrogen.Service",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/service.js",
+            "line": 72,
+            "description": "Attempts to resume a session for this principal using a saved accessToken.",
+            "itemtype": "method",
+            "name": "resume",
+            "async": 1,
+            "params": [
+                {
+                    "name": "principal",
+                    "description": "The principal to resume the session with this service.",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback for the resume.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "If the resumption of this session failed, this will contain the error.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "session",
+                            "description": "The session for this principal with this service.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "principal",
+                            "description": "The principal used to resume the session.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "nitrogen.Service",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/service.js",
+            "line": 100,
+            "description": "Connect attempts to authenicate the principal with the service. If the principal\nisn't provisioned with the service, it automatically creates the principal with the \nservice.",
+            "itemtype": "method",
+            "name": "connect",
+            "async": 1,
+            "params": [
+                {
+                    "name": "principal",
+                    "description": "The principal to connect with this service.",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback for the connect.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "If the authentication or create of this session failed, this will contain the error.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "session",
+                            "description": "The session for this principal with this service.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "principal",
+                            "description": "The principal used to connect the session.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "nitrogen.Service",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/service.js",
+            "line": 131,
+            "description": "Internal method to run all the common steps of authentication against a Nitrogen service.",
+            "itemtype": "method",
+            "name": "authenticateSession",
+            "async": 1,
+            "params": [
+                {
+                    "name": "principal",
+                    "description": "The principal to connect with this service.",
+                    "type": "Object"
+                },
+                {
+                    "name": "authOperation",
+                    "description": "The authorization method on the principal that is used to .",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback for the connect.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "If the authentication operation failed, this will contain the error.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "session",
+                            "description": "The session for this principal with this service.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "principal",
+                            "description": "The principal used to connect the session.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "nitrogen.Service",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/service.js",
+            "line": 172,
+            "description": "Impersonate a principal using the passed session",
+            "itemtype": "method",
+            "name": "impersonate",
+            "async": 1,
+            "params": [
+                {
+                    "name": "session",
+                    "description": "The session to use to authorize this impersonation",
+                    "type": "Object"
+                },
+                {
+                    "name": "principal",
+                    "description": "The principal to impersonate with this service.",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback for the impersonation.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "If the impersonation failed, this will contain the error.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "session",
+                            "description": "The session for the impersonated principal with this service.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "principal",
+                            "description": "The impersonated principal.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "nitrogen.Service",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/service.js",
+            "line": 200,
+            "description": "Fetch the endpoint configuration for this service for this user. Before authenticating a principal, we first\nask the service to return the set of endpoints that we should for this principal to talk to the Nitrogen service.  Note, \nthis might actually not be the same service, as Nitrogen may redirect clients to a different service or different endpoints.",
+            "itemtype": "method",
+            "name": "configure",
+            "async": 1,
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "The default configuration to use to connect to Nitrogen.",
+                    "type": "Object"
+                },
+                {
+                    "name": "principal",
+                    "description": "The principal to configure for this service.",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback for the impersonation.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "If the impersonation failed, this will contain the error.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "config",
+                            "description": "The configuration for this service with this principal.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "nitrogen.Service",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/service.js",
+            "line": 236,
+            "description": "Clear all of the credentials for a particular principal.",
+            "itemtype": "method",
+            "name": "clearCredentials",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "principal",
+                    "description": "The principal to clear credentials for.",
+                    "type": "Object"
+                }
+            ],
+            "class": "nitrogen.Service",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/service.js",
+            "line": 248,
+            "description": "Connect subscription socket for principal with this accessToken to the service.",
+            "itemtype": "method",
+            "name": "connectSocket",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "principal",
+                    "description": "The principal to open a subscription socket for.",
+                    "type": "Object"
+                },
+                {
+                    "name": "accessToken",
+                    "description": "The accessToken to open a subscription socket for.",
+                    "type": "Object"
+                }
+            ],
+            "class": "nitrogen.Service",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/session.js",
+            "line": 36,
+            "description": "Clear the credentials associated with this session.",
+            "itemtype": "method",
+            "name": "clearCredentials",
+            "access": "private",
+            "tagname": "",
+            "class": "nitrogen.Session",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/session.js",
+            "line": 47,
+            "description": "Close the session with the service.",
+            "itemtype": "method",
+            "name": "close",
+            "access": "private",
+            "tagname": "",
+            "class": "nitrogen.Session",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/session.js",
+            "line": 64,
+            "description": "Disconnect the current subscription connection with the service.",
+            "itemtype": "method",
+            "name": "disconnectSubscription",
+            "access": "private",
+            "tagname": "",
+            "class": "nitrogen.Session",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/session.js",
+            "line": 78,
+            "description": "Impersonate the principal with the authorization context of this session.  Used by the Nitrogen service to impersonate principals for agent setup.",
+            "itemtype": "method",
+            "name": "impersonate",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "principal",
+                    "description": "The principal to impersonate with this session.",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback for the impersonation.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "If the impersonation failed, this will contain the error.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "session",
+                            "description": "The session for the impersonated principal with this service.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "principal",
+                            "description": "The impersonated principal.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "nitrogen.Session",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/session.js",
+            "line": 94,
+            "description": "Provide a callback function on authentication failure.",
+            "itemtype": "method",
+            "name": "onAuthFailure",
+            "params": [
+                {
+                    "name": "principal",
+                    "description": "The principal to impersonate with this session.",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback for the authentication failure.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "If the impersonation failed, this will contain the error.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "session",
+                            "description": "The session for the impersonated principal with this service.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "principal",
+                            "description": "The impersonated principal.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "nitrogen.Session",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/session.js",
+            "line": 109,
+            "description": "Core subscription event method. Primarily used to subscribe for changes to principals and new messages.",
+            "itemtype": "method",
+            "name": "on",
+            "params": [
+                {
+                    "name": "options",
+                    "description": "Options for what this subscription would like to receive.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "type",
+                            "description": "The type this subscription should receive.  One of 'message' or 'principal'.",
+                            "type": "String"
+                        },
+                        {
+                            "name": "filter",
+                            "description": "The filter to apply to the objects returned from this subscription.  For example { from: '51f2735fda5fcca439000001' } will restrict messages received to only those from this particular principal id.",
+                            "type": "Object"
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback for event.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "object",
+                            "description": "The received event.  Is either a principal or message object depending on the type of the subscription requested.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "nitrogen.Session",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/session.js",
+            "line": 140,
+            "description": "Convenience method to reduce the boilerplate needed to setup a message subscription",
+            "itemtype": "method",
+            "name": "on",
+            "params": [
+                {
+                    "name": "options.filter",
+                    "description": "The filter to apply to the objects returned from this subscription.  For example { from: '51f2735fda5fcca439000001' } will restrict messages received to only those from this particular principal id.",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback for event.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "message",
+                            "description": "The message received as part of the subscription.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "nitrogen.Session",
+            "namespace": "nitrogen"
+        },
+        {
+            "file": "lib/session.js",
+            "line": 160,
+            "description": "Convenience method to reduce the boilerplate needed to setup a principal subscription",
+            "itemtype": "method",
+            "name": "on",
+            "params": [
+                {
+                    "name": "options.filter",
+                    "description": "The filter to apply to the objects returned from this subscription.  For example { id: '51f2735fda5fcca439000001' } will restrict messages received to only those for this particular principal id.",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback for event.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "principal",
+                            "description": "The principal received as part of this subscription.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "nitrogen.Session",
+            "namespace": "nitrogen"
+        }
+    ],
+    "warnings": []
+}
