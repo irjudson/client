@@ -1,7 +1,109 @@
-var request = require('request')
-  , io = require('socket.io-client')
-  , Principal = require('./principal')
-  , Session = require('./session');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>lib/service.js - nitrogen</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="https://api.nitrogen.io/logo.png" title="nitrogen"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.1.20</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/nitrogen.Agent.html">nitrogen.Agent</a></li>
+            
+                <li><a href="../classes/nitrogen.CommandManager.html">nitrogen.CommandManager</a></li>
+            
+                <li><a href="../classes/nitrogen.Device.html">nitrogen.Device</a></li>
+            
+                <li><a href="../classes/nitrogen.Message.html">nitrogen.Message</a></li>
+            
+                <li><a href="../classes/nitrogen.Principal.html">nitrogen.Principal</a></li>
+            
+                <li><a href="../classes/nitrogen.Service.html">nitrogen.Service</a></li>
+            
+                <li><a href="../classes/nitrogen.Session.html">nitrogen.Session</a></li>
+            
+                <li><a href="../classes/nitrogen.User.html">nitrogen.User</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: lib/service.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+var request = require(&#x27;request&#x27;)
+  , io = require(&#x27;socket.io-client&#x27;)
+  , Principal = require(&#x27;./principal&#x27;)
+  , Session = require(&#x27;./session&#x27;);
 
 /**
  * A Service is a Nitrogen endpoint that a Session is established against for interactions with it.  How that Session is established depends on the Principal type. 
@@ -15,12 +117,12 @@ var request = require('request')
 
 function Service(config) {
 	this.config = config || {};
-    this.config.host = this.config.host || 'api.nitrogen.io';
-    this.config.protocol = this.config.protocol || 'https';
+    this.config.host = this.config.host || &#x27;api.nitrogen.io&#x27;;
+    this.config.protocol = this.config.protocol || &#x27;https&#x27;;
     this.config.http_port = this.config.http_port || 443;
 
-    this.config.base_url = this.config.protocol + "://" + this.config.host + ":" + this.config.http_port + "/api/v1";
-    this.config.headwaiter_endpoint = this.config.base_url + "/headwaiter";
+    this.config.base_url = this.config.protocol + &quot;://&quot; + this.config.host + &quot;:&quot; + this.config.http_port + &quot;/api/v1&quot;;
+    this.config.headwaiter_endpoint = this.config.base_url + &quot;/headwaiter&quot;;
 
     this.sockets = {};
     this.store = config.store;
@@ -89,7 +191,7 @@ Service.prototype.resume = function(principal, callback) {
 
         var storedPrincipal = self.store.get(p.toStoreId());
 
-        // if we don't have a stored accessToken, bail out.
+        // if we don&#x27;t have a stored accessToken, bail out.
         if (!storedPrincipal || !storedPrincipal.accessToken) return callback();
 
         principal.updateAttributes(storedPrincipal);
@@ -99,7 +201,7 @@ Service.prototype.resume = function(principal, callback) {
 
 /**
  * Connect attempts to authenicate the principal with the service. If the principal
- * isn't provisioned with the service, it automatically creates the principal with the 
+ * isn&#x27;t provisioned with the service, it automatically creates the principal with the 
  * service.
  *
  * @method connect
@@ -133,7 +235,6 @@ Service.prototype.connect = function(principal, callback) {
  *
  * @method authenticateSession
  * @async
- * @private
  * @param {Object} principal The principal to connect with this service.
  * @param {Object} authOperation The authorization method on the principal that is used to .
  * @param {Object} callback Callback for the connect.
@@ -151,14 +252,14 @@ Service.prototype.authenticateSession = function(principal, authOperation, callb
         self.config = config;
         authOperation.bind(principal)(self.config, function(err, principal, accessToken) {
             if (err) return callback(err);
-            if (!principal) return callback("authentication failed");
-            if (!accessToken) return callback("authentication failed");
+            if (!principal) return callback(&quot;authentication failed&quot;);
+            if (!accessToken) return callback(&quot;authentication failed&quot;);
 
             principal.accessToken = accessToken;
 
             delete principal.password;
 
-            console.log("saving principal to store: " + JSON.stringify(principal));
+            console.log(&quot;saving principal to store: &quot; + JSON.stringify(principal));
 
             self.store.set(principal.toStoreId(), principal);
 
@@ -216,10 +317,10 @@ Service.prototype.impersonate = function(session, principalId, callback) {
 Service.prototype.configure = function(config, principal, callback) {
     var headwaiter_url = config.headwaiter_endpoint;
 
-    if (principal.is('user')) {
-        headwaiter_url += "?email=" + principal.email;
+    if (principal.is(&#x27;user&#x27;)) {
+        headwaiter_url += &quot;?email=&quot; + principal.email;
     } else if (principal.id) {
-        headwaiter_url += "?principal_id=" + principal.id;
+        headwaiter_url += &quot;?principal_id=&quot; + principal.id;
     }
 
     request.get({url: headwaiter_url, json: true}, function(err, resp, body) {
@@ -256,21 +357,21 @@ Service.prototype.clearCredentials = function(principal) {
  **/
 
 Service.prototype.connectSocket = function(principal, accessToken) {
-    if (!principal || !principal.id || !accessToken) throw new Error('need both principal and accessToken to connectSocket');
+    if (!principal || !principal.id || !accessToken) throw new Error(&#x27;need both principal and accessToken to connectSocket&#x27;);
 
     // we can only share a socket on a per principal basis because otherwise principals can listen in
-    // on other principals' events.
+    // on other principals&#x27; events.
     if (!this.sockets[principal.id]) {
         var socket = io.connect(this.config.subscriptions_endpoint, {
             query: Service.queryStringFromObject({ auth: accessToken.token }),
-            'force new connection': true
+            &#x27;force new connection&#x27;: true
         });
 
-        socket.on('connecting', function() { console.log('**** socket.io connecting.') });
-        socket.on('connect', function() { console.log('**** socket.io connected.') });
-        socket.on('reconnect', function() { console.log('**** socket.io reconnected.') });
-        socket.on('reconnecting', function() { console.log('**** socket.io reconnecting.') });
-        socket.on('disconnect', function() { console.log('**** socket.io disconnection.') });
+        socket.on(&#x27;connecting&#x27;, function() { console.log(&#x27;**** socket.io connecting.&#x27;) });
+        socket.on(&#x27;connect&#x27;, function() { console.log(&#x27;**** socket.io connected.&#x27;) });
+        socket.on(&#x27;reconnect&#x27;, function() { console.log(&#x27;**** socket.io reconnected.&#x27;) });
+        socket.on(&#x27;reconnecting&#x27;, function() { console.log(&#x27;**** socket.io reconnecting.&#x27;) });
+        socket.on(&#x27;disconnect&#x27;, function() { console.log(&#x27;**** socket.io disconnection.&#x27;) });
 
         this.sockets[principal.id] = socket;
     }
@@ -282,9 +383,28 @@ Service.queryStringFromObject = function(obj) {
     var str = [];
 
     for(var p in obj)
-        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+        str.push(encodeURIComponent(p) + &quot;=&quot; + encodeURIComponent(obj[p]));
 
-    return str.join("&");
+    return str.join(&quot;&amp;&quot;);
 };
 
 module.exports = Service;
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>
