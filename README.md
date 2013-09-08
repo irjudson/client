@@ -65,7 +65,11 @@ To get started with a Nitrogen client:
 
 ### Browser application
 
-1. Add `<script src="https://api.nitrogen.io/client/nitrogen.js" />` to your application.
+1. Add `<script src="https://api.nitrogen.io/client/nitrogen-min.js" />` to your application.
+
+### Documentation
+
+Documentation for the Nitrogen client library can be found online at the [API endpoint](https://api.nitrogen.io/docs/) or in the npm module itself in `docs`.
 
 ### Contributing to the project.
 
@@ -91,4 +95,4 @@ Nitrogen has three subprojects that you should have a look at as well.
 
 1. [service](https://github.com/nitrogenjs/service): The core Nitrogen service responsible for managing users, devices, and messaging between them.
 2. [admin](https://github.com/nitrogenjs/admin): An administrative tool for managing the Nitrogen service.
-3. [camera](https://github.com/nitrogenjs/camera): A sample device application that connects a camera to the Nitrogen service.
+3. [camera](https://github.com/nitrogenjs/camera): A sample device application that connects camera(s) to the Nitrogen service.

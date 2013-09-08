@@ -28,3 +28,7 @@ cat scripts/module.js                                                  >> browse
 cat scripts/postamble.js                                               >> browser/nitrogen.js
 
 uglifyjs browser/nitrogen.js -o browser/nitrogen-min.js
+
+# build documentation
+
+yuidoc .
