@@ -102,7 +102,7 @@ describe('principal', function() {
                 assert.ifError(err);
 
                 done();
-            })
+            });
         });
     });
 

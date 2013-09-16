@@ -13,7 +13,7 @@ var addToFixture = function(fixtureId) {
 exports.reset = function() {
     var service = new nitrogen.Service(config);
     var camera = new nitrogen.Device({
-        capabilities: "camera",
+        capabilities: "cameraCommand",
         nickname: "camera"
     });
 
@@ -23,15 +23,15 @@ exports.reset = function() {
         fixtures.camera = camera;
 
         var message = new nitrogen.Message({
-	    type: "image",
+        type: "image",
             body: {
                 url: "http://localhost:3030/blobs/1"
             }
-	    });
+        });
 
         message.send(session, function(err, messages) {
             messages.forEach(function(message) {
-                fixtures['message'] = message;
+                fixtures.message = message;
             });
         });
     });
@@ -43,7 +43,7 @@ exports.reset = function() {
     });
 
     service.create(user, function(err, session, user) {
-        fixtures['user'] = user;
+        fixtures.user = user;
     });
 };
 
