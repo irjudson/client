@@ -2,37 +2,40 @@
   "name": "nitrogen",
   "homepage": "https://github.com/nitrogenjs/client",
   "author": "Tim Park <timfpark@gmail.com>",
-  "licenses" : [{
-    "type": "Apache",
-    "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-  }],
+  "licenses": [
+    {
+      "type": "Apache",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  ],
   "main": "./lib",
-  "repository" : {
-      "type" : "git",
-      "url" : "https://github.com/nitrogenjs/client.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nitrogenjs/client.git"
   },
-  "version": "0.1.34",
-
+  "version": "0.1.35",
   "dependencies": {
-      "async": "*",
-      "request": "2.x",
-      "socket.io-client": "*"
+    "async": "~0.2.9",
+    "level": "~0.16.0",
+    "request": "~2.27.0",
+    "socket.io-client": "~0.9.16"
   },
   "devDependencies": {
-      "browser-request": "0.x",
-      "mocha": "1.x",
-      "uglify-js": "2.x"
+    "browser-request": "0.x",
+    "level-js": "*",
+    "mocha": "1.x",
+    "uglify-js": "2.x"
   },
   "scripts": {
-      "prepublish": "scripts/build-module"
+    "prepublish": "scripts/build-module"
   },
   "keywords": [
-      "camera",
-      "devices",
-      "iot",
-      "nitrogen",
-      "pi",
-      "raspberry",
-      "raspberry pi"
-  ] 
+    "camera",
+    "devices",
+    "iot",
+    "nitrogen",
+    "pi",
+    "raspberry",
+    "raspberry pi"
+  ]
 }
