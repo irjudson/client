@@ -12,6 +12,8 @@ var addToFixture = function(fixtureId) {
 
 exports.reset = function() {
     var service = new nitrogen.Service(config);
+    service.store.clear();
+    
     var camera = new nitrogen.Device({
         capabilities: "cameraCommand",
         nickname: "camera"

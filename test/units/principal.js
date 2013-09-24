@@ -44,9 +44,12 @@ describe('principal', function() {
                 assert.equal(p.password, undefined);
 
                 session.clearCredentials();
-                assert.equal(session.service.store.get(session.principal.toStoreId()), null);
+                session.service.store.get(session.principal.toStoreId(), function(err, value) {
+                    assert.ifError(err);
+                    assert.equal(value, null);
+                    done();
 
-                done();
+                });
             });
 
         });
