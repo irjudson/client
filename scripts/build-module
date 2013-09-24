@@ -5,7 +5,7 @@
 
 mkdir -p browser 
 
-cat node_modules/nitrogen-browser-request/index.js > browser/nitrogen.js
+browserify node_modules/nitrogen-browser-request/index.js > browser/nitrogen.js
 cat node_modules/socket.io-client/dist/socket.io.js >> browser/nitrogen.js
 
 cat scripts/preamble.js                                                >> browser/nitrogen.js
