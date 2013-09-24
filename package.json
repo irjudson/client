@@ -13,7 +13,7 @@
     "type": "git",
     "url": "https://github.com/nitrogenjs/client.git"
   },
-  "version": "0.1.35",
+  "version": "0.1.36",
   "dependencies": {
     "async": "~0.2.9",
     "level": "~0.16.0",
@@ -21,10 +21,9 @@
     "socket.io-client": "~0.9.16"
   },
   "devDependencies": {
-    "browser-request": "0.x",
-    "level-js": "*",
-    "mocha": "1.x",
-    "uglify-js": "2.x"
+    "nitrogen-browser-request": "~0.3.0",
+    "mocha": "~1.0",
+    "uglify-js": "~1.3"
   },
   "scripts": {
     "prepublish": "scripts/build-module"
