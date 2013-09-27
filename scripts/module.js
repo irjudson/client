@@ -10,5 +10,6 @@ window.nitrogen = {
   Principal: Principal,
   Service: Service,
   Session: Session,
+  SwitchManager: SwitchManager,
   User: User
 };
