@@ -26,10 +26,10 @@ describe('blob object', function() {
                     assert.notEqual(blob.link, undefined);
                     assert.equal(blob.url.slice(-(blob.id.length+1)), "/" + blob.id);
 
-                    nitrogen.Blob.get(session, blob.url, function(err, resp, blob) {
+                    nitrogen.Blob.get(session, blob.url, function(err, resp, blobData) {
                         assert.ifError(err);
                         assert.equal(resp.statusCode, 200);
-                        assert.equal(blob.length, 29118);
+                        assert.equal(blobData.length, 29118);
                         done();
                     });
                 });
