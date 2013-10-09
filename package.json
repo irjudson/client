@@ -26,6 +26,7 @@
     "uglify-js": "~1.3"
   },
   "scripts": {
+    "start": "mocha",
     "prepublish": "scripts/build-module"
   },
   "keywords": [
