@@ -75,13 +75,11 @@ Documentation for the Nitrogen client library can be found online at the [API en
 
 1. Clone or fork this repo: `https://github.com/nitrogenjs/client`
 2. Fetch and install its node.js dependencies: `npm install`
-3. Install mocha so you can run tests:  `npm install -g mocha`
-4. Run a Nitrogen server locally that the tests can run against.
-5. Point test/config.js to this development environment.
-6. Run the tests to make sure everything is setup correctly: `mocha`
-7. Make your change as a clean commit for a pull request.
-8. Make sure there is a test to cover new functionality so nobody can break it in the future without us knowing.
-9. Submit it as a pull request to the project.
+3. Run a Nitrogen server locally that the tests can run against.
+4. Run the tests to make sure everything is setup correctly: `npm start`
+5. Make your change as a clean commit for a pull request.
+6. Make sure there is a test to cover new functionality so nobody can break it in the future without us knowing.
+7. Submit it as a pull request to the project.
 
 ## How to contribute
 
