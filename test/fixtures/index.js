@@ -32,6 +32,8 @@ exports.reset = function() {
         });
 
         message.send(session, function(err, messages) {
+            if (err) throw err;
+
             messages.forEach(function(message) {
                 fixtures.message = message;
             });

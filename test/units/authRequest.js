@@ -6,7 +6,7 @@ describe('authRequest', function() {
     it('receiving a set-access-token header should update principal and session access token', function(done) {
         var resp = {
             headers: {
-                "X-n2-set-access-token": JSON.stringify({ 
+                "x-n2-set-access-token": JSON.stringify({ 
                     token: 'rwvrVSVPKRMwdd115FSW8kRbgxcv1mEkhwgFQ2Aqn7iRbaqPNqAEMNbyomd6fWKYVbXeHEH9mEDJqlxYP+QlQw==',
                     expires_at: new Date(2050, 1, 1),
                     created_at: new Date(),
