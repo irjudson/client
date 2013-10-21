@@ -33,12 +33,10 @@ describe('principal', function() {
             assert.equal(!principal.nickname, false);
 
             principal.name = "Jane Smith";
-            principal.email = "notallowed@gmail.com";
             principal.save(session, function(err, p) {
                 assert.ifError(err);
 
                 assert.equal(p.name, "Jane Smith");
-                assert.notEqual(p.email, "notallowed@gmail.com");
 
                 // authentication ops should not pass password through.
                 assert.equal(p.password, undefined);
