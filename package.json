@@ -22,11 +22,12 @@
   },
   "devDependencies": {
     "nitrogen-browser-request": "~0.3.2",
-    "mocha": "~1.0",
-    "uglify-js": "~1.3"
+    "mocha": "~1.13.0",
+    "uglify-js": "~1.3",
+    "yuidocjs": "*"
   },
   "scripts": {
-    "start": "mocha",
+    "test": "mocha",
     "prepublish": "scripts/build-module"
   },
   "keywords": [
