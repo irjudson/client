@@ -28,9 +28,8 @@ cat lib/user.js           | sed '/require(/d' | sed '/module.export/d' >> browse
 cat scripts/module.js                                                  >> browser/nitrogen.js
 cat scripts/postamble.js                                               >> browser/nitrogen.js
 
-uglifyjs browser/nitrogen.js -o browser/nitrogen-min.js
+node_modules/.bin/uglifyjs browser/nitrogen.js > browser/nitrogen-min.js
 
 # build documentation
 
-yuidoc .
-sed -i '' -e 's/\.\//\/docs\//g' docs/index.html
+node_modules/.bin/yuidoc .
