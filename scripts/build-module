@@ -20,7 +20,6 @@ cat lib/eventLog.js       | sed '/require(/d' | sed '/module.export/d' >> browse
 cat lib/blob.js           | sed '/require(/d' | sed '/module.export/d' >> browser/nitrogen.js
 cat lib/session.js        | sed '/require(/d' | sed '/module.export/d' >> browser/nitrogen.js
 cat lib/service.js        | sed '/require(/d' | sed '/module.export/d' >> browser/nitrogen.js
-cat lib/switchManager.js  | sed '/require(/d' | sed '/module.export/d' >> browser/nitrogen.js
 cat lib/device.js         | sed '/require(/d' | sed '/module.export/d' >> browser/nitrogen.js
 cat lib/html5Store.js     | sed '/require(/d' | sed '/module.export/d' >> browser/nitrogen.js
 cat lib/user.js           | sed '/require(/d' | sed '/module.export/d' >> browser/nitrogen.js
