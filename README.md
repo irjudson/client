@@ -35,7 +35,7 @@ service.connect(thermometer, function(err, session, thermometer) {
 });
 ```
 
-You can find a complete example for a device application of Nitrogen in the `chroma` project.
+You can find a complete example for a device application of Nitrogen in the [camera](https://github.com/nitrogenjs/camera) project.
 
 ## Listening to a device's message stream
 
