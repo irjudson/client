@@ -7,6 +7,7 @@ window.nitrogen = {
   EventLog: EventLog,
   HTML5Store: HTML5Store,
   Message: Message,
+  Permission: Permission,
   Principal: Principal,
   Service: Service,
   Session: Session,
