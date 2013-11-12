@@ -74,6 +74,7 @@ Documentation for the Nitrogen client library can be found online at the [API en
 ### Contributing to the project.
 
 1. Clone or fork this repo: `https://github.com/nitrogenjs/client`
+2. If you are building on Windows, make sure to fetch all of the node-gyp dependencies as explained here: https://github.com/TooTallNate/node-gyp#installation 
 2. Fetch and install its node.js dependencies: `npm install`
 3. Run a Nitrogen server locally that the tests can run against.
 4. Run the tests to make sure everything is setup correctly: `npm start`
