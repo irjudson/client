@@ -12,6 +12,7 @@ cat scripts/preamble.js                                                >> browse
 cat lib/agent.js          | sed '/require(/d' | sed '/module.export/d' >> browser/nitrogen.js
 cat lib/authRequest.js    | sed '/require(/d' | sed '/module.export/d' >> browser/nitrogen.js
 cat lib/commandManager.js | sed '/require(/d' | sed '/module.export/d' >> browser/nitrogen.js
+cat lib/permission.js     | sed '/require(/d' | sed '/module.export/d' >> browser/nitrogen.js
 cat lib/principal.js      | sed '/require(/d' | sed '/module.export/d' >> browser/nitrogen.js
 cat lib/message.js        | sed '/require(/d' | sed '/module.export/d' >> browser/nitrogen.js
 cat lib/heartbeat.js      | sed '/require(/d' | sed '/module.export/d' >> browser/nitrogen.js

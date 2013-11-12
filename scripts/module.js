@@ -1,7 +1,6 @@
 window.nitrogen = {
   Agent: Agent,
   Blob: Blob,
-  CameraManager: CameraManager,
   CommandManager: CommandManager,
   Device: Device,
   EventLog: EventLog,
