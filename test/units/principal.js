@@ -1,9 +1,8 @@
-var assert = require('assert'),
-	config = require('../config'),
-	nitrogen = require('../../lib');
+var assert = require('assert')
+  ,	config = require('../config')
+  ,	nitrogen = require('../../lib');
 
 describe('principal', function() {
-
     var service = new nitrogen.Service(config);
 
     var camera = new nitrogen.Device({
@@ -120,4 +119,37 @@ describe('principal', function() {
         });
     });
 
+    it('should be able to reset a user password', function(done) {
+        var user = new nitrogen.User({
+            email: "user" + Math.random() * 1000000 + "@gmail.com",
+            name: 'resetUser',
+            nickname: "user",
+            password: "resetIt!"
+        });
+
+        service.create(user, function(err, session, createdUser) {
+            nitrogen.Principal.resetPassword(config, createdUser.email, function(err) {
+                assert.ifError(err);
+
+                done();
+            });
+        });
+    });
+
+    it('should be able to change a user password', function(done) {
+        var user = new nitrogen.User({
+            email: "user" + Math.random() * 1000000 + "@gmail.com",
+            name: 'changePasswordUser',
+            nickname: "user",
+            password: "changeIt!"
+        });
+
+        service.create(user, function(err, session, user) {
+            user.changePassword(session, "changeIt!", "toThis!", function(err) {
+                assert.ifError(err);
+
+                done();
+            });
+        });
+    });
 });
