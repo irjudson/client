@@ -77,7 +77,7 @@ Documentation for the Nitrogen client library can be found online at the [API en
 2. If you are building on Windows, make sure to fetch all of the node-gyp dependencies as explained here: https://github.com/TooTallNate/node-gyp#installation 
 2. Fetch and install its node.js dependencies: `npm install`
 3. Run a Nitrogen server locally that the tests can run against.
-4. Run the tests to make sure everything is setup correctly: `npm start`
+4. Run the tests to make sure everything is setup correctly: `npm test`
 5. Make your change as a clean commit for a pull request.
 6. Make sure there is a test to cover new functionality so nobody can break it in the future without us knowing.
 7. Submit it as a pull request to the project.
