@@ -1,4 +1,5 @@
-var nitrogen = require('../lib');
+var nitrogen = require('../lib'),
+    Store = require('nitrogen-leveldb-store').Store;
    
 var config = { 
     host: "localhost",
@@ -6,6 +7,6 @@ var config = {
     http_port: 3030
 };
 
-config.store = new nitrogen.Store(config);
+config.store = new Store(config);
 
 module.exports = config;
