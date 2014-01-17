@@ -145,9 +145,7 @@ describe('principal', function() {
         });
 
         service.create(user, function(err, session, user) {
-            console.log('here');
             user.changePassword(session, "changeIt!", "toThis!", function(err, session, principal) {
-                console.log('here');
                 assert.ifError(err);
                 assert.notEqual(session, undefined);
                 assert.notEqual(principal, undefined);

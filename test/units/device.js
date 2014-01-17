@@ -13,7 +13,6 @@ describe('device', function() {
         });
 
         service.create(device, function(err, session, principal) {
-            if (err) return console.log("device create failed: " + err);
             assert.ifError(err);
 
             assert.equal(!principal.id, false);

@@ -13,14 +13,14 @@ describe('blob object', function() {
 	it('should be able to save and get a blob', function(done) {
         var service = new nitrogen.Service(config);
         service.connect(camera, function(err, session) {
-            assert.equal(err, null);
+            assert.ifError(err);
 
             var fixture_path = 'test/fixtures/images/image.jpg';
             nitrogen.Blob.fromFile(fixture_path, function(err, blob) {
-                if (err) return console.log("failed to build blob from file: " + err);
+                assert.ifError(err);
 
                 blob.save(session, fs.createReadStream(fixture_path), function(err, blob) {
-                    if (err) return console.log("failed to save blob: " + err);
+                    assert.ifError(err);
 
                     assert.notEqual(blob.url, undefined);
                     assert.notEqual(blob.link, undefined);
