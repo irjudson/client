@@ -1,7 +1,7 @@
-var assert = require('assert'),
-	config = require('../config'),
-    fixtures = require('../fixtures'),
-	nitrogen = require('../../lib');
+var assert = require('assert')
+  , config = require('../config')
+  , fixtures = require('../fixtures')
+  , nitrogen = require('../../lib');
 
 describe('message', function() {
 
