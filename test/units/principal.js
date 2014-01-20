@@ -40,7 +40,7 @@ describe('principal', function() {
                 // authentication ops should not pass password through.
                 assert.equal(p.password, undefined);
 
-                session.clearCredentials();
+                session.service.clearCredentials(session.principal);
                 session.service.store.get(session.principal.toStoreId(), function(err, value) {
                     assert.ifError(err);
                     assert.equal(value, null);

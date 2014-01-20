@@ -10,7 +10,7 @@ describe('message', function() {
         nickname: "camera"
     });
 
-    it('should save a message', function(done) {
+    it('should send a message and receive it over a subscription', function(done) {
         var service = new nitrogen.Service(config);
         var subscriptionPassed = false;
         var restPassed = false;
