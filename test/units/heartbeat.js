@@ -13,11 +13,17 @@ describe('heartbeat', function() {
         });
 
         service.create(device, function(err, session, principal) {
-            session.heartbeat.send(function(err) {
-                assert.ifError(err);
-
-                done();
+            session.onMessage({ type: 'heartbeat' }, function(message) {
+                if (message.from === session.principal.id) {
+                    done();
+                }
             });
+
+            setTimeout(function() {
+                session.heartbeat.send(function(err) {
+                    assert.ifError(err);
+                });                
+            }, 200);
         });
     });
 
