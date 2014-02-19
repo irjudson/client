@@ -13,7 +13,7 @@
     "type": "git",
     "url": "https://github.com/nitrogenjs/client.git"
   },
-  "version": "0.1.219",
+  "version": "0.1.220",
   "dependencies": {
     "async": "~0.2.9",
     "request": "~2.27.0",
