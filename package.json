@@ -13,17 +13,20 @@
     "type": "git",
     "url": "https://github.com/nitrogenjs/client.git"
   },
-  "version": "0.1.221",
+  "version": "0.1.223",
   "dependencies": {
     "async": "~0.2.9",
     "request": "~2.27.0",
-    "socket.io-client": "~0.9.16"
+    "socket.io-client": "~0.9.16",
+    "mocha": "~1.13.0",
+    "uglify-js": "~1.3.5",
+    "jsdox": "~0.2.4"
   },
   "devDependencies": {
     "nitrogen-browser-request": "~0.3.2",
     "mocha": "~1.13.0",
     "uglify-js": "~1.3",
-    "yuidocjs": "*"
+    "jsdox": "~0.2.4"
   },
   "scripts": {
     "test": "mocha",
