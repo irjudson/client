@@ -15,23 +15,22 @@ describe('blob object', function() {
         service.connect(camera, function(err, session) {
             assert.ifError(err);
 
-            var fixture_path = 'test/fixtures/images/image.jpg';
-            nitrogen.Blob.fromFile(fixture_path, function(err, blob) {
+            var blob = new nitrogen.Blob({
+                content_type: 'image/jpeg'
+            });
+
+            blob.save(session, fs.createReadStream('test/fixtures/images/image.jpg'), function(err, blob) {
                 assert.ifError(err);
 
-                blob.save(session, fs.createReadStream(fixture_path), function(err, blob) {
+                assert(blob.url);
+                assert(blob.link);
+                assert.equal(blob.url.slice(-(blob.id.length+1)), "/" + blob.id);
+
+                session.get({ url: blob.url }, function(err, resp, blobData) {
                     assert.ifError(err);
-
-                    assert.notEqual(blob.url, undefined);
-                    assert.notEqual(blob.link, undefined);
-                    assert.equal(blob.url.slice(-(blob.id.length+1)), "/" + blob.id);
-
-                    nitrogen.Blob.get(session, blob.url, function(err, resp, blobData) {
-                        assert.ifError(err);
-                        assert.equal(resp.statusCode, 200);
-                        assert.equal(blobData.length, 29118);
-                        done();
-                    });
+                    assert.equal(resp.statusCode, 200);
+                    assert.equal(blobData.length, 28014);
+                    done();
                 });
             });
         });
