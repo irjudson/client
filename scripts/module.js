@@ -1,5 +1,4 @@
 window.nitrogen = {
-  Agent: Agent,
   Blob: Blob,
   CommandManager: CommandManager,
   Device: Device,
