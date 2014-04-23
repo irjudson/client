@@ -6,7 +6,6 @@ describe('principal', function() {
     var service = new nitrogen.Service(config);
 
     var camera = new nitrogen.Device({
-        capabilities: "camera",
         nickname: "camera"
     });
 
@@ -50,7 +49,7 @@ describe('principal', function() {
 
     it('should be able to remove a principal', function(done) {
         var cameraForDelete = new nitrogen.Device({
-            capabilities: "camera",
+            tags: ["executes:cameraCommand"],
             nickname: "deleteCamera"
         });
 

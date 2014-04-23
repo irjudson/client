@@ -8,7 +8,6 @@ describe('heartbeat', function() {
         var service = new nitrogen.Service(config);
 
         var device = new nitrogen.Device({
-            capabilities: "camera",
             nickname: "camera"
         });
 
@@ -22,7 +21,7 @@ describe('heartbeat', function() {
             setTimeout(function() {
                 session.heartbeat.send(function(err) {
                     assert.ifError(err);
-                });                
+                });
             }, 200);
         });
     });

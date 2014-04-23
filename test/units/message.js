@@ -6,7 +6,6 @@ var assert = require('assert')
 describe('message', function() {
 
     var camera = new nitrogen.Device({
-        capabilities: "camera",
         nickname: "camera"
     });
 

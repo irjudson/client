@@ -8,12 +8,10 @@ describe('service object', function() {
     var service = new nitrogen.Service(config);
 
     var camera = new nitrogen.Device({
-        capabilities: ["camera"],
         nickname: "camera"
     });
 
     var thermometer = new nitrogen.Device({
-        capabilities: ["thermometer"],
         nickname: "thermometer"
     });
 

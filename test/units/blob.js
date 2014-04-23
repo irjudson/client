@@ -6,8 +6,7 @@ var assert = require('assert'),
 describe('blob object', function() {
 
 	var camera = new nitrogen.Device({
-        nickname: "camera",
-        capabilities: ["camera"]
+        nickname: "camera"
     });
 
 	it('should be able to save and get a blob', function(done) {

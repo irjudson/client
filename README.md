@@ -12,7 +12,7 @@ For example, a thermometer that measures temperature once every 15 minutes could
 
 ``` javascript
 var thermometer = new nitrogen.Device({
-    capabilities: ['thermometer'],
+    tags: ['sends:temperature'],
     nickname: 'thermometer'
 });
 

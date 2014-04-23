@@ -5,7 +5,6 @@ var assert = require('assert'),
 describe('permission', function() {
 
     var camera = new nitrogen.Device({
-        capabilities: "camera",
         nickname: "camera"
     });
 
@@ -16,7 +15,7 @@ describe('permission', function() {
                 issued_to:     camera.id,
                 principal_for: camera.id,
                 priority:      100000000,
-                authorized:    true        
+                authorized:    true
             });
 
             permission.create(session, function(err, permission) {
