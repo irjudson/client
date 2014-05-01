@@ -1,16 +1,13 @@
 var assert = require('assert')
   ,	config = require('../config')
+  , fixtures = require('../fixtures')
   ,	nitrogen = require('../../lib');
 
 describe('principal', function() {
     var service = new nitrogen.Service(config);
 
-    var camera = new nitrogen.Device({
-        nickname: "camera"
-    });
-
     it('find with no query returns all principals', function(done) {
-        service.connect(camera, function(err, session) {
+        service.connect(fixtures.models.camera, function(err, session) {
             nitrogen.Principal.find(session, {}, {}, function(err, principals) {
                 assert.ifError(err);
                 assert.equal(principals.length > 0, true);
@@ -20,7 +17,7 @@ describe('principal', function() {
     });
 
     it('find with device query returns device principals', function(done) {
-        service.connect(camera, function(err, session) {
+        service.connect(fixtures.models.camera, function(err, session) {
             nitrogen.Principal.find(session, {
                 type: "device"
             }, {
@@ -37,7 +34,9 @@ describe('principal', function() {
     });
 
     it('should be able to save principals', function(done) {
-        service.connect(camera, function(err, session, camera) {
+        service.connect(fixtures.models.camera, function(err, session, camera) {
+            assert(!err);
+
             camera.name = "camera";
             camera.save(session, function(err, camera) {
                 assert.ifError(err);
@@ -49,7 +48,6 @@ describe('principal', function() {
 
     it('should be able to remove a principal', function(done) {
         var cameraForDelete = new nitrogen.Device({
-            tags: ["executes:cameraCommand"],
             nickname: "deleteCamera"
         });
 
@@ -63,7 +61,7 @@ describe('principal', function() {
     });
 
     it('should be able to fetch a single principal', function(done) {
-        service.connect(camera, function(err, session, camera) {
+        service.connect(fixtures.models.camera, function(err, session, camera) {
             assert.ifError(err);
 
             nitrogen.Principal.findById(session, camera.id, function(err, principal) {

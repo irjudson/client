@@ -5,10 +5,6 @@ var assert = require('assert')
 
 describe('message', function() {
 
-    var camera = new nitrogen.Device({
-        nickname: "camera"
-    });
-
     it('should send a message and receive it over a subscription', function(done) {
         var service = new nitrogen.Service(config);
         var subscriptionPassed = false;
@@ -61,7 +57,7 @@ describe('message', function() {
 
     it('has a default constructor', function(done) {
         var service = new nitrogen.Service(config);
-        service.connect(camera, function(err, session) {
+        service.connect(fixtures.models.camera, function(err, session) {
             var message = new nitrogen.Message();
             assert.notEqual(message.ts, null);
 
@@ -71,7 +67,7 @@ describe('message', function() {
 
     it('find with no query returns all messages', function(done) {
         var service = new nitrogen.Service(config);
-        service.connect(camera, function(err, session) {
+        service.connect(fixtures.models.camera, function(err, session) {
             nitrogen.Message.find(session, {}, { skip: 0, sort: { ts: 1 } }, function(err, messages) {
                 assert.ifError(err);
                 assert.equal(messages.length > 0, true);

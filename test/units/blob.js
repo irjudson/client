@@ -1,17 +1,14 @@
-var assert = require('assert'),
-	config = require('../config'),
-	fs = require('fs'),
-	nitrogen = require('../../lib');
+var assert = require('assert')
+  , config = require('../config')
+  , fixtures = require('../fixtures')
+  ,	fs = require('fs')
+  , nitrogen = require('../../lib');
 
 describe('blob object', function() {
 
-	var camera = new nitrogen.Device({
-        nickname: "camera"
-    });
-
 	it('should be able to save and get a blob', function(done) {
         var service = new nitrogen.Service(config);
-        service.connect(camera, function(err, session) {
+        service.connect(fixtures.models.camera, function(err, session) {
             assert.ifError(err);
 
             var blob = new nitrogen.Blob({

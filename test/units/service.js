@@ -7,16 +7,12 @@ describe('service object', function() {
 
     var service = new nitrogen.Service(config);
 
-    var camera = new nitrogen.Device({
-        nickname: "camera"
-    });
-
     var thermometer = new nitrogen.Device({
         nickname: "thermometer"
     });
 
 	it('should be able to connect device', function(done) {
-        service.connect(camera, function(err, session) {
+        service.connect(fixtures.models.camera, function(err, session) {
             assert.equal(err, null);
             assert.notEqual(session, null);
 
@@ -37,11 +33,11 @@ describe('service object', function() {
     });
 
     it('camera should be able to impersonate itself', function(done) {
-        service.connect(fixtures.models.camera, function(err, session, cameraPrincipal) {
+        service.connect(fixtures.models.camera, function(err, session, camera) {
             assert.equal(err, null);
             assert.notEqual(session, null);
 
-            session.impersonate(cameraPrincipal.id, function(err, impersonationSession) {
+            session.impersonate(camera.id, function(err, impersonationSession) {
                 assert.equal(err, null);
                 assert.notEqual(impersonationSession, null);
 

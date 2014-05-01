@@ -1,5 +1,6 @@
-var config = require('../config'),
-    nitrogen = require('../../lib');
+var assert = require('assert')
+  , config = require('../config')
+  , nitrogen = require('../../lib');
 
 var fixtures = {};
 
@@ -15,7 +16,7 @@ exports.reset = function() {
     service.store.clear();
 
     var camera = new nitrogen.Device({
-        nickname: "camera"
+        nickname: "cameraFixture"
     });
 
     service.connect(camera, function(err, session, camera) {
@@ -39,13 +40,16 @@ exports.reset = function() {
         });
     });
 
-    var user = new nitrogen.Device({
-        nickname: 'user',
-        email: 'test@domain.com',
+    var user = new nitrogen.User({
+        nickname: 'userFixture',
+        name: "John Doe",
+        email: 'test' + Math.random() + '@domain.com',
         password: 'foobar123'
     });
 
     service.create(user, function(err, session, user) {
+        assert(!err);
+
         fixtures.user = user;
     });
 };
