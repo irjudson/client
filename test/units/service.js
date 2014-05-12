@@ -11,7 +11,7 @@ describe('service object', function() {
         nickname: "thermometer"
     });
 
-	it('should be able to connect device', function(done) {
+    it('should be able to connect device', function(done) {
         service.connect(fixtures.models.camera, function(err, session) {
             assert.equal(err, null);
             assert.notEqual(session, null);
