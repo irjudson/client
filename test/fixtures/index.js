@@ -23,7 +23,6 @@ exports.reset = function() {
     service.connect(camera, function(err, session, camera) {
         if (err) throw err;
 
-        console.dir(camera);
         assert(camera.tags.length === 1);
 
         fixtures.camera = camera;
