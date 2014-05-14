@@ -22,11 +22,9 @@ describe('session', function() {
             };
 
             session.accessToken.token = 'notupdated';
-            session.principal.accessToken.token = 'notupdated';
 
             session.afterRequest(null, resp, null, function(err, resp, body) {
                 assert.notEqual(session.accessToken.token, 'notupdated');
-                assert.notEqual(session.principal.accessToken.token, 'notupdated');
 
                 done();
             });
