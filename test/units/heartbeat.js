@@ -8,7 +8,9 @@ describe('heartbeat', function() {
     it('should be able to send a heartbeat', function(done) {
         var service = new nitrogen.Service(config);
 
-        service.create(fixtures.models.camera, function(err, session, principal) {
+        service.connect(fixtures.models.camera, function(err, session, principal) {
+            assert(!err);
+
             session.onMessage({ type: 'heartbeat' }, function(message) {
                 if (message.from === session.principal.id) {
                     done();

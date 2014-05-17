@@ -1,6 +1,7 @@
 var assert = require('assert')
-  ,	config = require('../config')
-  ,	nitrogen = require('../../lib');
+  , config = require('../config')
+  , fixtures = require('../fixtures')
+  , nitrogen = require('../../lib');
 
 describe('device', function() {
 
@@ -8,7 +9,8 @@ describe('device', function() {
         var service = new nitrogen.Service(config);
 
         var device = new nitrogen.Device({
-            nickname: "camera"
+            nickname: "camera",
+            api_key: fixtures.models.userApiKey.key
         });
 
         service.create(device, function(err, session, principal) {

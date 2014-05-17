@@ -7,10 +7,6 @@ describe('service object', function() {
 
     var service = new nitrogen.Service(config);
 
-    var thermometer = new nitrogen.Device({
-        nickname: "thermometer"
-    });
-
     it('should be able to connect device', function(done) {
         service.connect(fixtures.models.camera, function(err, session) {
             assert.equal(err, null);
@@ -47,6 +43,11 @@ describe('service object', function() {
     });
 
     it('thermometer should be not be able to impersonate the camera', function(done) {
+        var thermometer = new nitrogen.Device({
+            nickname: "thermometer",
+            api_key: fixtures.models.userApiKey.key
+        });
+
         service.connect(thermometer, function(err, session, thermometer) {
             assert.equal(err, null);
             assert.notEqual(session, null);

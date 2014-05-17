@@ -15,34 +15,6 @@ exports.reset = function() {
     var service = new nitrogen.Service(config);
     service.store.clear();
 
-    var camera = new nitrogen.Device({
-        nickname: "cameraFixture",
-        tags: ["executes:cameraCommand"]
-    });
-
-    service.connect(camera, function(err, session, camera) {
-        if (err) throw err;
-
-        assert(camera.tags.length === 1);
-
-        fixtures.camera = camera;
-
-        var message = new nitrogen.Message({
-        type: "image",
-            body: {
-                url: "http://localhost:3030/blobs/1"
-            }
-        });
-
-        message.send(session, function(err, messages) {
-            if (err) throw err;
-
-            messages.forEach(function(message) {
-                fixtures.message = message;
-            });
-        });
-    });
-
     var user = new nitrogen.User({
         nickname: 'userFixture',
         name: "John Doe",
@@ -54,6 +26,42 @@ exports.reset = function() {
         assert(!err);
 
         fixtures.user = user;
+
+        nitrogen.ApiKey.index(session, function(err, apiKeys) {
+            assert(!err);
+
+            fixtures.userApiKey = apiKeys[0];
+
+            var camera = new nitrogen.Device({
+                api_key: fixtures.userApiKey.key,
+                nickname: "cameraFixture",
+                tags: ["executes:cameraCommand"]
+            });
+
+            service.connect(camera, function(err, session, camera) {
+                if (err) throw err;
+
+                assert(camera.tags.length === 1);
+
+                fixtures.camera = camera;
+
+                var message = new nitrogen.Message({
+                type: "image",
+                    body: {
+                        url: "http://localhost:3030/blobs/1"
+                    }
+                });
+
+                message.send(session, function(err, messages) {
+                    if (err) throw err;
+
+                    messages.forEach(function(message) {
+                        fixtures.message = message;
+                    });
+                });
+            });
+
+        });
     });
 };
 

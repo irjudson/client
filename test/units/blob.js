@@ -8,6 +8,7 @@ describe('blob object', function() {
 
 	it('should be able to save and get a blob', function(done) {
         var service = new nitrogen.Service(config);
+
         service.connect(fixtures.models.camera, function(err, session) {
             assert.ifError(err);
 

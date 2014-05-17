@@ -1,4 +1,5 @@
 window.nitrogen = {
+  ApiKey: ApiKey,
   Blob: Blob,
   CommandManager: CommandManager,
   Device: Device,

@@ -48,7 +48,8 @@ describe('principal', function() {
 
     it('should be able to remove a principal', function(done) {
         var cameraForDelete = new nitrogen.Device({
-            nickname: "deleteCamera"
+            nickname: "deleteCamera",
+            api_key: fixtures.models.userApiKey.key
         });
 
         service.connect(cameraForDelete, function(err, session, cameraForDelete) {
