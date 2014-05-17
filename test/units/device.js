@@ -13,7 +13,7 @@ describe('device', function() {
             api_key: fixtures.models.userApiKey.key
         });
 
-        service.create(device, function(err, session, principal) {
+        service.connect(device, function(err, session, principal) {
             assert.ifError(err);
 
             assert.equal(!principal.id, false);
