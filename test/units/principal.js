@@ -37,6 +37,8 @@ describe('principal', function() {
         service.connect(fixtures.models.camera, function(err, session, camera) {
             assert(!err);
 
+            assert(camera.api_key);
+            
             camera.name = "camera";
             camera.save(session, function(err, camera) {
                 assert.ifError(err);

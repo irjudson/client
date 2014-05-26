@@ -22,9 +22,10 @@ describe('user', function() {
         service.create(user, function(err, session, principal) {
             assert.equal(err, null);
 
-            assert.equal(!principal.id, false);
-            assert.equal(!principal.email, false);
-            assert.equal(!principal.nickname, false);
+            assert(principal.api_key);
+            assert(principal.id);
+            assert(principal.email);
+            assert(principal.nickname);
 
             principal.name = "Jane Smith";
             principal.save(session, function(err, p) {

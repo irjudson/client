@@ -9,8 +9,8 @@ describe('service object', function() {
 
     it('should be able to connect device', function(done) {
         service.connect(fixtures.models.camera, function(err, session) {
-            assert.equal(err, null);
-            assert.notEqual(session, null);
+            assert(!err);
+            assert(session);
 
             session.log.info("i can successfully log too");
 
@@ -21,8 +21,8 @@ describe('service object', function() {
     it('should be able to authenticate user', function(done) {
         service.authenticate(fixtures.models.user, function(err, session, user) {
             assert.ifError(err);
-            assert.notEqual(!session, true);
-            assert.notEqual(!user, true);
+            assert(session);
+            assert(user);
 
             done();
         });
@@ -30,12 +30,12 @@ describe('service object', function() {
 
     it('camera should be able to impersonate itself', function(done) {
         service.connect(fixtures.models.camera, function(err, session, camera) {
-            assert.equal(err, null);
-            assert.notEqual(session, null);
+            assert(!err);
+            assert(session);
 
             session.impersonate(camera.id, function(err, impersonationSession) {
-                assert.equal(err, null);
-                assert.notEqual(impersonationSession, null);
+                assert(!err);
+                assert(impersonationSession);
 
                 done();
             });
@@ -49,8 +49,8 @@ describe('service object', function() {
         });
 
         service.connect(thermometer, function(err, session, thermometer) {
-            assert.equal(err, null);
-            assert.notEqual(session, null);
+            assert(!err);
+            assert(session);
 
             session.impersonate(fixtures.models.camera.id, function(err, impersonationSession) {
                 assert.equal(err.statusCode, 403);

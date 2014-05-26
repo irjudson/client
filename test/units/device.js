@@ -16,8 +16,8 @@ describe('device', function() {
         service.connect(device, function(err, session, principal) {
             assert.ifError(err);
 
-            assert.equal(!principal.id, false);
-            assert.equal(!principal.nickname, false);
+            assert(principal.id);
+            assert(principal.nickname);
 
             done();
         });
