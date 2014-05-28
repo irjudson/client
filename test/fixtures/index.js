@@ -27,7 +27,7 @@ exports.reset = function() {
 
         fixtures.user = user;
 
-        nitrogen.ApiKey.index(session, function(err, apiKeys) {
+        nitrogen.ApiKey.find(session, {}, {}, function(err, apiKeys) {
             assert(!err);
 
             fixtures.userApiKey = apiKeys[0];

@@ -6,13 +6,13 @@ var assert = require('assert')
 describe('apiKey object', function() {
     var service = new nitrogen.Service(config);
 
-    it('should be able to fetch all api keys for user', function(done) {
+    it('should be able to find all api keys for user', function(done) {
         service.authenticate(fixtures.models.user, function(err, session, user) {
             assert(!err);
             assert.notEqual(!session, true);
             assert.notEqual(!user, true);
 
-            nitrogen.ApiKey.index(session, function(err, apiKeys) {
+            nitrogen.ApiKey.find(session, {}, {}, function(err, apiKeys) {
                 assert(!err);
 
                 assert(apiKeys.length === 1);
