@@ -22,4 +22,24 @@ describe('apiKey object', function() {
             });
         });
     });
+
+    it('should be able to create an api key', function(done) {
+        service.authenticate(fixtures.models.user, function(err, session, user) {
+            assert(!err);
+            assert.notEqual(!session, true);
+            assert.notEqual(!user, true);
+
+            var apiKey = new nitrogen.ApiKey({
+                type: 'app',
+                name: 'My App'
+            });
+
+            apiKey.create(session, function(err, apiKey) {
+                assert(!err);
+                assert(apiKey.id);
+
+                done();
+            });
+        });
+    });
 });
