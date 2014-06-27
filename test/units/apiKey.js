@@ -31,7 +31,8 @@ describe('apiKey object', function() {
 
             var apiKey = new nitrogen.ApiKey({
                 type: 'app',
-                name: 'My App'
+                name: 'My App',
+                redirect_uri: 'http://myserver'
             });
 
             apiKey.create(session, function(err, apiKey) {
