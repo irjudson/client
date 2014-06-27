@@ -13,10 +13,10 @@
     "type": "git",
     "url": "https://github.com/nitrogenjs/client.git"
   },
-  "version": "0.1.322",
+  "version": "0.1.323",
   "dependencies": {
     "async": "~0.2.10",
-    "request": "~2.34.0",
+    "request": "~2.36.0",
     "socket.io-client": "~0.9.16",
     "ursa": "~0.8.0"
   },
