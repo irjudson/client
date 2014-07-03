@@ -16,20 +16,20 @@ describe('permission', function() {
             });
 
             permission.create(session, function(err, permission) {
-                assert.ifError(err);
+                assert(!err);
                 assert.notEqual(permission.id, undefined);
 
                 nitrogen.Permission.find(session, { issued_to: fixtures.models.camera.id }, {}, function(err, permissions) {
-                    assert.ifError(err);
+                    assert(!err);
                     var startingLength = permissions.length;
 
                     assert.equal(startingLength, 2);
 
                     permission.remove(session, function(err) {
-                        assert.ifError(err);
+                        assert(!err);
 
                         nitrogen.Permission.find(session, { issued_to: fixtures.models.camera.id }, {}, function(err, newPermissions) {
-                            assert.ifError(err);
+                            assert(!err);
                             var endingLength = newPermissions.length;
 
                             assert.equal(endingLength, startingLength - 1);

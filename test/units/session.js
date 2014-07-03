@@ -34,7 +34,7 @@ describe('session', function() {
     it('can establish permanent subscription and receive deferred messages', function(done) {
 
         service.connect(fixtures.models.camera, function(err, session) {
-            assert.ifError(err);
+            assert(!err);
 
             // establish named subscription
             session.on({
@@ -53,7 +53,7 @@ describe('session', function() {
 
                 setTimeout(function() {
                     service.connect(fixtures.models.camera, function(err, newSession) {
-                        assert.ifError(err);
+                        assert(!err);
 
                         // send message while we are disconnected.
                         new nitrogen.Message({

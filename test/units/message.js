@@ -69,7 +69,7 @@ describe('message', function() {
         var service = new nitrogen.Service(config);
         service.connect(fixtures.models.camera, function(err, session) {
             nitrogen.Message.find(session, {}, { skip: 0, sort: { ts: 1 } }, function(err, messages) {
-                assert.ifError(err);
+                assert(!err);
                 assert.equal(messages.length > 0, true);
                 done();
             });

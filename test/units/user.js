@@ -29,13 +29,13 @@ describe('user', function() {
 
             principal.name = "Jane Smith";
             principal.save(session, function(err, p) {
-                assert.ifError(err);
+                assert(!err);
 
                 assert.equal(p.name, "Jane Smith");
 
                 session.service.clearCredentials(session.principal);
                 session.service.store.get(session.principal.toStoreId(), function(err, value) {
-                    assert.ifError(err);
+                    assert(!err);
                     assert.equal(value, null);
                     done();
 

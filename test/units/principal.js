@@ -9,7 +9,7 @@ describe('principal', function() {
     it('find with no query returns all principals', function(done) {
         service.connect(fixtures.models.camera, function(err, session) {
             nitrogen.Principal.find(session, {}, {}, function(err, principals) {
-                assert.ifError(err);
+                assert(!err);
                 assert.equal(principals.length > 0, true);
                 done();
             });
@@ -24,7 +24,7 @@ describe('principal', function() {
                 skip: 0,
                 sort: { last_connection: 1 }
             }, function(err, principals) {
-                assert.ifError(err);
+                assert(!err);
                 assert.equal(principals.length > 0, true);
                 assert.equal(principals[0].type, "device");
                 assert.notEqual(principals[0].toStoreId, undefined);
@@ -38,10 +38,10 @@ describe('principal', function() {
             assert(!err);
 
             assert(camera.api_key);
-            
+
             camera.name = "camera";
             camera.save(session, function(err, camera) {
-                assert.ifError(err);
+                assert(!err);
                 assert.equal(camera.name, "camera");
                 done();
             });
@@ -56,7 +56,7 @@ describe('principal', function() {
 
         service.connect(cameraForDelete, function(err, session, cameraForDelete) {
             cameraForDelete.remove(session, function(err) {
-                assert.ifError(err);
+                assert(!err);
 
                 done();
             });
@@ -65,10 +65,10 @@ describe('principal', function() {
 
     it('should be able to fetch a single principal', function(done) {
         service.connect(fixtures.models.camera, function(err, session, camera) {
-            assert.ifError(err);
+            assert(!err);
 
             nitrogen.Principal.findById(session, camera.id, function(err, principal) {
-                assert.ifError(err);
+                assert(!err);
                 assert.equal(principal.id, camera.id);
 
                 done();

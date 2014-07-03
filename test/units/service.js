@@ -20,7 +20,7 @@ describe('service object', function() {
 
     it('should be able to authenticate user', function(done) {
         service.authenticate(fixtures.models.user, function(err, session, user) {
-            assert.ifError(err);
+            assert(!err);
             assert(session);
             assert(user);
 
