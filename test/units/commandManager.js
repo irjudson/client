@@ -49,13 +49,13 @@ describe('commandManager', function() {
                     command: 'snapshot',
                     message: {
                         tags: ['timeElapsed'],
-                        expires: 'never' 
+                        expires: 'never'
                     }
                 }
             })
         ];
-        
-	messages.forEach(function(message) { commandManager.process(message); });
+
+	    messages.forEach(function(message) { commandManager.process(message); });
 
         commandManager.collapse();
 
