@@ -1,0 +1,8 @@
+#!/bin/sh
+
+git clone https://github.com/nitrogenjs/service.git --depth 1
+pushd service
+npm install
+NODE_ENV=test node server.js > /dev/null &
+SERVICE_PID=$!
+popd
