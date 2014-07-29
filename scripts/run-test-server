@@ -3,5 +3,6 @@
 git clone https://github.com/nitrogenjs/service.git --depth 1
 cd service
 npm install
-NODE_ENV=test node server.js > /dev/null &
+export NODE_ENV=test
+node server.js > /dev/null &
 cd ..
