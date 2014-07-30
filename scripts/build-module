@@ -26,7 +26,3 @@ cat scripts/module.js                                                  >> browse
 cat scripts/postamble.js                                               >> browser/nitrogen.js
 
 node_modules/.bin/uglifyjs browser/nitrogen.js > browser/nitrogen-min.js
-
-# build documentation (assumes Nitrogen website repo is in dir parallel to the client project repo)
-
-jsdox lib --output ../website/source/docs/nitrogen
