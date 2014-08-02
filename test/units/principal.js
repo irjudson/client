@@ -75,4 +75,22 @@ describe('principal', function() {
             });
         });
     });
+
+    it('should be able to get an accessToken for a single principal', function(done) {
+        service.connect(fixtures.models.user, function(err, session, user) {
+            assert(!err);
+
+            nitrogen.Principal.accessTokenFor(session, fixtures.models.camera.id, {
+                expires: new Date(2050,1,1)
+            }, function(err, accessToken) {
+                assert(!err);
+
+                assert(accessToken.token);
+                assert.equal(Date.parse(accessToken.expires_at), new Date(2050,1,1).getTime());
+
+                done();
+            });
+        });
+    });
+
 });
