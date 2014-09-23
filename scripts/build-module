@@ -21,6 +21,7 @@ cat lib/session.js        | sed '/require(/d' | sed '/module.export/d' >> browse
 cat lib/service.js        | sed '/require(/d' | sed '/module.export/d' >> browser/nitrogen.js
 cat lib/device.js         | sed '/require(/d' | sed '/module.export/d' >> browser/nitrogen.js
 cat lib/user.js           | sed '/require(/d' | sed '/module.export/d' >> browser/nitrogen.js
+cat lib/memoryStore.js    | sed '/require(/d' | sed '/module.export/d' >> browser/nitrogen.js
 
 cat scripts/module.js                                                  >> browser/nitrogen.js
 cat scripts/postamble.js                                               >> browser/nitrogen.js
