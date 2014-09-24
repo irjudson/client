@@ -40,11 +40,29 @@ describe('principal', function() {
             assert(camera.api_key);
 
             camera.name = "camera";
-            camera.save(session, function(err, camera) {
-                assert(!err);
-                assert.equal(camera.name, "camera");
-                done();
+
+            var restFinished = false;
+            var subscribeFinished = false;
+
+            session.onPrincipal(function(principal) {
+                assert.equal(principal.name, 'camera');
+                assert.notEqual(principal.created_at, principal.updated_at);
+
+                subscribeFinished = true;
+                if (restFinished && subscribeFinished)
+                    done();
             });
+
+            setTimeout(function() {
+                camera.save(session, function(err, camera) {
+                    assert(!err);
+                    assert.equal(camera.name, "camera");
+
+                    restFinished = true;
+                    if (restFinished && subscribeFinished)
+                        done();
+                });
+            }, 100);
         });
     });
 
