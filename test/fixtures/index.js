@@ -35,13 +35,19 @@ exports.reset = function() {
             var camera = new nitrogen.Device({
                 api_key: fixtures.userApiKey.key,
                 nickname: "cameraFixture",
-                tags: ["executes:cameraCommand"]
+                tags: ["executes:cameraCommand"],
+                sensors: [{
+                    id: 1,
+                    name: 'Camera',
+                    executes: 'cameraCommand'
+                }]
             });
 
             service.connect(camera, function(err, session, camera) {
                 if (err) throw err;
 
-                assert(camera.tags.length === 1);
+                assert.equal(camera.tags.length, 1);
+                assert.equal(camera.sensors.length, 1);
 
                 fixtures.camera = camera;
 
