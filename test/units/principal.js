@@ -93,4 +93,24 @@ describe('principal', function() {
             });
         });
     });
+
+    it('should be able to fetch an access token', function(done) {
+        service.connect(fixtures.models.camera, function(err, session, camera) {
+            assert(!err);
+
+            camera.accessTokenFor(session, {
+                expires: new Date(2019,1,1)
+            }, function(err, accessToken) {
+                assert(!err);
+
+                assert.notEqual(accessToken, undefined);
+
+                console.dir(accessToken);
+
+                assert.equal(accessToken.expires_at, new Date(2019,1,1).toISOString());
+
+                done();
+            });
+        });
+    });
 });
