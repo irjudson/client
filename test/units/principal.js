@@ -98,7 +98,7 @@ describe('principal', function() {
         service.connect(fixtures.models.camera, function(err, session, camera) {
             assert(!err);
 
-            camera.accessTokenFor(session, {
+            nitrogen.Principal.accessTokenFor(session, camera.id, {
                 expires: new Date(2019,1,1)
             }, function(err, accessToken) {
                 assert(!err);
