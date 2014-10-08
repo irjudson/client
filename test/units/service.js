@@ -8,7 +8,7 @@ describe('service object', function() {
     var service = new nitrogen.Service(config);
 
     it('should be able to connect device', function(done) {
-        service.connect(fixtures.models.camera, function(err, session) {
+        service.connect(fixtures.models.camera, function(err, session, camera) {
             assert(!err);
             assert(session);
 
@@ -55,6 +55,35 @@ describe('service object', function() {
             session.impersonate(fixtures.models.camera.id, function(err, impersonationSession) {
                 assert.equal(err.statusCode, 403);
                 assert(err.message);
+
+                done();
+            });
+        });
+    });
+
+    it('should be able to resume device session with valid accessToken', function(done) {
+        var thermometer = new nitrogen.Device({
+            nickname: "thermometer2",
+            api_key: fixtures.models.userApiKey.key
+        });
+
+        service.connect(thermometer, function(err, session, thermometer) {
+            assert(!err);
+            assert(session);
+
+            var resumedThermometer = new nitrogen.Principal({
+                accessToken: {
+                    token: session.accessToken.token
+                },
+                id: thermometer.id,
+                nickname: thermometer.nickname
+            });
+
+            service.resume(resumedThermometer, function(err, resumedSession) {
+                assert(!err);
+                assert(resumedSession);
+
+                assert.equal(resumedSession.principal.id, thermometer.id);
 
                 done();
             });
