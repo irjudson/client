@@ -27,7 +27,6 @@
   },
   "scripts": {
     "test": "mocha",
-    "prepublish": "scripts/build-module",
     "postpublish": "scripts/build-documentation"
   },
   "keywords": [
