@@ -79,5 +79,4 @@ describe('session', function() {
             }, 200);
         });
     });
-
 });

@@ -11,7 +11,7 @@ var addToFixture = function(fixtureId) {
     };
 };
 
-exports.reset = function() {
+exports.reset = function(callback) {
     var service = new nitrogen.Service(config);
     service.store.clear();
 
@@ -64,6 +64,8 @@ exports.reset = function() {
                     messages.forEach(function(message) {
                         fixtures.message = message;
                     });
+
+                    return callback();
                 });
             });
 
