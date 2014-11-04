@@ -1,7 +1,7 @@
 {
   "name": "nitrogen-client",
   "version": "0.2.18",
-  "homepage": "https://github.com/irjudson/client",
+  "homepage": "https://github.com/nitrogenjs/client",
   "authors": [
     "Tim Park <timfpark@gmail.com>"
   ],
