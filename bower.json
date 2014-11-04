@@ -3,7 +3,7 @@
   "version": "0.2.18",
   "homepage": "https://github.com/irjudson/client",
   "authors": [
-    "Tim Park <timfpark@gmail.com>",
+    "Tim Park <timfpark@gmail.com>"
   ],
   "description": "Client library for nitrogen.io",
   "main": "lib/index.js",
