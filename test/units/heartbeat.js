@@ -18,7 +18,7 @@ describe('heartbeat', function() {
             });
 
             setTimeout(function() {
-                session.heartbeat.send(function(err) {
+                session.sendHeartbeat(function(err) {
                     assert(!err);
                 });
             }, 200);

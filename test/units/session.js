@@ -7,6 +7,21 @@ describe('session', function() {
 
     var service = new nitrogen.Service(config);
 
+    it('session should be JSON serializable', function(done) {
+        service.connect(fixtures.models.camera, function(err, session) {
+            assert(!err);
+
+            // serializing a session with open subscriptions or heartbeats is not supported.
+            session.socket = null;
+            session.heartbeatTimeout = null;
+
+            var sessionJSON = JSON.stringify(session);
+            assert(sessionJSON);
+
+            done();
+        });
+    });
+
     it('receiving a set-access-token header should update principal and session access token', function(done) {
 
         service.connect(fixtures.models.camera, function(err, session) {
