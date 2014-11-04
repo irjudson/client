@@ -1,0 +1,31 @@
+{
+  "name": "nitrogen-client",
+  "version": "0.2.18",
+  "homepage": "https://github.com/irjudson/client",
+  "authors": [
+    "Tim Park <timfpark@gmail.com>",
+  ],
+  "description": "Client library for nitrogen.io",
+  "main": "lib/index.js",
+  "moduleType": [
+    "node"
+  ],
+  "keywords": [
+    "iot",
+    "devices",
+    "nitrogen"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "async": "~0.2.10",
+    "request": "~2.36.0",
+    "socket.io-client": "~0.9.16"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
