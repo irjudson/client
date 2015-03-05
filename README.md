@@ -88,6 +88,13 @@ Documentation for the Nitrogen client library can be found online at the [Nitrog
 2.  Pull requests:  If you'd like to tackle an issue, fork the repo, create a clean commit for the fix or enhancement with tests if necessary, and send us a pull request. This is also the path to becoming a core committer for the project for folks that are interested in contributing in more depth.
 3.  Documentation:  Better technical documentation is key to broadening the use of the platform.   We'd love to have more help and this is one of the most valuable contributions you can make.
 
+## Code Style & Code Quality Testing
+Code Style Testing is provided by [JSCS](http://jscs.info/), which is also available for various editors, including [Sublime, Atom and Visual Studio](http://jscs.info/overview.html). To quote Google: "Every major open-source project has its own style guide: a set of conventions (sometimes arbitrary) about how to write code for that project. It is much easier to understand a large codebase when all the code in it is in a consistent style." 
+
+Code Quality Testing is provided by JSHint, checking for common pitfalls in JavaScript. The rules here are strict, enforcing JavaScript that is most compliant with browsers and JS engines.
+
+Run both JSCS and JSHint with `grunt test`. If you don't have Grunt installed, install it with `npm install -g grunt-cli`. More installation information can be found in [Grunt's Getting Started Guide](http://gruntjs.com/getting-started). 
+
 ## Running on Windows
 
 On Windows, you'll need to install some dependencies first:
