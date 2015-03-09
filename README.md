@@ -67,6 +67,13 @@ To get started with a Nitrogen client:
 
 1. Add `<script src="https://api.nitrogen.io/client/nitrogen-min.js" />` to your application.
 
+### Running tests
+
+1. Run mongod 
+2. Run redis-server
+3. Run scripts/run-test-server
+4. Run `mocha test`
+
 ### Documentation
 
 Documentation for the Nitrogen client library can be found online at the [Nitrogen project](http://nitrogen.io).

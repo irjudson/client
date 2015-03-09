@@ -1,3 +1,8 @@
 localhost_3030.store
 node_modules
 .DS_Store
+*.out
+capture*.*
+results.txt
+dist/*
+browser/*
