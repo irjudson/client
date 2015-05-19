@@ -2,12 +2,7 @@
   "name": "nitrogen",
   "homepage": "https://github.com/nitrogenjs/client",
   "author": "Tim Park <timfpark@gmail.com>",
-  "licenses": [
-    {
-      "type": "Apache",
-      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-    }
-  ],
+  "license": "Apache",
   "main": "./lib",
   "repository": {
     "type": "git",
