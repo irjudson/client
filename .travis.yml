@@ -1,9 +1,23 @@
 language: node_js
 node_js:
- - 0.10
+  - "0.10"
+  - "0.12"
+
+# whitelisted branches
+branches:
+  only:
+    - master
+
+install:
+  - npm install -g grunt-cli
+  - npm install
 
 before_script:
  - scripts/run-test-server
+
+script:
+ - grunt test
+ - npm test
 
 after_script:
  - kill -9 $(lsof -i:3050 -t)

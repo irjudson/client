@@ -14,8 +14,6 @@ cat lib/apiKey.js         | sed '/require(/d' | sed '/module.export/d' >> browse
 cat lib/permission.js     | sed '/require(/d' | sed '/module.export/d' >> browser/nitrogen.js
 cat lib/principal.js      | sed '/require(/d' | sed '/module.export/d' >> browser/nitrogen.js
 cat lib/message.js        | sed '/require(/d' | sed '/module.export/d' >> browser/nitrogen.js
-cat lib/heartbeat.js      | sed '/require(/d' | sed '/module.export/d' >> browser/nitrogen.js
-cat lib/eventLog.js       | sed '/require(/d' | sed '/module.export/d' >> browser/nitrogen.js
 cat lib/blob.js           | sed '/require(/d' | sed '/module.export/d' >> browser/nitrogen.js
 cat lib/session.js        | sed '/require(/d' | sed '/module.export/d' >> browser/nitrogen.js
 cat lib/service.js        | sed '/require(/d' | sed '/module.export/d' >> browser/nitrogen.js
