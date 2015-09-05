@@ -83,7 +83,7 @@ Documentation for the Nitrogen client library can be found online at the [Nitrog
 1. Clone or fork this repo: `https://github.com/nitrogenjs/client`
 2. If you are building on Windows, make sure to fetch all of the node-gyp dependencies as explained here: https://github.com/TooTallNate/node-gyp#installation
 2. Fetch and install its node.js dependencies: `npm install`
-3. Run a [Nitrogen server](https://github.com/nitrogenjs/service) locally that the tests can run against in test mode (NODE_ENV=test).
+3. Run a Nitrogen [device registry](https://github.com/nitrogenjs/registry) and [messaging service](https://github.com/nitrogenjs/registry) locally that the tests can run against in test mode (NODE_ENV=test).
 4. Run the tests to make sure everything is setup correctly: `npm test`
 5. Make your change as a clean commit for a pull request.
 6. Make sure there is a test to cover new functionality so nobody can break it in the future without us knowing.
@@ -124,9 +124,10 @@ On Windows, you'll need to install some dependencies first:
 
 The Nitrogen project is housed in a set of GitHub projects:
 
-1. [service](https://github.com/nitrogenjs/service): Core platform responsible for managing principals, security, and messaging.
-2. [client](https://github.com/nitrogenjs/client): JavaScript client library for building Nitrogen devices and applications.
-3. [admin](https://github.com/nitrogenjs/admin): Administrative tool for managing the Nitrogen service.
-4. [device](https://github.com/nitrogenjs/devices): Adaptors for common pieces of hardware.
-5. [commands](https://github.com/nitrogenjs/commands): CommandManagers and schemas for well known command types.
-6. [cli](https://github.com/nitrogenjs/cli): Command line interface for working with a Nitrogen service.
+1. [messaging](https://github.com/nitrogenjs/messaging): Core messaging service.
+2. [registry](https://github.com/nitrogenjs/registry): Device registry service.
+3. [client](https://github.com/nitrogenjs/client): JavaScript client library for building Nitrogen devices and applications.
+4. [admin](https://github.com/nitrogenjs/admin): Administrative tool for managing the Nitrogen service.
+5. [device](https://github.com/nitrogenjs/devices): Adaptors for common pieces of hardware.
+6. [commands](https://github.com/nitrogenjs/commands): CommandManagers and schemas for well known command types.
+7. [cli](https://github.com/nitrogenjs/cli): Command line interface for working with a Nitrogen service.
